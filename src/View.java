@@ -2,6 +2,7 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.geom.Point2D;
 
 import javax.swing.GroupLayout;
 import javax.swing.JFrame;
@@ -15,6 +16,10 @@ public class View extends JPanel {
 	// Frame Width and Height
 	final int FRAME_HEIGHT = 750;
 	final int FRAME_WIDTH = 750;
+	
+	// Set the grid and indent size
+	int nodeSize = 100;
+	int indentSize = 2;
 	
 	Model nodeArray;
 	MazeView mv;
@@ -52,22 +57,27 @@ public class View extends JPanel {
 	
 	class MazeView extends Component
 	{
+		Graphics2D g2;
+		
 		public void paint(Graphics g)
 		{
-			Graphics2D g2 = (Graphics2D) g;
+			g2 = (Graphics2D) g;
 			
-			for(int i = 0; i < nodeArray.getWidth(); i++)
+			// Iterate on the 'X' axis
+			for(int i = 0; i < nodeArray.get_X_Width(); i++)
 			{
-				System.out.println(i);
-				for(int j = 0; j < nodeArray.getHeight(); j++)
+				// Iterate on the 'Y' axis
+				for(int j = 0; j < nodeArray.get_Y_Height(); j++)
 				{
+					// Get the node at this position
 					Model.Node n = nodeArray.getNode(i, j);
 					
 					g2.drawLine(i * 50, j * 50, (i * 50) + 45, (j * 50));
 				}
-			}
-			
+			}			
 		}
+		
+		
 	}
 	
 	public void createAndShowGUI()
