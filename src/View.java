@@ -3,16 +3,19 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
+import java.awt.event.ActionListener;
 import java.awt.geom.Point2D;
 
 import javax.swing.GroupLayout;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.LayoutStyle;
 import javax.swing.GroupLayout.Alignment;
+import javax.swing.LayoutStyle.ComponentPlacement;
 
 public class View extends JPanel {
 	
@@ -27,6 +30,7 @@ public class View extends JPanel {
 	Model nodeModel;
 	MazeView mazeViewer = new MazeView();
 	JButton generateButton = new JButton("Generate Maze");
+	JComboBox<String> mazeSelection = new JComboBox<String>();
 	
 	public View()
 	{			
@@ -41,19 +45,32 @@ public class View extends JPanel {
 					.addContainerGap()
 					.addGroup(layout.createParallelGroup()
 							.addComponent(titleLabel, Alignment.CENTER)
-							.addComponent(generateButton, Alignment.CENTER)
 							.addComponent(mazeViewer, Alignment.CENTER)
+							.addGroup(layout.createSequentialGroup()
+									//.addComponent(mazeSelection)
+									.addComponent(mazeSelection, 200, 200, 200)
+									.addPreferredGap(ComponentPlacement.RELATED)
+									.addComponent(generateButton)
+									)
 							)
+					
 					.addContainerGap()					
 				);
 		
 		layout.setVerticalGroup(
 				layout.createSequentialGroup()
+					.addContainerGap()
 					.addComponent(titleLabel)
 					.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-					.addComponent(generateButton)
+					.addGroup(layout.createParallelGroup()
+							.addComponent(generateButton)
+							.addComponent(mazeSelection, 26, 26, 26)
+							)
+					.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+					.addGap(20, 20, 20)
 					.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
 					.addComponent(mazeViewer)
+					.addContainerGap()
 				);
 	}	
 	
@@ -62,9 +79,26 @@ public class View extends JPanel {
 		this.nodeModel = nodeModel;
 	}
 	
+	public void setMazeOptions(String[] options)
+	{
+		for(String s : options)
+		{
+			mazeSelection.addItem(s);
+		}
+	}
+	
 	public void showMazeViewer()
 	{		
 		mazeViewer.setVisible(true);		
+	}
+	
+	public void setActionListener(ActionListener aListener)
+	{
+		generateButton.addActionListener(aListener);
+		generateButton.setActionCommand("Load Grid");
+		
+		mazeSelection.addActionListener(aListener);
+		
 	}
 	
 	class MazeView extends Component
