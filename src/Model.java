@@ -8,7 +8,7 @@ public class Model {
 	 */
 	public Model(int x, int y)
 	{
-		nodeArray = new Node[y][x];	
+		nodeArray = new Node[x][y];	
 	}
 	
 	public void setWalls(boolean wallUp)
@@ -30,17 +30,17 @@ public class Model {
 	 */
 	public Node getNode(int x, int y)
 	{
-		return nodeArray[y][x];
+		return nodeArray[x][y];
 	}
 	
-	public int getHeight()
-	{
-		return nodeArray.length;
-	}
-	
-	public int getWidth()
+	public int get_Y_Height()
 	{
 		return nodeArray[1].length;
+	}
+	
+	public int get_X_Width()
+	{
+		return nodeArray.length;
 	}
 	
 	public Node[][] getArray()
