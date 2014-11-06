@@ -82,6 +82,26 @@ public class Model {
 			westWall = wallsUp;
 		}
 		
+		public void setNorth(boolean b)
+		{
+			northWall = b;
+		}
+		
+		public void setEast(boolean b)
+		{
+			eastWall = b;
+		}
+		
+		public void setSouth(boolean b)
+		{
+			southWall = b;
+		}
+		
+		public void setWest(boolean b)
+		{
+			westWall = b;
+		}
+		
 		public boolean getNorth()
 		{
 			return northWall;
