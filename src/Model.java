@@ -62,5 +62,25 @@ public class Model {
 			southWall = wallUp;
 			westWall = wallUp;
 		}
+		
+		public boolean getNorth()
+		{
+			return northWall;
+		}
+		
+		public boolean getEast()
+		{
+			return eastWall;
+		}
+		
+		public boolean getSouth()
+		{
+			return southWall;
+		}
+		
+		public boolean getWest()
+		{
+			return westWall;
+		}
 	}
 }
