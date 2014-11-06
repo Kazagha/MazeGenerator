@@ -8,16 +8,33 @@ public class Model {
 	 */
 	public Model(int x, int y)
 	{
-		nodeArray = new Node[x][y];	
+		nodeArray = new Node[x][y];
+		
+		initializeArray();
 	}
 	
-	public void setWalls(boolean wallUp)
+	private void initializeArray()
 	{
+		// Iterate through rows in the array
 		for(Node[] nRow : nodeArray)
 		{
-			for(Node nElement : nRow)
+			// Iterate through the elements in the row
+			for(int i = 0; i < nRow.length; i++)
 			{
-				nElement = new Node(wallUp);
+				nRow[i] = new Node();
+			}
+		}
+	}
+	
+	public void setWalls(boolean wallsUp)
+	{
+		// Iterate through rows in the array
+		for(Node[] nRow : nodeArray)
+		{
+			// Iterate through the elements in the row
+			for(int i = 0; i < nRow.length; i++)
+			{
+				nRow[i].setWalls(wallsUp);
 			}
 		}
 	}
@@ -55,12 +72,14 @@ public class Model {
 		boolean southWall;
 		boolean westWall;
 		
-		public Node(boolean wallUp)
+		public Node() { }
+		
+		public void setWalls(boolean wallsUp)
 		{
-			northWall = wallUp;
-			eastWall = wallUp;
-			southWall = wallUp;
-			westWall = wallUp;
+			northWall = wallsUp;
+			eastWall = wallsUp;
+			southWall = wallsUp;
+			westWall = wallsUp;
 		}
 		
 		public boolean getNorth()
