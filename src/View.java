@@ -16,10 +16,13 @@ public class View extends JPanel {
 	final int FRAME_HEIGHT = 750;
 	final int FRAME_WIDTH = 750;
 	
+	Model nodeArray;
+	MazeView mv;
+	
 	public View()
 	{			
 		JLabel titleLabel = new JLabel("Maze Generation");		
-		MazeView mv = new MazeView();
+		mv = new MazeView();
 		
 		GroupLayout layout = new GroupLayout(this);
 		setLayout(layout);
@@ -42,13 +45,27 @@ public class View extends JPanel {
 				);
 	}	
 	
+	public void setNodeArray(Model nodeModel)
+	{
+		this.nodeArray = nodeModel;
+	}
+	
 	class MazeView extends Component
 	{
 		public void paint(Graphics g)
 		{
 			Graphics2D g2 = (Graphics2D) g;
 			
-			g2.drawLine(0, 0, 150, 150);
+			for(int i = 0; i < nodeArray.getWidth(); i++)
+			{
+				System.out.println(i);
+				for(int j = 0; j < nodeArray.getHeight(); j++)
+				{
+					Model.Node n = nodeArray.getNode(i, j);
+					
+					g2.drawLine(i * 50, j * 50, (i * 50) + 45, (j * 50));
+				}
+			}
 			
 		}
 	}
