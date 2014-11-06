@@ -1,9 +1,14 @@
 public class Model {	
 	Node[][] nodeArray = new Node[1][1];
 	
+	/**
+	 * 
+	 * @param x - Width
+	 * @param y - Height
+	 */
 	public Model(int x, int y)
 	{
-		nodeArray = new Node[x][y];	
+		nodeArray = new Node[y][x];	
 	}
 	
 	public void setWalls(boolean wallUp)
@@ -15,6 +20,17 @@ public class Model {
 				nElement = new Node(wallUp);
 			}
 		}
+	}
+	
+	/**
+	 * Return the node in the specified position
+	 * @param x - Width
+	 * @param y - Height
+	 * @return - Specified node
+	 */
+	public Node getNode(int x, int y)
+	{
+		return nodeArray[y][x];
 	}
 	
 	public int getHeight()
