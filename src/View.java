@@ -6,6 +6,7 @@ import java.awt.Point;
 import java.awt.geom.Point2D;
 
 import javax.swing.GroupLayout;
+import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -23,14 +24,14 @@ public class View extends JPanel {
 	int nodeSize = 50;
 	int indentSize = 2;
 	
-	Model nodeArray;
-	MazeView mv;
-	JPanel mazePanel = new JPanel();
+	Model nodeModel;
+	MazeView mazeViewer = new MazeView();
+	JButton generateButton = new JButton("Generate Maze");
 	
 	public View()
 	{			
-		JLabel titleLabel = new JLabel("Maze Generation");		
-		//mv; = new MazeView();
+		JLabel titleLabel = new JLabel("Maze Generation");
+		mazeViewer.setVisible(false);
 		
 		GroupLayout layout = new GroupLayout(this);
 		setLayout(layout);
@@ -40,7 +41,8 @@ public class View extends JPanel {
 					.addContainerGap()
 					.addGroup(layout.createParallelGroup()
 							.addComponent(titleLabel, Alignment.CENTER)
-							.addComponent(mv, Alignment.CENTER)
+							.addComponent(generateButton, Alignment.CENTER)
+							.addComponent(mazeViewer, Alignment.CENTER)
 							)
 					.addContainerGap()					
 				);
@@ -49,13 +51,20 @@ public class View extends JPanel {
 				layout.createSequentialGroup()
 					.addComponent(titleLabel)
 					.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-					.addComponent(mv)
+					.addComponent(generateButton)
+					.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+					.addComponent(mazeViewer)
 				);
 	}	
 	
-	public void setNodeArray(Model nodeModel)
+	public void setNodeModel(Model nodeModel)
 	{
-		this.nodeArray = nodeModel;
+		this.nodeModel = nodeModel;
+	}
+	
+	public void showMazeViewer()
+	{		
+		mazeViewer.setVisible(true);		
 	}
 	
 	class MazeView extends Component
@@ -71,13 +80,13 @@ public class View extends JPanel {
 			Point SW = new Point(0, 0);
 			
 			// Iterate on the 'X' axis
-			for(int i = 0; i < nodeArray.get_X_Width(); i++)
+			for(int i = 0; i < nodeModel.get_X_Width(); i++)
 			{
 				// Iterate on the 'Y' axis
-				for(int j = 0; j < nodeArray.get_Y_Height(); j++)
+				for(int j = 0; j < nodeModel.get_Y_Height(); j++)
 				{
 					// Get the node at this position
-					Model.Node node = nodeArray.getNode(i, j);
+					Model.Node node = nodeModel.getNode(i, j);
 					
 					// Calculate the corners of the node
 					NW.setLocation((i * nodeSize), (j * nodeSize));
