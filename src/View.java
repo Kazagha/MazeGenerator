@@ -2,9 +2,11 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Point;
 import java.awt.geom.Point2D;
 
 import javax.swing.GroupLayout;
+import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -18,16 +20,17 @@ public class View extends JPanel {
 	final int FRAME_WIDTH = 750;
 	
 	// Set the grid and indent size
-	int nodeSize = 100;
+	int nodeSize = 50;
 	int indentSize = 2;
 	
 	Model nodeArray;
 	MazeView mv;
+	JPanel mazePanel = new JPanel();
 	
 	public View()
 	{			
 		JLabel titleLabel = new JLabel("Maze Generation");		
-		mv = new MazeView();
+		//mv; = new MazeView();
 		
 		GroupLayout layout = new GroupLayout(this);
 		setLayout(layout);
@@ -62,6 +65,10 @@ public class View extends JPanel {
 		public void paint(Graphics g)
 		{
 			g2 = (Graphics2D) g;
+			Point NW = new Point(0, 0);
+			Point NE = new Point(0, 0);
+			Point SE = new Point(0, 0);
+			Point SW = new Point(0, 0);
 			
 			// Iterate on the 'X' axis
 			for(int i = 0; i < nodeArray.get_X_Width(); i++)
@@ -70,14 +77,36 @@ public class View extends JPanel {
 				for(int j = 0; j < nodeArray.get_Y_Height(); j++)
 				{
 					// Get the node at this position
-					Model.Node n = nodeArray.getNode(i, j);
+					Model.Node node = nodeArray.getNode(i, j);
 					
-					g2.drawLine(i * 50, j * 50, (i * 50) + 45, (j * 50));
+					// Calculate the corners of the node
+					NW.setLocation((i * nodeSize), (j * nodeSize));
+					NE.setLocation((i * nodeSize) + nodeSize, (j * nodeSize));
+					SE.setLocation((i * nodeSize) + nodeSize, (j * nodeSize) + nodeSize);
+					SW.setLocation((i * nodeSize), (j * nodeSize) + nodeSize);
+					
+					if(node.getNorth()) 
+					{
+						g2.drawLine(NW.x, NW.y, NE.x, NE.y);
+					}
+					
+					if(node.getEast())
+					{
+						g2.drawLine(NE.x, NE.y, SE.x, SE.y);
+					}
+					
+					if(node.getSouth())
+					{
+						g2.drawLine(SE.x, SE.y, SW.x, SW.y);
+					}
+					
+					if(node.getWest())
+					{
+						g2.drawLine(SW.x, SW.y, NW.x, NW.y);
+					}
 				}
-			}			
-		}
-		
-		
+			}
+		}		
 	}
 	
 	public void createAndShowGUI()
