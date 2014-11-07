@@ -131,12 +131,6 @@ public class View extends JPanel {
 					SE.setLocation((i * nodeSize) + nodeSize, (j * nodeSize) + nodeSize);
 					SW.setLocation((i * nodeSize), (j * nodeSize) + nodeSize);
 										
-					if(node.getNorth() == false)
-					{
-						System.out.println("north false");
-						//do something
-					}
-					
 					if(node.getNorth()) 
 					{
 						g2.drawLine(NW.x, NW.y, NE.x, NE.y);
@@ -159,7 +153,6 @@ public class View extends JPanel {
 					
 					if(node.getNorth() == false)
 					{
-						System.out.println(NE.x + " - " + NE.y);
 						g2.drawLine(NW.x, NW.y, NW.x + 20, NW.y + 20);
 					}
 				}
