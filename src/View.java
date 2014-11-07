@@ -35,7 +35,6 @@ public class View extends JPanel {
 	public View()
 	{			
 		JLabel titleLabel = new JLabel("Maze Generation");
-		mazeViewer.setVisible(false);
 		
 		GroupLayout layout = new GroupLayout(this);
 		setLayout(layout);
@@ -74,9 +73,14 @@ public class View extends JPanel {
 				);
 	}	
 	
-	public void setNodeModel(Model nodeModel)
+	public void setModel(Model nodeModel)
 	{
 		this.nodeModel = nodeModel;
+	}
+	
+	public void modelUpdated()
+	{
+		mazeViewer.repaint();
 	}
 	
 	public void setMazeOptions(String[] options)
@@ -87,9 +91,9 @@ public class View extends JPanel {
 		}
 	}
 	
-	public void showMazeViewer()
+	public void setMazeViewerVisible(boolean b)
 	{		
-		mazeViewer.setVisible(true);		
+		mazeViewer.setVisible(b);
 	}
 	
 	public void setActionListener(ActionListener aListener)
@@ -97,8 +101,7 @@ public class View extends JPanel {
 		generateButton.addActionListener(aListener);
 		generateButton.setActionCommand("Load Grid");
 		
-		mazeSelection.addActionListener(aListener);
-		
+		mazeSelection.addActionListener(aListener);		
 	}
 	
 	class MazeView extends Component
@@ -127,6 +130,12 @@ public class View extends JPanel {
 					NE.setLocation((i * nodeSize) + nodeSize, (j * nodeSize));
 					SE.setLocation((i * nodeSize) + nodeSize, (j * nodeSize) + nodeSize);
 					SW.setLocation((i * nodeSize), (j * nodeSize) + nodeSize);
+										
+					if(node.getNorth() == false)
+					{
+						System.out.println("north false");
+						//do something
+					}
 					
 					if(node.getNorth()) 
 					{
@@ -146,6 +155,12 @@ public class View extends JPanel {
 					if(node.getWest())
 					{
 						g2.drawLine(SW.x, SW.y, NW.x, NW.y);
+					}
+					
+					if(node.getNorth() == false)
+					{
+						System.out.println(NE.x + " - " + NE.y);
+						g2.drawLine(NW.x, NW.y, NW.x + 20, NW.y + 20);
 					}
 				}
 			}
