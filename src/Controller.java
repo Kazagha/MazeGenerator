@@ -16,7 +16,8 @@ public class Controller {
 		this.model = m;
 		
 		v.setModel(m);
-				
+		
+		m.attachListener(new modelListener());				
 		v.setActionListener(new MyActionListener());
 		
 		v.setMazeOptions(new String[] 
@@ -29,6 +30,7 @@ public class Controller {
 			});
 	}
 	
+	
 	public void doChanges()
 	{
 		for(int i = 0; i < model.get_Y_Height(); i++)
@@ -36,6 +38,14 @@ public class Controller {
 			model.getNode(2, i).setNorth(false);
 			model.getNode(2, i).setSouth(false);
 		}
+	}
+	
+	public class modelListener extends Listener {
+		
+		@Override
+		public void update() {
+			System.out.println("there has been an update");	
+		}		
 	}
 	
 	public class MyActionListener implements ActionListener
@@ -50,7 +60,7 @@ public class Controller {
 				switch((String) combo.getSelectedItem())
 				{
 				case "Load Model":
-					model = new Model(5, 10);
+					//model = new Model(5, 10);
 					model.setWalls(true);
 					view.setModel(model);
 					view.modelUpdated();
