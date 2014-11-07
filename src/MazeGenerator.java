@@ -7,8 +7,9 @@ public class MazeGenerator {
 			@Override
 			public void run() {
 				View v = new View();
+				Model m = new Model(10, 10);
 				
-				new Controller(v);
+				new Controller(m, v);
 				
 				v.createAndShowGUI();
 			}
