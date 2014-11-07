@@ -1,5 +1,8 @@
+import java.util.ArrayList;
+
 public class Model {	
 	Node[][] nodeArray = new Node[1][1];
+	ArrayList<Listener> listenerArray = new ArrayList<Listener>();
 	
 	/**
 	 * 
@@ -37,6 +40,8 @@ public class Model {
 				nRow[i].setWalls(wallsUp);
 			}
 		}
+
+		notifyListener();
 	}
 	
 	/**
@@ -63,6 +68,20 @@ public class Model {
 	public Node[][] getArray()
 	{
 		return nodeArray;
+	}
+	
+	public void attachListener(Listener observer)
+	{
+		System.out.println("Listener attached");
+		listenerArray.add(observer);
+	}
+	
+	public void notifyListener()
+	{
+		for(Listener listener : listenerArray)
+		{
+			listener.update();
+		}
 	}
 
 	class Node 
