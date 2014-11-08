@@ -8,7 +8,6 @@ public class Controller {
 	
 	private View view;
 	private Model model;
-	//private String[] mazeType = new String[] {"Grid"};
 
 	public Controller(Model m, View v)
 	{
@@ -28,8 +27,7 @@ public class Controller {
 				"Hide Model",
 				"Do Something"
 			});
-	}
-	
+	}	
 	
 	public void doChanges()
 	{
@@ -44,7 +42,7 @@ public class Controller {
 		
 		@Override
 		public void update() {
-			System.out.println("there has been an update");	
+			view.modelUpdated();
 		}		
 	}
 	
@@ -60,27 +58,19 @@ public class Controller {
 				switch((String) combo.getSelectedItem())
 				{
 				case "Load Model":
-					//model = new Model(5, 10);
 					model.setWalls(true);
-					view.setModel(model);
-					view.modelUpdated();
 					break;
 				case "Reset Model":
 					model.setWalls(true);
-					view.modelUpdated();
 					break;
 				case "Show Model":	
-					//view.showMazeViewer(false);
 					view.setMazeViewerVisible(true);
-					//view.revalidate();
-					//view.modelUpdated();
 					break;
 				case "Hide Model":
 					view.setMazeViewerVisible(false);
 					break;
 				case "Do Something":
 					doChanges();
-					view.modelUpdated();
 					break;
 				}
 			} else if (e.getSource() instanceof JButton) {
