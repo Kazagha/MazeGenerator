@@ -104,21 +104,25 @@ public class Model {
 		public void setNorth(boolean b)
 		{
 			northWall = b;
+			notifyListener();
 		}
 		
 		public void setEast(boolean b)
 		{
 			eastWall = b;
+			notifyListener();
 		}
 		
 		public void setSouth(boolean b)
 		{
 			southWall = b;
+			notifyListener();
 		}
 		
 		public void setWest(boolean b)
 		{
 			westWall = b;
+			notifyListener();
 		}
 		
 		public boolean getNorth()
