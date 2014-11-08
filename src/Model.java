@@ -1,3 +1,4 @@
+import java.awt.Color;
 import java.util.ArrayList;
 
 public class Model {	
@@ -90,8 +91,12 @@ public class Model {
 		boolean eastWall; 
 		boolean southWall;
 		boolean westWall;
+		Color backgroundColor;
 		
-		public Node() { }
+		public Node()
+		{
+			backgroundColor = null;
+		}
 		
 		public void setWalls(boolean wallsUp)
 		{
@@ -100,6 +105,11 @@ public class Model {
 			southWall = wallsUp;
 			westWall = wallsUp;
 		}
+		
+		public void setColor(Color c)
+		{
+			backgroundColor = c;
+		}		
 		
 		public void setNorth(boolean b)
 		{
@@ -123,6 +133,11 @@ public class Model {
 		{
 			westWall = b;
 			notifyListener();
+		}
+		
+		public Color getColor()
+		{
+			return backgroundColor;
 		}
 		
 		public boolean getNorth()
