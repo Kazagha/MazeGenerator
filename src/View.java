@@ -1,3 +1,4 @@
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -46,7 +47,6 @@ public class View extends JPanel {
 							.addComponent(titleLabel, Alignment.CENTER)
 							.addComponent(mazeViewer, Alignment.CENTER)
 							.addGroup(layout.createSequentialGroup()
-									//.addComponent(mazeSelection)
 									.addComponent(mazeSelection, 200, 200, 200)
 									.addPreferredGap(ComponentPlacement.RELATED)
 									.addComponent(generateButton)
@@ -154,6 +154,14 @@ public class View extends JPanel {
 					if(node.getNorth() == false)
 					{
 						g2.drawLine(NW.x, NW.y, NW.x + 20, NW.y + 20);
+					}
+					
+					if(node.getColor() != null)
+					{
+						g2.setColor(node.getColor());
+						// Make rect one pixel less in all dimensions to preserve the grid
+						g2.fillRect(NW.x + 1, NW.y + 1, nodeSize - 1, nodeSize - 1);
+						g2.setColor(Color.BLACK);
 					}
 				}
 			}
