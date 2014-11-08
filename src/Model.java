@@ -109,6 +109,7 @@ public class Model {
 		public void setColor(Color c)
 		{
 			backgroundColor = c;
+			notifyListener();
 		}		
 		
 		public void setNorth(boolean b)
