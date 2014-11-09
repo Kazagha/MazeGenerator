@@ -13,10 +13,12 @@ public class Model {
 	public Model(int x, int y)
 	{
 		nodeArray = new Node[x][y];
-		
 		initializeArray();
 	}
 	
+	/**
+	 * Initialize a basic <code>Node</code> in all positions in the Model.
+	 */
 	private void initializeArray()
 	{
 		// Iterate through rows in the array
@@ -30,7 +32,11 @@ public class Model {
 		}
 	}
 	
-	public void setWalls(boolean wallsUp)
+	/**
+	 * Set all walls in <code>this</code> Model on or off
+	 * @param wallsUp - True to turn walls on. 
+	 */
+	public void setWalls(boolean wallsOn)
 	{
 		// Iterate through rows in the array
 		for(Node[] nRow : nodeArray)
@@ -38,7 +44,7 @@ public class Model {
 			// Iterate through the elements in the row
 			for(int i = 0; i < nRow.length; i++)
 			{
-				nRow[i].setWalls(wallsUp);
+				nRow[i].setWalls(wallsOn);
 			}
 		}
 
@@ -71,12 +77,18 @@ public class Model {
 		return nodeArray;
 	}
 	
-	public void attachListener(Listener observer)
+	/**
+	 * Register the specified <code>Listener</code> on <code>this</code>. 
+	 * @param listener - The specified listener
+	 */
+	public void attachListener(Listener listener)
 	{
-		System.out.println("Listener attached");
-		listenerArray.add(observer);
+		listenerArray.add(listener);
 	}
 	
+	/**
+	 * Notify any attached listeners <code>this</code> has been updated
+	 */
 	public void notifyListener()
 	{
 		for(Listener listener : listenerArray)
