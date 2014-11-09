@@ -5,6 +5,32 @@ public class Model {
 	Node[][] nodeArray = new Node[1][1];
 	ArrayList<Listener> listenerArray = new ArrayList<Listener>();
 	
+	public enum CardinalDirections
+	{		
+		// Assume grid origin is top-left. 
+		NORTH(0, -1),
+		EAST(1, 0),
+		SOUTH(0, 1),
+		WEST(-1, 0);
+
+		private int x;
+		private int y;
+		private CardinalDirections(int x, int y) {
+			this.x = x;
+			this.y = y;
+		}
+		
+		public int getX()
+		{
+			return x;
+		}
+		
+		public int getY()
+		{
+			return y;
+		}
+	}
+	
 	/**
 	 * 
 	 * @param x - Width
