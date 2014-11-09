@@ -1,9 +1,36 @@
 import java.awt.Point;
+import java.util.ArrayList;
 
 public class AldousBroder implements Algorithm {
 
 	Model dataModel;
 	Point currentPos = new Point(0, 0);
+	
+	public enum CardinalDirections
+	{		
+		// Assume grid origin is top-left. 
+		NORTH(0, -1),
+		EAST(1, 0),
+		SOUTH(0, 1),
+		WEST(-1, 0);
+
+		private int x;
+		private int y;
+		private CardinalDirections(int x, int y) {
+			this.x = x;
+			this.y = y;
+		}
+		
+		public int getX()
+		{
+			return x;
+		}
+		
+		public int getY()
+		{
+			return y;
+		}
+	}
 	
 	public AldousBroder(Model model) {
 		model = dataModel;
@@ -16,6 +43,12 @@ public class AldousBroder implements Algorithm {
 
 	@Override
 	public void next() {
+		
+		// Get Array List
+		
+		// Random number randomRange(list.length)
+		
+		// Select that list.get(x)
 	}
 
 	@Override
@@ -42,7 +75,7 @@ public class AldousBroder implements Algorithm {
 		return (int)((Math.random() * range) + 1);
 	}
 	
-	public Point randomPoint(Point... p)
+	public Point randomPoint(Point[] p)
 	{		
 		// Randomize a number inside the possible range
 		int i = randomRange(p.length);
