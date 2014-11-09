@@ -1,3 +1,4 @@
+import java.awt.Color;
 import java.awt.Point;
 import java.util.ArrayList;
 
@@ -6,7 +7,7 @@ public class AldousBroder implements Algorithm {
 	Model dataModel;
 	Point currentPos = new Point(0, 0);
 	int nodeCount;
-	int visitCount;
+	int visitCount = 0;
 	
 	public AldousBroder(Model model) {
 		this.dataModel = model;
@@ -41,11 +42,12 @@ public class AldousBroder implements Algorithm {
 		{
 			currentNode.setCardinal(randDirection, false);
 			nextNode.setCardinal(randDirection.reverse(), false);
+			
 			nextNode.setVisit(true);
 			visitCount++;
 		}
 		
-		// Set the 'next node' as the new currnet position
+		// Set the 'next node' as the new current position
 		this.setPos(nextPos.x, nextPos.y);
 	}
 	
@@ -57,6 +59,7 @@ public class AldousBroder implements Algorithm {
 	
 	public boolean isComplete()
 	{
+		System.out.format("%s of %s%n", nodeCount, visitCount);
 		return nodeCount == visitCount;
 	}
 	
@@ -82,8 +85,8 @@ public class AldousBroder implements Algorithm {
 	public boolean validPos(int x, int y) {
 		
 		// Check the position is within the bounds of the Model
-		return (x > 0 && x < dataModel.get_X_Width()
-				&& y > 0 && y < dataModel.get_Y_Height());
+		return (x >= 0 && x < dataModel.get_X_Width()
+				&& y >= 0 && y < dataModel.get_Y_Height());
 	}
 	
 	/**
