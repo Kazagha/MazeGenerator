@@ -151,11 +151,6 @@ public class View extends JPanel {
 						g2.drawLine(SW.x, SW.y, NW.x, NW.y);
 					}
 					
-					if(node.getNorth() == false)
-					{
-						g2.drawLine(NW.x, NW.y, NW.x + 20, NW.y + 20);
-					}
-					
 					if(node.getColor() != null)
 					{
 						g2.setColor(node.getColor());
