@@ -29,6 +29,23 @@ public class Model {
 		{
 			return y;
 		}
+		
+		public CardinalDirections reverse()
+		{	
+			if(this == this.NORTH)
+			{
+				return this.SOUTH; 
+			} else if(this == this.EAST) 
+			{
+				return this.WEST;
+			} else if(this == this.SOUTH)
+			{
+				return this.NORTH;
+			} else 
+			{
+				return this.EAST;
+			}
+		}
 	}
 	
 	/**
