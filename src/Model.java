@@ -99,6 +99,7 @@ public class Model {
 
 	class Node 
 	{
+		boolean visit;
 		boolean northWall;
 		boolean eastWall; 
 		boolean southWall;
@@ -116,13 +117,12 @@ public class Model {
 			eastWall = wallsUp;
 			southWall = wallsUp;
 			westWall = wallsUp;
-		}
+		}	
 		
-		public void setColor(Color c)
+		public void setVisit(boolean b)
 		{
-			backgroundColor = c;
-			notifyListener();
-		}		
+			visit = b;
+		}
 		
 		public void setNorth(boolean b)
 		{
@@ -148,9 +148,15 @@ public class Model {
 			notifyListener();
 		}
 		
-		public Color getColor()
+		public void setColor(Color c)
 		{
-			return backgroundColor;
+			backgroundColor = c;
+			notifyListener();
+		}
+		
+		public boolean getVisit()
+		{
+			return visit;
 		}
 		
 		public boolean getNorth()
@@ -171,6 +177,11 @@ public class Model {
 		public boolean getWest()
 		{
 			return westWall;
+		}
+		
+		public Color getColor()
+		{
+			return backgroundColor;
 		}
 	}
 }
