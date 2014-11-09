@@ -189,6 +189,23 @@ public class Model {
 			notifyListener();
 		}
 		
+		public void setCardinal(CardinalDirections direction, boolean b)
+		{
+			if(direction == CardinalDirections.NORTH)
+			{
+				this.setNorth(b);
+			} else if(direction == CardinalDirections.EAST)
+			{
+				this.setEast(b);
+			} else if(direction == CardinalDirections.SOUTH)
+			{
+				this.setSouth(b);
+			} else if(direction == CardinalDirections.WEST)
+			{
+				this.setWest(b);
+			}
+		}
+		
 		public void setColor(Color c)
 		{
 			backgroundColor = c;
