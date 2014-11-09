@@ -33,7 +33,7 @@ public class AldousBroder implements Algorithm {
 	}
 	
 	public AldousBroder(Model model) {
-		model = dataModel;
+		this.dataModel = model;
 	}
 	
 	@Override
@@ -44,17 +44,44 @@ public class AldousBroder implements Algorithm {
 	@Override
 	public void next() {
 		
-		// Get Array List
 		
-		// Random number randomRange(list.length)
+		ArrayList<Point> posArray = getValidPositions();
 		
-		// Select that list.get(x)
+		// Select random number, minus one as the array begins at zero
+		int rand = randomRange(posArray.size()) - 1;
+		
+		Point nextPos = posArray.get(rand);
+		
+		Model.Node currentNode = dataModel.getNode(currentPos.x, currentPos.y);
+		Model.Node nextNode = dataModel.getNode(nextPos.x, nextPos.y);
+		
+		if(nextNode.getVisit() == false) {}
+		
+		System.out.println("Random " + rand + ": " + nextPos.getX() + " " + nextPos.getY());
 	}
 
 	@Override
 	public void reset() {
 		dataModel.setAllWalls(false);
 		dataModel.setAllVisited(false);
+	}
+	
+	public ArrayList<Point> getValidPositions()
+	{
+		ArrayList<Point> tempList = new ArrayList<Point>();
+		
+		// Check the Cardinal directions for valid positions
+		for(CardinalDirections cd : CardinalDirections.values())
+		{
+			Point tempPoint = new Point(currentPos.x + cd.getX(), (currentPos.y + cd.getY()));
+			// Check if this is a valid position
+			if(validPos(tempPoint.x, tempPoint.y))
+			{
+				tempList.add(tempPoint);
+			}
+		}	
+		
+		return tempList;
 	}
 
 	@Override
