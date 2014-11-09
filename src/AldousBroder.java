@@ -6,32 +6,6 @@ public class AldousBroder implements Algorithm {
 	Model dataModel;
 	Point currentPos = new Point(0, 0);
 	
-	public enum CardinalDirections
-	{		
-		// Assume grid origin is top-left. 
-		NORTH(0, -1),
-		EAST(1, 0),
-		SOUTH(0, 1),
-		WEST(-1, 0);
-
-		private int x;
-		private int y;
-		private CardinalDirections(int x, int y) {
-			this.x = x;
-			this.y = y;
-		}
-		
-		public int getX()
-		{
-			return x;
-		}
-		
-		public int getY()
-		{
-			return y;
-		}
-	}
-	
 	public AldousBroder(Model model) {
 		this.dataModel = model;
 	}
@@ -44,20 +18,21 @@ public class AldousBroder implements Algorithm {
 	@Override
 	public void next() {
 		
-		
-		ArrayList<Point> posArray = getValidPositions();
-		
-		// Select random number, minus one as the array begins at zero
-		int rand = randomRange(posArray.size()) - 1;
-		
-		Point nextPos = posArray.get(rand);
+		// Find all valid directions
+		ArrayList<Model.CardinalDirections> validDirections = getValidPositions();		
+		// Select direction at random, minus one as the array begins at zero
+		int rand = randomRange(validDirections.size()) - 1;
+		// Selection the direction of movement
+		Model.CardinalDirections randDirection = validDirections.get(rand);
 		
 		Model.Node currentNode = dataModel.getNode(currentPos.x, currentPos.y);
-		Model.Node nextNode = dataModel.getNode(nextPos.x, nextPos.y);
+		Model.Node nextNode = dataModel.getNode(
+				currentPos.x + randDirection.getX(),
+				currentPos.y + randDirection.getY());
 		
 		if(nextNode.getVisit() == false) {}
 		
-		System.out.println("Random " + rand + ": " + nextPos.getX() + " " + nextPos.getY());
+		System.out.println("Random " + rand + " " + randDirection.getX() + " " + randDirection.getY());
 	}
 
 	@Override
@@ -66,18 +41,18 @@ public class AldousBroder implements Algorithm {
 		dataModel.setAllVisited(false);
 	}
 	
-	public ArrayList<Point> getValidPositions()
+	public ArrayList<Model.CardinalDirections> getValidPositions()
 	{
-		ArrayList<Point> tempList = new ArrayList<Point>();
+		ArrayList<Model.CardinalDirections> tempList = new ArrayList<Model.CardinalDirections>();
 		
 		// Check the Cardinal directions for valid positions
-		for(CardinalDirections cd : CardinalDirections.values())
+		for(Model.CardinalDirections cd : Model.CardinalDirections.values())
 		{
 			Point tempPoint = new Point(currentPos.x + cd.getX(), (currentPos.y + cd.getY()));
 			// Check if this is a valid position
 			if(validPos(tempPoint.x, tempPoint.y))
 			{
-				tempList.add(tempPoint);
+				tempList.add(cd);
 			}
 		}	
 		
