@@ -36,7 +36,7 @@ public class Model {
 	 * Set all walls in <code>this</code> Model on or off
 	 * @param wallsUp - True to turn walls on. 
 	 */
-	public void setWalls(boolean wallsOn)
+	public void setAllWalls(boolean wallsOn)
 	{
 		// Iterate through rows in the array
 		for(Node[] nRow : nodeArray)
@@ -45,6 +45,21 @@ public class Model {
 			for(int i = 0; i < nRow.length; i++)
 			{
 				nRow[i].setWalls(wallsOn);
+			}
+		}
+
+		notifyListener();
+	}
+	
+	public void setAllVisited(boolean isVisited)
+	{
+		// Iterate through rows in the array
+		for(Node[] nRow : nodeArray)
+		{
+			// Iterate through the elements in the row
+			for(int i = 0; i < nRow.length; i++)
+			{
+				nRow[i].setVisit(isVisited);
 			}
 		}
 
