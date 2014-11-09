@@ -5,9 +5,12 @@ public class AldousBroder implements Algorithm {
 
 	Model dataModel;
 	Point currentPos = new Point(0, 0);
+	int nodeCount;
+	int visitCount;
 	
 	public AldousBroder(Model model) {
 		this.dataModel = model;
+		this.nodeCount = dataModel.get_X_Width() * dataModel.get_Y_Height();
 	}
 	
 	@Override
@@ -17,6 +20,8 @@ public class AldousBroder implements Algorithm {
 
 	@Override
 	public void next() {
+		// Find the current Node
+		Model.Node currentNode = dataModel.getNode(currentPos.x, currentPos.y);
 		
 		// Find all valid directions
 		ArrayList<Model.CardinalDirections> validDirections = getValidPositions();		
@@ -25,20 +30,34 @@ public class AldousBroder implements Algorithm {
 		// Selection the direction of movement
 		Model.CardinalDirections randDirection = validDirections.get(rand);
 		
-		Model.Node currentNode = dataModel.getNode(currentPos.x, currentPos.y);
-		Model.Node nextNode = dataModel.getNode(
-				currentPos.x + randDirection.getX(),
+		// Find the next position using the random direction
+		Point nextPos = new Point(currentPos.x + randDirection.getX(),
 				currentPos.y + randDirection.getY());
+		// Find the next node 
+		Model.Node nextNode = dataModel.getNode(nextPos.x, nextPos.y);
 		
-		if(nextNode.getVisit() == false) {}
+		// If the node has not been visited yet do the following
+		if(nextNode.getVisit() == false)
+		{
+			currentNode.setCardinal(randDirection, false);
+			nextNode.setCardinal(randDirection.reverse(), false);
+			nextNode.setVisit(true);
+			visitCount++;
+		}
 		
-		System.out.println("Random " + rand + " " + randDirection.getX() + " " + randDirection.getY());
+		// Set the 'next node' as the new currnet position
+		this.setPos(nextPos.x, nextPos.y);
 	}
-
+	
 	@Override
 	public void reset() {
 		dataModel.setAllWalls(false);
 		dataModel.setAllVisited(false);
+	}
+	
+	public boolean isComplete()
+	{
+		return nodeCount == visitCount;
 	}
 	
 	public ArrayList<Model.CardinalDirections> getValidPositions()
