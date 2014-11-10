@@ -26,20 +26,19 @@ public class View extends JPanel {
 	final int FRAME_WIDTH = 750;
 	
 	// Set the grid and indent size
-	int nodeSize = 50;
-	int indentSize = 2;
+	private int nodeSize = 50;
+	private int indentSize = 2;
 	
-	Model nodeModel;
-	MazeView mazeViewer = new MazeView();
+	private Model nodeModel;
+	private MazeView mazeViewer = new MazeView();
 	
 	JComboBox<String> mazeSelection = new JComboBox<String>();
-	JTextField xTextField = new JTextField(4);
-	JTextField yTextField = new JTextField(4);
+	private JTextField xTextField = new JTextField(4);
+	private JTextField yTextField = new JTextField(4);
 
-	JButton generateButton = new JButton("Generate Maze");
-	JButton stepButton = new JButton("Step");
-	JButton runButton = new JButton("Run");
-	JButton resetButton = new JButton("Reset");
+	private JButton stepButton = new JButton("Step");
+	private JButton runButton = new JButton("Run");
+	private JButton resetButton = new JButton("Reset");
 	
 	public View()
 	{			
@@ -130,6 +129,11 @@ public class View extends JPanel {
 		}
 	}
 	
+	public void setNodeSize(int i)
+	{
+		nodeSize = i;
+	}
+	
 	public void setMazeViewerVisible(boolean b)
 	{		
 		mazeViewer.setVisible(b);
@@ -137,10 +141,26 @@ public class View extends JPanel {
 	
 	public void setActionListener(ActionListener aListener)
 	{
-		generateButton.addActionListener(aListener);
-		generateButton.setActionCommand("Load Grid");
+		// Set actions on buttons
+		stepButton.addActionListener(aListener);
+		stepButton.setActionCommand("Step");
+		runButton.addActionListener(aListener);
+		runButton.setActionCommand("Run");
+		resetButton.addActionListener(aListener);
+		resetButton.setActionCommand("Reset");
 		
+		// Set action on JComboBox drop down
 		mazeSelection.addActionListener(aListener);		
+	}
+	
+	public String getXString()
+	{
+		return xTextField.toString();
+	}
+	
+	public String getYString()
+	{
+		return yTextField.toString();
 	}
 	
 	class MazeView extends Component
