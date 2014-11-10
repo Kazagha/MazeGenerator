@@ -8,6 +8,8 @@ public class AldousBroder implements Algorithm {
 	Point currentPos = new Point(0, 0);
 	int nodeCount;
 	int visitCount = 0;
+	Color currentColor = new Color(205, 92, 92);
+	Color visitColor = new Color(135, 206, 250);  	
 	
 	public AldousBroder(Model model) {
 		this.dataModel = model;
@@ -51,6 +53,10 @@ public class AldousBroder implements Algorithm {
 			visitCount++;
 		}
 		
+		// Set background colors
+		currentNode.setColor(visitColor);
+		nextNode.setColor(currentColor);
+		
 		// Set the 'next node' as the new current position
 		this.setPos(nextPos.x, nextPos.y);
 	}
@@ -59,6 +65,7 @@ public class AldousBroder implements Algorithm {
 	public void reset() {
 		dataModel.setAllWalls(true);
 		dataModel.setAllVisited(false);
+		dataModel.setAllColor(null);
 		visitCount = 0;
 	}
 	
