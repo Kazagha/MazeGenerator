@@ -16,15 +16,22 @@ public class Controller {
 		this.view = v;
 		this.model = m;
 		
-		v.setModel(m);
-		
+		v.setModel(m);		
 		m.attachListener(new modelListener());				
 		v.setActionListener(new MyActionListener());
 		
 		v.setMazeOptions(new String[] 
 			{	" ",
-				"Aldous and Broder"
+				"Aldous and Broder",
+				"Set Size"
 			});
+	}
+	
+	private void setModel(Model m)
+	{
+		model = m;
+		view.setModel(model);
+		model.attachListener(new modelListener());	
 	}
 	
 	public class modelListener extends Listener {
@@ -52,6 +59,10 @@ public class Controller {
 				case "Hide Model":
 					view.setMazeViewerVisible(false);
 					break;
+				case "Set Size":
+					int x = Integer.valueOf(view.getXString());
+					int y = Integer.valueOf(view.getYString());
+					setModel(new Model(x, y));
 				case "Aldous and Broder":
 					algorithm = new AldousBroder(model);
 					algorithm.reset();
