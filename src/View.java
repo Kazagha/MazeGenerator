@@ -130,7 +130,16 @@ public class View extends JPanel {
 					NE.setLocation((i * nodeSize) + nodeSize, (j * nodeSize));
 					SE.setLocation((i * nodeSize) + nodeSize, (j * nodeSize) + nodeSize);
 					SW.setLocation((i * nodeSize), (j * nodeSize) + nodeSize);
-										
+					
+					if(node.getColor() != null)
+					{
+						g2.setColor(node.getColor());
+						// Make rect one pixel less in all dimensions to preserve the grid
+						//g2.fillRect(NW.x + 1, NW.y + 1, nodeSize - 1, nodeSize - 1);
+						g2.fillRect(NW.x, NW.y, nodeSize, nodeSize);
+						g2.setColor(Color.BLACK);
+					}
+					
 					if(node.getNorth()) 
 					{
 						g2.drawLine(NW.x, NW.y, NE.x, NE.y);
@@ -149,14 +158,6 @@ public class View extends JPanel {
 					if(node.getWest())
 					{
 						g2.drawLine(SW.x, SW.y, NW.x, NW.y);
-					}
-					
-					if(node.getColor() != null)
-					{
-						g2.setColor(node.getColor());
-						// Make rect one pixel less in all dimensions to preserve the grid
-						g2.fillRect(NW.x + 1, NW.y + 1, nodeSize - 1, nodeSize - 1);
-						g2.setColor(Color.BLACK);
 					}
 				}
 			}
