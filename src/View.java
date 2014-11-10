@@ -14,6 +14,7 @@ import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 import javax.swing.LayoutStyle;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.LayoutStyle.ComponentPlacement;
@@ -30,12 +31,21 @@ public class View extends JPanel {
 	
 	Model nodeModel;
 	MazeView mazeViewer = new MazeView();
-	JButton generateButton = new JButton("Generate Maze");
+	
 	JComboBox<String> mazeSelection = new JComboBox<String>();
+	JTextField xTextField = new JTextField(4);
+	JTextField yTextField = new JTextField(4);
+
+	JButton generateButton = new JButton("Generate Maze");
+	JButton stepButton = new JButton("Step");
+	JButton runButton = new JButton("Run");
+	JButton resetButton = new JButton("Reset");
 	
 	public View()
 	{			
 		JLabel titleLabel = new JLabel("Maze Generation");
+		JLabel selectLabel = new JLabel("Select algorithm:");
+		JLabel dimensionsLable = new JLabel("Maze size:");
 		
 		GroupLayout layout = new GroupLayout(this);
 		setLayout(layout);
@@ -45,11 +55,28 @@ public class View extends JPanel {
 					.addContainerGap()
 					.addGroup(layout.createParallelGroup()
 							.addComponent(titleLabel, Alignment.CENTER)
-							.addComponent(mazeViewer, Alignment.CENTER)
-							.addGroup(layout.createSequentialGroup()
-									.addComponent(mazeSelection, 200, 200, 200)
+							.addComponent(mazeViewer, Alignment.CENTER)		
+							.addGroup(Alignment.CENTER, layout.createSequentialGroup()
+									.addGroup(layout.createParallelGroup()
+											.addComponent(selectLabel)
+											.addComponent(dimensionsLable)
+											)
+									.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+									.addGroup(layout.createParallelGroup()
+											.addComponent(mazeSelection, 200, 200, 200)
+											.addGroup(layout.createSequentialGroup()
+													.addComponent(xTextField, 50, 50, 50)
+													.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+													.addComponent(yTextField, 50, 50, 50)
+													)
+											)
+									)
+							.addGroup(Alignment.CENTER, layout.createSequentialGroup()
+									.addComponent(stepButton)
 									.addPreferredGap(ComponentPlacement.RELATED)
-									.addComponent(generateButton)
+									.addComponent(runButton)
+									.addPreferredGap(ComponentPlacement.RELATED)
+									.addComponent(resetButton)
 									)
 							)
 					
@@ -62,8 +89,20 @@ public class View extends JPanel {
 					.addComponent(titleLabel)
 					.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
 					.addGroup(layout.createParallelGroup()
-							.addComponent(generateButton)
-							.addComponent(mazeSelection, 26, 26, 26)
+							.addComponent(selectLabel)
+							.addComponent(mazeSelection, 20, 20, 20)
+							)							
+					.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+					.addGroup(layout.createParallelGroup()
+							.addComponent(dimensionsLable)
+							.addComponent(xTextField, 20, 20, 20)
+							.addComponent(yTextField, 20, 20, 20)
+							)
+					.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+					.addGroup(layout.createParallelGroup()
+							.addComponent(stepButton)
+							.addComponent(runButton)
+							.addComponent(resetButton)
 							)
 					.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
 					.addGap(20, 20, 20)
