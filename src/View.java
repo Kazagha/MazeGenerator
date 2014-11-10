@@ -155,12 +155,12 @@ public class View extends JPanel {
 	
 	public String getXString()
 	{
-		return xTextField.toString();
+		return xTextField.getText();
 	}
 	
 	public String getYString()
 	{
-		return yTextField.toString();
+		return yTextField.getText();
 	}
 	
 	class MazeView extends Component
