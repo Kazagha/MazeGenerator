@@ -11,7 +11,11 @@ public class AldousBroder implements Algorithm {
 	
 	public AldousBroder(Model model) {
 		this.dataModel = model;
+		// Every node in the Model
 		this.nodeCount = dataModel.get_X_Width() * dataModel.get_Y_Height();
+		// Selection a random starting position anywhere in the model. 
+		// Minus one as the array starts with zero
+		this.setPos(randomRange(dataModel.get_X_Width() - 1), randomRange(dataModel.get_Y_Height()) - 1);
 	}
 	
 	@Override
@@ -53,8 +57,9 @@ public class AldousBroder implements Algorithm {
 	
 	@Override
 	public void reset() {
-		dataModel.setAllWalls(false);
+		dataModel.setAllWalls(true);
 		dataModel.setAllVisited(false);
+		visitCount = 0;
 	}
 	
 	public boolean isComplete()
