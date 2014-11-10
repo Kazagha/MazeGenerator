@@ -1,3 +1,4 @@
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -8,6 +9,7 @@ public class Controller {
 	
 	private View view;
 	private Model model;
+	private Algorithm algorithm; 
 
 	public Controller(Model m, View v)
 	{
@@ -21,21 +23,8 @@ public class Controller {
 		
 		v.setMazeOptions(new String[] 
 			{	" ",
-				"Load Model",
-				"Reset Model",
-				"Show Model",
-				"Hide Model",
-				"Do Something"
+				"Aldous and Broder"
 			});
-	}	
-	
-	public void doChanges()
-	{
-		for(int i = 0; i < model.get_Y_Height(); i++)
-		{
-			model.getNode(2, i).setNorth(false);
-			model.getNode(2, i).setSouth(false);
-		}
 	}
 	
 	public class modelListener extends Listener {
@@ -47,34 +36,46 @@ public class Controller {
 	}
 	
 	public class MyActionListener implements ActionListener
-	{
+	{		
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			
 			if(e.getSource() instanceof JComboBox)
 			{
-				JComboBox combo = (JComboBox) e.getSource();
+				JComboBox<String> combo = (JComboBox) e.getSource();
 							
 				switch((String) combo.getSelectedItem())
 				{
-				case "Load Model":
-					model.setWalls(true);
-					break;
-				case "Reset Model":
-					model.setWalls(true);
-					break;
 				case "Show Model":	
 					view.setMazeViewerVisible(true);
 					break;
 				case "Hide Model":
 					view.setMazeViewerVisible(false);
 					break;
-				case "Do Something":
-					doChanges();
+				case "Aldous and Broder":
+					algorithm = new AldousBroder(model);
+					algorithm.reset();
 					break;
 				}
-			} else if (e.getSource() instanceof JButton) {
-				
+			} else if (e.getSource() instanceof JButton) {				
+				switch(e.getActionCommand())
+				{
+				case "Step":
+					// Progress the algorithm one step
+					algorithm.next();
+					break;
+				case "Run":	
+					// Continue to run the algorithm until complete
+					while(! algorithm.isComplete())
+					{
+						algorithm.next();
+					}
+					break;
+				case "Reset":
+					// Reset the model as determined by the algorithm
+					algorithm.reset();
+					break;
+				}
 			}
 		}		
 	}
