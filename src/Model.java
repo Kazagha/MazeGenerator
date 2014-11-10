@@ -109,6 +109,21 @@ public class Model {
 		notifyListener();
 	}
 	
+	public void setAllColor(Color color)
+	{
+		// Iterate through rows in the array
+		for(Node[] nRow : nodeArray)
+		{
+			// Iterate through the elements in the row
+			for(int i = 0; i < nRow.length; i++)
+			{
+				nRow[i].setColor(color);
+			}
+		}
+
+		notifyListener();
+	}
+	
 	/**
 	 * Return the node in the specified position
 	 * @param x - Width
