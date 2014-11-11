@@ -19,6 +19,8 @@ import javax.swing.JTextField;
 import javax.swing.LayoutStyle;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.LayoutStyle.ComponentPlacement;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import javax.swing.plaf.SliderUI;
 
 public class View extends JPanel {
@@ -55,6 +57,7 @@ public class View extends JPanel {
 		scaleSlider.setMajorTickSpacing(5);
 		scaleSlider.setSnapToTicks(true);
 		scaleSlider.setPaintTicks(true);
+		scaleSlider.addChangeListener(new sliderListener());
 		
 		GroupLayout layout = new GroupLayout(this);
 		setLayout(layout);
@@ -178,6 +181,22 @@ public class View extends JPanel {
 	public String getYString()
 	{
 		return yTextField.getText();
+	}
+	
+	public class sliderListener implements ChangeListener {
+
+		@Override
+		public void stateChanged(ChangeEvent e) {
+			JSlider source = (JSlider) e.getSource();
+			
+			// Check the slider has finished moving
+			if(! source.getValueIsAdjusting())
+			{
+				nodeSize = source.getValue();
+				modelUpdated();
+			}
+		}
+		
 	}
 	
 	class MazeView extends Component
