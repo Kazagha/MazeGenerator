@@ -10,6 +10,7 @@ public class Controller {
 	private View view;
 	private Model model;
 	private Algorithm algorithm; 
+	private Thread thread = new Thread();
 
 	public Controller(Model m, View v)
 	{
@@ -76,11 +77,32 @@ public class Controller {
 					algorithm.next();
 					break;
 				case "Run":	
-					// Continue to run the algorithm until complete
-					while(! algorithm.isComplete())
+					
+					if(thread.isAlive())
 					{
-						algorithm.next();
+						thread.interrupt();						
+					} else {
+					
+						thread = new Thread(new Runnable() {
+							
+							@Override
+							public void run() {
+								try{
+									// Continue to run the algorithm until complete
+									while(! algorithm.isComplete())
+									{
+										algorithm.next();
+										Thread.sleep(100);
+									}
+								} catch (InterruptedException e) {
+									
+								}
+							}
+						});
+						
+						thread.start();					
 					}
+					
 					break;
 				case "Reset":
 					// Reset the model as determined by the algorithm
