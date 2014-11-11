@@ -73,16 +73,23 @@ public class Controller {
 				switch(e.getActionCommand())
 				{
 				case "Step":
+					// Stop thread from running and return to single steps
+					if(thread.isAlive())
+					{
+						thread.interrupt();
+					}
+					
 					// Progress the algorithm one step
 					algorithm.next();
 					break;
-				case "Run":	
-					
+				case "Run":						
+					// If the thread is already running, interrupt it
 					if(thread.isAlive())
 					{
-						thread.interrupt();						
-					} else {
+						thread.interrupt();	
 					
+					} else {
+					// No alive thread, create a new thread then start it
 						thread = new Thread(new Runnable() {
 							
 							@Override
@@ -95,14 +102,13 @@ public class Controller {
 										Thread.sleep(100);
 									}
 								} catch (InterruptedException e) {
-									
+									// Thread has been interrupted
 								}
 							}
 						});
 						
 						thread.start();					
-					}
-					
+					}					
 					break;
 				case "Reset":
 					// Reset the model as determined by the algorithm
