@@ -14,10 +14,12 @@ import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JSlider;
 import javax.swing.JTextField;
 import javax.swing.LayoutStyle;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.LayoutStyle.ComponentPlacement;
+import javax.swing.plaf.SliderUI;
 
 public class View extends JPanel {
 	
@@ -35,6 +37,7 @@ public class View extends JPanel {
 	JComboBox<String> mazeSelection = new JComboBox<String>();
 	private JTextField xTextField = new JTextField(4);
 	private JTextField yTextField = new JTextField(4);
+	private JSlider scaleSlider = new JSlider(5, 50, 50);
 
 	private JButton stepButton = new JButton("Step");
 	private JButton runButton = new JButton("Run");
@@ -45,6 +48,13 @@ public class View extends JPanel {
 		JLabel titleLabel = new JLabel("Maze Generation");
 		JLabel selectLabel = new JLabel("Select algorithm:");
 		JLabel dimensionsLable = new JLabel("Maze size:");
+		JLabel scaleLabel = new JLabel("Scale");
+		
+		yTextField.setText("10");
+		xTextField.setText("10");
+		scaleSlider.setMajorTickSpacing(5);
+		scaleSlider.setSnapToTicks(true);
+		scaleSlider.setPaintTicks(true);
 		
 		GroupLayout layout = new GroupLayout(this);
 		setLayout(layout);
@@ -59,11 +69,13 @@ public class View extends JPanel {
 									.addGroup(layout.createParallelGroup()
 											.addComponent(selectLabel)
 											.addComponent(dimensionsLable)
+											.addComponent(scaleLabel)
 											)
 									.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
 									.addGroup(layout.createParallelGroup()
 											.addComponent(mazeSelection, 200, 200, 200)
-											.addGroup(layout.createSequentialGroup()
+											.addComponent(scaleSlider, 200, 200, 200)
+											.addGroup(Alignment.CENTER, layout.createSequentialGroup()
 													.addComponent(xTextField, 50, 50, 50)
 													.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
 													.addComponent(yTextField, 50, 50, 50)
@@ -96,6 +108,11 @@ public class View extends JPanel {
 							.addComponent(dimensionsLable)
 							.addComponent(xTextField, 20, 20, 20)
 							.addComponent(yTextField, 20, 20, 20)
+							)
+					.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+					.addGroup(layout.createParallelGroup()
+							.addComponent(scaleLabel)
+							.addComponent(scaleSlider)
 							)
 					.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
 					.addGroup(layout.createParallelGroup()
