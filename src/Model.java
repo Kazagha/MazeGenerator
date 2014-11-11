@@ -137,7 +137,7 @@ public class Model {
 	
 	public int get_Y_Height()
 	{
-		return nodeArray[1].length;
+		return nodeArray[0].length;
 	}
 	
 	public int get_X_Width()
