@@ -5,12 +5,10 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.event.ActionListener;
-import java.awt.geom.Point2D;
 
 import javax.swing.GroupLayout;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
-import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -21,7 +19,7 @@ import javax.swing.GroupLayout.Alignment;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
-import javax.swing.plaf.SliderUI;
+import javax.swing.event.DocumentListener;
 
 public class View extends JPanel {
 	
@@ -54,9 +52,10 @@ public class View extends JPanel {
 		
 		yTextField.setText("10");
 		xTextField.setText("10");
+		
 		scaleSlider.setMajorTickSpacing(5);
 		scaleSlider.setSnapToTicks(true);
-		scaleSlider.setPaintTicks(true);
+		scaleSlider.setPaintTicks(true);		
 		scaleSlider.addChangeListener(new sliderListener());
 		
 		GroupLayout layout = new GroupLayout(this);
@@ -171,6 +170,26 @@ public class View extends JPanel {
 		
 		// Set action on JComboBox drop down
 		mazeSelection.addActionListener(aListener);		
+	}
+	
+	public void setTextFieldListener(DocumentListener dListener)
+	{
+		xTextField.getDocument().putProperty("owner", xTextField);
+		xTextField.getDocument().putProperty("dimension", "x");
+		xTextField.getDocument().addDocumentListener(dListener);
+		yTextField.getDocument().putProperty("owner", yTextField);
+		yTextField.getDocument().putProperty("dimension", "y");
+		yTextField.getDocument().addDocumentListener(dListener);
+	}
+	
+	public JTextField getXTextField()
+	{
+		return xTextField;
+	}
+	
+	public JTextField getYTextField()
+	{
+		return yTextField;
 	}
 	
 	public String getXString()
