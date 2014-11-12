@@ -4,6 +4,9 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JTextField;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 
 public class Controller {
 	
@@ -20,6 +23,7 @@ public class Controller {
 		v.setModel(m);		
 		m.attachListener(new modelListener());				
 		v.setActionListener(new MyActionListener());
+		v.setTextFieldListener(new MyDocumentListener());
 		
 		v.setMazeOptions(new String[] 
 			{	" ",
@@ -64,6 +68,7 @@ public class Controller {
 					int x = Integer.valueOf(view.getXString());
 					int y = Integer.valueOf(view.getYString());
 					setModel(new Model(x, y));
+					break;
 				case "Aldous and Broder":
 					algorithm = new AldousBroder(model);
 					algorithm.reset();
@@ -81,7 +86,6 @@ public class Controller {
 					
 					// Progress the algorithm one step
 					algorithm.next();
-					break;
 				case "Run":						
 					// If the thread is already running, interrupt it
 					if(thread.isAlive())
@@ -118,4 +122,61 @@ public class Controller {
 			}
 		}		
 	}
+	
+	public class MyDocumentListener implements DocumentListener
+	{
+
+		@Override
+		public void changedUpdate(DocumentEvent e) {
+			// Do nothing
+			
+		}
+
+		@Override
+		public void insertUpdate(DocumentEvent e) {
+			JTextField textField = null;
+			
+			// Find the JTextField that fired the event using the 'owner' property
+			Object owner = e.getDocument().getProperty("owner");
+			if(owner instanceof JTextField)
+			{
+				textField = (JTextField) owner;
+			} else {
+				// At this stage JTextField should be the only source
+				return;
+			}
+			
+			try {				
+				
+				int var = Integer.valueOf(textField.getText());
+				
+				// The grid size cannot be <= 0
+				if(var < 1) return;
+				
+				if(e.getDocument().getProperty("dimension").equals("x"))
+				{
+					setModel(new Model(var, model.get_Y_Height()));
+				} else {
+					setModel(new Model(model.get_X_Width(), var));
+				}
+			
+			} catch (NumberFormatException ex) {
+				// The user has entered a alpha character
+			}			
+			
+			if(algorithm != null)
+			{
+				algorithm.setModel(model);
+				algorithm.reset();
+			} else {
+				System.out.println("null");
+			}			
+		}
+
+		@Override
+		public void removeUpdate(DocumentEvent e) {
+			// Do nothing
+			
+		}
+	}	
 }
