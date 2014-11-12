@@ -69,10 +69,17 @@ public class AldousBroder implements Algorithm {
 		visitCount = 0;
 	}
 	
+	@Override
 	public boolean isComplete()
 	{
 		System.out.format("%s of %s%n", nodeCount, visitCount);
 		return nodeCount == visitCount;
+	}
+	
+	public void setModel(Model model)
+	{
+		this.dataModel = model;
+		this.nodeCount = dataModel.get_X_Width() * dataModel.get_Y_Height();
 	}
 	
 	public ArrayList<Model.CardinalDirections> getValidPositions()
