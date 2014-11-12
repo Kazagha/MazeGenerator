@@ -27,8 +27,7 @@ public class Controller {
 		
 		v.setMazeOptions(new String[] 
 			{	" ",
-				"Aldous and Broder",
-				"Set Size"
+				"Aldous and Broder"
 			});
 	}
 	
@@ -63,11 +62,6 @@ public class Controller {
 					break;
 				case "Hide Model":
 					view.setMazeViewerVisible(false);
-					break;
-				case "Set Size":
-					int x = Integer.valueOf(view.getXString());
-					int y = Integer.valueOf(view.getYString());
-					setModel(new Model(x, y));
 					break;
 				case "Aldous and Broder":
 					algorithm = new AldousBroder(model);
