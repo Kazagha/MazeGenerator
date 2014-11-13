@@ -1,3 +1,4 @@
+import java.awt.Color;
 import java.util.Random;
 
 
@@ -6,6 +7,10 @@ public class RecursiveDivision implements Algorithm {
 	Model dataModel;
 	Rect rectModel;	
 	Random rand = new Random();
+	
+	// Set Color
+	Color currentColor = new Color(205, 92, 92);
+	Color visitColor = new Color(135, 206, 250); 
 	
 	public RecursiveDivision(Model model) {
 		this.setModel(model);
@@ -21,10 +26,11 @@ public class RecursiveDivision implements Algorithm {
 
 	@Override
 	public void next() {
-		Rect[] test = rectModel.split();
+		colorRect(rectModel, currentColor);		
 		
-		Rect testRect = test[0];
-		System.out.println(testRect.getX() + " " + testRect.getY() + " " + testRect.getWidth() + " " + testRect.getHeight());
+		Rect[] test = rectModel.split();		
+	
+		colorRect(test[1], visitColor);
 	}
 
 	@Override
@@ -55,6 +61,17 @@ public class RecursiveDivision implements Algorithm {
 	{
 		// Plus one required to include the max in the range
 		return rand.nextInt((max - min) + 1) + min;
+	}
+	
+	public void colorRect(Rect r, Color c)
+	{
+		for(int x = r.getX(); x < (r.getX() + r.getWidth()); x++)
+		{
+			for(int y = r.getY(); y < (r.getY() + r.getHeight()); y++)
+			{
+				dataModel.getNode(x, y).setColor(c);
+			}
+		}
 	}
 	
 	public class Rect
@@ -111,15 +128,22 @@ public class RecursiveDivision implements Algorithm {
 				int split = randomRange(this.getX(), this.getX() + getWidth() - 2);
 				
 				tempRect[0] = new Rect(this.getX(), this.getY(), 
-						this.getX() + split, this.getY() + (this.getHeight() - 1));
+						split, this.getY() + (this.getHeight() - 1));
 				
-				int splitPlus = this.getX() + split + 1;
-				
-				tempRect[1] = new Rect(splitPlus, this.getY(),
-						this.getX() + (this.getWidth() - 1), this.getY() + (this.getHeight() - 1));				
+				// Start one further than the split on the X axis				
+				tempRect[1] = new Rect(split + 1, this.getY(),
+						this.getX() + this.getWidth(), this.getY() + this.getHeight());				
 			} else {
 				// Split Horizontally 
 				int split = randomRange(this.getY(), this.getY() + getHeight() - 2);
+				
+				tempRect[0] = new Rect(this.getX(), this.getY(),
+						this.getX() + (this.getWidth() - 1), split);		
+				
+				// Start one further than the split on the Y axis
+				tempRect[1] = new Rect(this.getX(), split + 1,
+						this.getX() + this.getWidth(), this.getY() + this.getHeight());
+				
 			}			
 			
 			return tempRect;
