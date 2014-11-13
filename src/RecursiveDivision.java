@@ -50,5 +50,40 @@ public class RecursiveDivision implements Algorithm {
 		return (int)((Math.random() * (range)) + min);
 	}
 	
+	public class Rect
+	{
+		int x;
+		int y;
+		int width;
+		int height; 
+		
+		public Rect(int x, int y, int width, int height)
+		{
+			this.x = x;
+			this.y = y;
+			this.height = height;
+			this.width = width;
+		}
+		
+		public int getX()
+		{
+			return x;
+		}
+		
+		public int getY()
+		{
+			return y;
+		}
+		
+		public int getWidth()
+		{
+			return width;
+		}
+		
+		public int getHeight()
+		{
+			return height;
+		}
+	}
 
 }
