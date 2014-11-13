@@ -84,6 +84,21 @@ public class RecursiveDivision implements Algorithm {
 		{
 			return height;
 		}
+		
+		public Rect[] split()
+		{
+			Rect[] tempRect = new Rect[1];
+			
+			// Is the shape wider than it is high?
+			if(this.getWidth() > this.getHeight())
+			{
+				// Split Vertically
+			} else {
+				// Split Horizontally 
+			}
+			
+			return tempRect;
+		}
 	}
 
 }
