@@ -125,6 +125,12 @@ public class RecursiveDivision implements Algorithm {
 		{
 			Rect[] tempRect = new Rect[2];
 			
+			// Check if the Rect can be split
+			if(this.getWidth() < 2 && this.getHeight() < 2)
+			{
+				return null;
+			}
+			
 			// Is the shape wider than it is high?
 			if(this.getWidth() > this.getHeight())
 			{
