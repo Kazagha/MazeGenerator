@@ -1,8 +1,11 @@
+import java.util.Random;
+
 
 public class RecursiveDivision implements Algorithm {
 
 	Model dataModel;
-	
+	Rect rectModel;	
+	Random rand = new Random();
 	
 	public RecursiveDivision(Model model) {
 		this.setModel(model);
@@ -18,7 +21,10 @@ public class RecursiveDivision implements Algorithm {
 
 	@Override
 	public void next() {
+		Rect[] test = rectModel.split();
 		
+		Rect testRect = test[0];
+		System.out.println(testRect.getX() + " " + testRect.getY() + " " + testRect.getWidth() + " " + testRect.getHeight());
 	}
 
 	@Override
@@ -36,6 +42,7 @@ public class RecursiveDivision implements Algorithm {
 	@Override
 	public void setModel(Model model) {
 		this.dataModel = model;		
+		rectModel = new Rect(0, 0, dataModel.get_X_Width(), dataModel.get_Y_Height());
 	}
 	
 	/**
@@ -46,23 +53,23 @@ public class RecursiveDivision implements Algorithm {
 	 */
 	public int randomRange(int min, int max)
 	{
-		int range = max - min;
-		return (int)((Math.random() * (range)) + min);
+		// Plus one required to include the max in the range
+		return rand.nextInt((max - min) + 1) + min;
 	}
 	
 	public class Rect
 	{
 		int x;
 		int y;
-		int width;
-		int height; 
+		int x2;
+		int y2;
 		
-		public Rect(int x, int y, int width, int height)
+		public Rect(int x, int y, int x2, int y2)
 		{
 			this.x = x;
 			this.y = y;
-			this.height = height;
-			this.width = width;
+			this.x2 = x2;
+			this.y2 = y2;
 		}
 		
 		public int getX()
@@ -77,25 +84,43 @@ public class RecursiveDivision implements Algorithm {
 		
 		public int getWidth()
 		{
-			return width;
+			return x2 - x;
 		}
 		
 		public int getHeight()
 		{
-			return height;
+			return y2 - y;
 		}
 		
+		/**
+		 * Split <code>this</code> into two at a random point. <br>
+		 *  - If the shape is wider than it is high; split vertically <br>
+		 *  - If the shape is higher than it is wide; split horizontally <br> 
+		 *  - <code>split</code> represents the wall between cells; 
+		 *    1|2|3|4|5 - Five cells and four walls <br>
+		 * @return
+		 */
 		public Rect[] split()
 		{
-			Rect[] tempRect = new Rect[1];
+			Rect[] tempRect = new Rect[2];
 			
 			// Is the shape wider than it is high?
 			if(this.getWidth() > this.getHeight())
 			{
-				// Split Vertically
+				// Split Vertically. 
+				int split = randomRange(this.getX(), this.getX() + getWidth() - 2);
+				
+				tempRect[0] = new Rect(this.getX(), this.getY(), 
+						this.getX() + split, this.getY() + (this.getHeight() - 1));
+				
+				int splitPlus = this.getX() + split + 1;
+				
+				tempRect[1] = new Rect(splitPlus, this.getY(),
+						this.getX() + (this.getWidth() - 1), this.getY() + (this.getHeight() - 1));				
 			} else {
 				// Split Horizontally 
-			}
+				int split = randomRange(this.getY(), this.getY() + getHeight() - 2);
+			}			
 			
 			return tempRect;
 		}
