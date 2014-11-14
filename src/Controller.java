@@ -85,6 +85,7 @@ public class Controller {
 					
 					// Progress the algorithm one step
 					algorithm.next();
+					break;
 				case "Run":						
 					// If the thread is already running, interrupt it
 					if(thread.isAlive())
