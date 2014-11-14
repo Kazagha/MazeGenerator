@@ -90,6 +90,11 @@ public class Model {
 				nRow[i].setWalls(wallsOn);
 			}
 		}
+		
+		if(wallsOn == false)
+		{
+			this.setMazeBorder();
+		}
 
 		notifyListener();
 	}
@@ -122,6 +127,33 @@ public class Model {
 		}
 
 		notifyListener();
+	}
+	
+	private void setMazeBorder()
+	{
+		// North Walls
+		for(int i = 0; i < nodeArray.length; i++)
+		{
+			this.getNode(i, 0).setNorth(true);
+		}
+		
+		// East Walls
+		for(int i = 0; i < nodeArray[nodeArray.length - 1].length; i++)
+		{
+			this.getNode(nodeArray.length - 1, i).setEast(true);
+		}
+		
+		// South Walls
+		for(int i = 0; i < nodeArray.length; i++)
+		{
+			this.getNode(i, nodeArray[0].length - 1).setSouth(true);
+		}
+		
+		// West Walls
+		for(int i = 0; i < nodeArray[0].length; i++)
+		{
+			this.getNode(0, i).setWest(true);
+		}		
 	}
 	
 	/**
