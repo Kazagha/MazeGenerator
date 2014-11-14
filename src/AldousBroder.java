@@ -1,6 +1,7 @@
 import java.awt.Color;
 import java.awt.Point;
 import java.util.ArrayList;
+import java.util.Random;
 
 public class AldousBroder implements Algorithm {
 
@@ -8,6 +9,7 @@ public class AldousBroder implements Algorithm {
 	Point currentPos = new Point(0, 0);
 	int nodeCount;
 	int visitCount = 0;
+	Random rand = new Random();
 	Color currentColor = new Color(205, 92, 92);
 	Color visitColor = new Color(135, 206, 250);  	
 	
@@ -115,7 +117,7 @@ public class AldousBroder implements Algorithm {
 	 */
 	public int randomRange(int range)
 	{
-		return (int)((Math.random() * range) + 1);
+		return rand.nextInt(range) + 1;
 	}
 	
 	public Point randomPoint(Point[] p)
