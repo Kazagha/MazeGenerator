@@ -28,13 +28,9 @@ public class RecursiveDivision implements Algorithm {
 	public void next() {
 		colorRect(rectModel, visitColor);		
 		
-		Rect[] test = rectModel.split();		
+		Rect[] test = rectModel.split();
 	
 		colorRect(test[0], currentColor);
-		
-		Rect temp = test[0];
-		System.out.println(temp.getX() + " " + temp.getY() + " " + 
-				(temp.getX() + temp.getWidth()) + " " + (temp.getY() + temp.getHeight()));
 	}
 
 	@Override
@@ -138,7 +134,7 @@ public class RecursiveDivision implements Algorithm {
 				int split = randomRange(this.getX(), this.getX() + getWidth() - 2);
 				
 				tempRect[0] = new Rect(this.getX(), this.getY(), 
-						this.getX() + split + 1, this.getY() + this.getHeight());
+						split, this.getY() + this.getHeight());
 				
 				// Start one further than the split on the X axis				
 				tempRect[1] = new Rect(split + 1, this.getY(),
@@ -148,7 +144,7 @@ public class RecursiveDivision implements Algorithm {
 				int split = randomRange(this.getY(), this.getY() + getHeight() - 2);
 				
 				tempRect[0] = new Rect(this.getX(), this.getY(),
-						this.getX() + this.getWidth(), this.getY() + split + 1);		
+						this.getX() + this.getWidth(), split);		
 				
 				// Start one further than the split on the Y axis
 				tempRect[1] = new Rect(this.getX(), split + 1,
