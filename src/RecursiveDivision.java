@@ -29,13 +29,13 @@ public class RecursiveDivision implements Algorithm {
 
 	@Override
 	public boolean isComplete() {
-		return false;
+		return rectArray.size() == 0;
 	}
 
 	@Override
 	public void next() {
 		// Fetch the last element in the ArrayList
-		Rect tempRect = rectArray.get(rectArray.size() - 1);		
+		Rect tempRect = rectArray.get(rectArray.size() - 1);
 		
 		// Reset any existing node colors
 		dataModel.setAllColor(null);
@@ -46,6 +46,9 @@ public class RecursiveDivision implements Algorithm {
 		// Check the split worked
 		if(splitRect != null)
 		{
+			// Successfully split 'tempRect', remove from the ArrayList
+			rectArray.remove(tempRect);
+			
 			// Color first Rect element in 'visited' color
 			colorRect(splitRect[0], visitColor);
 			// Color second element 'current' color, 
@@ -59,8 +62,6 @@ public class RecursiveDivision implements Algorithm {
 			// The current shape cannot be split, remove it from the ArrayList
 			rectArray.remove(rectArray.size() - 1);
 		}
-		
-		System.out.println(rectArray.size());
 	}
 
 	@Override
@@ -155,7 +156,7 @@ public class RecursiveDivision implements Algorithm {
 			Rect[] tempRect = new Rect[2];
 			
 			// A 'Rect' must be smaller than 2 cannot be split
-			if(this.getWidth() < 2 && this.getHeight() < 2)
+			if(this.getWidth() < 2 || this.getHeight() < 2)
 			{
 				return null;
 			}
