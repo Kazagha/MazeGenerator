@@ -136,35 +136,35 @@ public class RecursiveDivision implements Algorithm {
 			// Is the shape wider than it is high?
 			if(this.getWidth() > this.getHeight())
 			{
-				// Split Vertically. 
-				int split = randomRange(this.getX(), this.getX() + getWidth() - 2);
+				// Split Vertically
+				int split = randomRange(1, getWidth() - 1);
 				
 				tempRect[0] = new Rect(
 						this.getX(),
 						this.getY(),
-						(split - (this.getX() - 1)),
+						split,
 						this.getHeight());						
 				
 				tempRect[1] = new Rect(
-						split + 1,
+						this.getX() + split,
 						this.getY(), 
-						(this.getX() + this.getWidth() - 1) - (split + 1),
+						this.getWidth() - split,
 						this.getHeight());				
 			} else {
 				// Split Horizontally 
-				int split = randomRange(this.getY(), this.getY() + getHeight() - 2);
+				int split = randomRange(1, getHeight() - 1);
 				
 				tempRect[0] = new Rect(
 						this.getX(),
 						this.getY(),
 						this.getWidth(), 
-						split - (this.getY() - 1));
+						split);
 				
 				tempRect[1] = new Rect(
 						this.getX(),
-						split + 1,
+						this.getY() + split,
 						this.getWidth(),
-						(this.getY() + this.getHeight() - 1) - (split + 1));
+						this.getHeight() - split);
 			}			
 			
 			return tempRect;
