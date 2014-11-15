@@ -58,6 +58,9 @@ public class RecursiveDivision implements Algorithm {
 			// Add elements to the ArrayList
 			rectArray.add(splitRect[0]);
 			rectArray.add(splitRect[1]);
+			
+			// Create wall between the two shapes
+			addWallBetween(division, splitRect[0], splitRect[1]);
 		} else {
 			// The current shape cannot be split, remove it from the ArrayList
 			rectArray.remove(rectArray.size() - 1);
@@ -105,6 +108,27 @@ public class RecursiveDivision implements Algorithm {
 			{
 				dataModel.getNode(x, y).setColor(c);
 			}
+		}
+	}
+	
+	private void addWallBetween(Split division, Rect rectA, Rect rectB)
+	{
+		if(division == Split.VERTICAL)
+		{
+			int x = rectA.getX()  + rectA.getWidth() - 1;
+			
+			for(int y = rectA.getY(); y < rectA.getY() + rectA.getHeight(); y++)
+			{			
+				dataModel.getNode(x, y).setEast(true);
+				dataModel.getNode(x + 1, y).setWest(true);
+			}
+			
+			// Select a random position on the split
+			int rand = randomRange(rectA.getY(), rectA.getY() + rectA.getHeight() - 1);
+			
+			// Carve a gap at the specified 'rand' location
+			dataModel.getNode(x, rand).setEast(false);
+			dataModel.getNode(x + 1, rand).setWest(false);
 		}
 	}
 	
