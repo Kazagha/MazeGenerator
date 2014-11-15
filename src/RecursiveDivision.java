@@ -7,6 +7,7 @@ public class RecursiveDivision implements Algorithm {
 	Model dataModel;
 	Rect rectModel;	
 	Random rand = new Random();
+	enum Split { HORIZONTAL, VERTICAL };
 	
 	// Set Color
 	Color currentColor = new Color(205, 92, 92);
@@ -126,15 +127,33 @@ public class RecursiveDivision implements Algorithm {
 		public Rect[] split()
 		{
 			Rect[] tempRect = new Rect[2];
+			Split division;
 			
-			// Check if the Rect can be split
+			// A 'Rect' must be smaller than 2 cannot be split
 			if(this.getWidth() < 2 && this.getHeight() < 2)
 			{
 				return null;
 			}
 			
 			// Is the shape wider than it is high?
-			if(this.getWidth() > this.getHeight())
+			if (this.getWidth() > this.getHeight())
+			{
+				// Split Vertically
+				division = Split.VERTICAL;
+			} else if (this.getHeight() > this.getWidth()) {
+				// Split Horizontally
+				division = Split.HORIZONTAL;
+			} else {
+				// Random Split				
+				if(randomRange(1, 2) == 1)
+				{
+					division = Split.HORIZONTAL;
+				} else {
+					division = Split.VERTICAL;
+				}
+			}				
+				
+			if(division == Split.VERTICAL)
 			{
 				// Split Vertically
 				int split = randomRange(1, getWidth() - 1);
