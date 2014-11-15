@@ -1,4 +1,5 @@
 import java.awt.Color;
+import java.util.ArrayList;
 import java.util.Random;
 
 
@@ -7,7 +8,13 @@ public class RecursiveDivision implements Algorithm {
 	Model dataModel;
 	Rect rectModel;	
 	Random rand = new Random();
+
+	// Set split variable
 	enum Split { HORIZONTAL, VERTICAL };
+	Split division;
+	
+	// Set Array List of Rect
+	ArrayList<Rect> rectArray = new ArrayList<Rect>();
 	
 	// Set Color
 	Color currentColor = new Color(205, 92, 92);
@@ -27,17 +34,33 @@ public class RecursiveDivision implements Algorithm {
 
 	@Override
 	public void next() {
-		colorRect(rectModel, visitColor);		
+		// Fetch the last element in the ArrayList
+		Rect tempRect = rectArray.get(rectArray.size() - 1);		
+		
+		// Reset any existing node colors
+		dataModel.setAllColor(null);
 				
-		Rect[] test = rectModel.split();
-	
-		colorRect(test[0], currentColor);
+		// Randomly split into two shapes
+		Rect[] splitRect = tempRect.split();
 		
-		//Rect[] test = (new Rect(5, 5, 6, 4)).split();
-		//System.out.println(test[0].x + (test[0].getWidth() - 1) + " - " + test[1].x);
-		//System.out.println(test[0].y + (test[0].getHeight() - 1) + " - " + test[1].y);
+		// Check the split worked
+		if(splitRect != null)
+		{
+			// Color first Rect element in 'visited' color
+			colorRect(splitRect[0], visitColor);
+			// Color second element 'current' color, 
+			// 		the last element in the array will be chosen first next iteration
+			colorRect(splitRect[1], currentColor);
+			
+			// Add elements to the ArrayList
+			rectArray.add(splitRect[0]);
+			rectArray.add(splitRect[1]);
+		} else {
+			// The current shape cannot be split, remove it from the ArrayList
+			rectArray.remove(rectArray.size() - 1);
+		}
 		
-		colorRect(new Rect(0, 0, 0, 5), Color.GREEN);
+		System.out.println(rectArray.size());
 	}
 
 	@Override
@@ -54,8 +77,11 @@ public class RecursiveDivision implements Algorithm {
 
 	@Override
 	public void setModel(Model model) {
+		rectArray.clear();
+		
 		this.dataModel = model;		
 		rectModel = new Rect(0, 0, dataModel.get_X_Width(), dataModel.get_Y_Height());
+		rectArray.add(rectModel);
 	}
 	
 	/**
@@ -127,7 +153,6 @@ public class RecursiveDivision implements Algorithm {
 		public Rect[] split()
 		{
 			Rect[] tempRect = new Rect[2];
-			Split division;
 			
 			// A 'Rect' must be smaller than 2 cannot be split
 			if(this.getWidth() < 2 && this.getHeight() < 2)
