@@ -72,6 +72,7 @@ public class RecursiveDivision implements Algorithm {
 		dataModel.setAllColor(null);
 		dataModel.setAllVisited(false);
 		dataModel.setAllWalls(false);		
+		rectArray.add(new Rect(0, 0, dataModel.get_X_Width(), dataModel.get_Y_Height()));
 	}
 
 	@Override
