@@ -65,13 +65,17 @@ public class RecursiveDivision implements Algorithm {
 			// The current shape cannot be split, remove it from the ArrayList
 			rectArray.remove(rectArray.size() - 1);
 		}
+		
+		Rect temp = rectArray.get(rectArray.size() - 1);
+		System.out.println(rectArray.size() + ": " + temp.getWidth() + " x " + temp.getHeight());
 	}
 
 	@Override
 	public void reset() {
 		dataModel.setAllColor(null);
 		dataModel.setAllVisited(false);
-		dataModel.setAllWalls(false);		
+		dataModel.setAllWalls(false);
+		rectArray.clear();
 		rectArray.add(new Rect(0, 0, dataModel.get_X_Width(), dataModel.get_Y_Height()));
 	}
 
@@ -81,12 +85,9 @@ public class RecursiveDivision implements Algorithm {
 	}
 
 	@Override
-	public void setModel(Model model) {
-		rectArray.clear();
-		
-		this.dataModel = model;		
-		rectModel = new Rect(0, 0, dataModel.get_X_Width(), dataModel.get_Y_Height());
-		rectArray.add(rectModel);
+	public void setModel(Model model) {	
+		this.dataModel = model;
+		this.reset();
 	}
 	
 	/**
