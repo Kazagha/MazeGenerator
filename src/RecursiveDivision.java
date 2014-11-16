@@ -129,6 +129,19 @@ public class RecursiveDivision implements Algorithm {
 			// Carve a gap at the specified 'rand' location
 			dataModel.getNode(x, rand).setEast(false);
 			dataModel.getNode(x + 1, rand).setWest(false);
+		} else {
+			int y = rectA.getY() + rectA.getHeight() - 1;
+			
+			for(int x = rectA.getX(); x < rectA.getX() + rectA.getWidth(); x++)
+			{
+				dataModel.getNode(x, y).setSouth(true);
+				dataModel.getNode(x, y + 1).setNorth(true);
+			}
+			
+			int rand = randomRange(rectA.getX(), rectA.getX() + rectA.getWidth() - 1);
+			
+			dataModel.getNode(rand, y).setSouth(false);
+			dataModel.getNode(rand, y + 1).setNorth(false); 
 		}
 	}
 	
