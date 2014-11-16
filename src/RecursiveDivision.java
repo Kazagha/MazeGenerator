@@ -65,9 +65,6 @@ public class RecursiveDivision implements Algorithm {
 			// The current shape cannot be split, remove it from the ArrayList
 			rectArray.remove(rectArray.size() - 1);
 		}
-		
-		Rect temp = rectArray.get(rectArray.size() - 1);
-		System.out.println(rectArray.size() + ": " + temp.getWidth() + " x " + temp.getHeight());
 	}
 
 	@Override
