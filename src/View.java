@@ -27,9 +27,8 @@ public class View extends JPanel {
 	final int FRAME_HEIGHT = 750;
 	final int FRAME_WIDTH = 750;
 	
-	// Set the grid and indent size
+	// Set the grid size
 	private int nodeSize = 50;
-	private int indentSize = 2;
 	
 	private Model nodeModel;
 	private MazeView mazeViewer = new MazeView();
@@ -245,11 +244,10 @@ public class View extends JPanel {
 					SE.setLocation((i * nodeSize) + nodeSize, (j * nodeSize) + nodeSize);
 					SW.setLocation((i * nodeSize), (j * nodeSize) + nodeSize);
 					
+					// If background Color is not null, paint the background
 					if(node.getColor() != null)
 					{
 						g2.setColor(node.getColor());
-						// Make rect one pixel less in all dimensions to preserve the grid
-						//g2.fillRect(NW.x + 1, NW.y + 1, nodeSize - 1, nodeSize - 1);
 						g2.fillRect(NW.x, NW.y, nodeSize, nodeSize);
 						g2.setColor(Color.BLACK);
 					}
