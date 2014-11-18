@@ -55,19 +55,21 @@ public class RecursiveBacktracker implements Algorithm {
 			nextNode.setVisit(true);
 			
 			// Replace the 'current node' with the 'next node' 
-			pointCurrent.setLocation(pointNext.x, pointNext.y);				
+			pointCurrent = new Point(pointNext.x, pointNext.y);				
 			pointArray.add(pointCurrent);
-		} 
-		
-		// } else {
-		
-		// No valid direction, set the last on the PointArray list as the current
-		
-		// Remove the elemeent
-		
-		//}
-		
-
+			
+		} else {	
+			// Find the last point in the array
+			Point pointNext = pointArray.get(pointArray.size() - 1);
+			
+			dataModel.getNode(pointCurrent.x, pointCurrent.y).setColor(completeColor);
+			dataModel.getNode(pointNext.x, pointNext.y).setColor(currentColor);
+						
+			// Set the current position to the specified point
+			pointCurrent = pointNext;
+			// Remove the point from the array
+			pointArray.remove(pointArray.size() - 1);	
+		}		
 	}
 
 	@Override
