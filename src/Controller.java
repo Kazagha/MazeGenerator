@@ -28,7 +28,8 @@ public class Controller {
 		v.setMazeOptions(new String[] 
 			{	" ",
 				"Aldous and Broder",
-				"Recursive Division"
+				"Recursive Backtracker",
+				"Recursive Division"				
 			});
 	}
 	
@@ -70,6 +71,10 @@ public class Controller {
 					break;
 				case "Recursive Division":
 					algorithm = new RecursiveDivision(model);
+					algorithm.reset();
+					break;
+				case "Recursive Backtracker":
+					algorithm = new RecursiveBacktracker(model);
 					algorithm.reset();
 					break;
 				}
