@@ -12,13 +12,16 @@ public class RecursiveBacktracker implements Algorithm {
 	Random rand = new Random();	
 	Color currentColor = new Color(205, 92, 92);
 	Color visitColor = new Color(135, 206, 250); 
+	Color completeColor = new Color(255, 255, 255);
+	
+	public RecursiveBacktracker(Model model) {
+		this.setModel(model);
+	}
 	
 	@Override
 	public void setModel(Model model) {
 		this.dataModel = model;
 		this.reset();
-		
-		this.setPos(randomRange(0, dataModel.get_X_Width()), randomRange(0, dataModel.get_Y_Height()));
 	}
 
 	@Override
@@ -28,9 +31,10 @@ public class RecursiveBacktracker implements Algorithm {
 
 	@Override
 	public void next() {
+		
 		ArrayList<Model.CardinalDirections> validDirections = getValidPositions(pointCurrent);
 		
-		if(validDirections != null)
+		if(validDirections.size() > 0)
 		{
 			int rand = randomRange(0, validDirections.size() - 1);
 			Model.CardinalDirections randDirection = validDirections.get(rand);
@@ -38,12 +42,22 @@ public class RecursiveBacktracker implements Algorithm {
 			Point pointNext = new Point(pointCurrent.x + randDirection.getX(), 
 					pointCurrent.y + randDirection.getY());			
 			
+			Model.Node currentNode = dataModel.getNode(pointCurrent.x, pointCurrent.y);
+			Model.Node nextNode = dataModel.getNode(pointNext.x, pointNext.y);
+			
 			// Carve walls 
 			
-			// Move the current position to the selected node
+			// Set background colors
+			dataModel.getNode(pointCurrent.x, pointCurrent.y).setColor(visitColor);
+			dataModel.getNode(pointNext.x, pointNext.y).setColor(currentColor);
 			
-			// Put the current position into the pointArray
-		}
+			// Set the next node as visited
+			nextNode.setVisit(true);
+			
+			// Replace the 'current node' with the 'next node' 
+			pointCurrent.setLocation(pointNext.x, pointNext.y);				
+			pointArray.add(pointCurrent);
+		} 
 		
 		// } else {
 		
@@ -53,7 +67,7 @@ public class RecursiveBacktracker implements Algorithm {
 		
 		//}
 		
-		dataModel.getNode(pointCurrent.x, pointCurrent.y).setColor(currentColor);
+
 	}
 
 	@Override
@@ -64,7 +78,7 @@ public class RecursiveBacktracker implements Algorithm {
 				&& y >= 0 && y < dataModel.get_Y_Height())
 		{
 			// Check if the position has been visited already
-			return ! (dataModel.getNode(x, y).getVisit());
+			return (! (dataModel.getNode(x, y).getVisit()));
 		} 
 		
 		// Failing finding a valid position return false
@@ -77,6 +91,8 @@ public class RecursiveBacktracker implements Algorithm {
 		dataModel.setAllVisited(false);
 		dataModel.setAllWalls(true);
 		pointArray.clear();
+		
+		this.setPos(randomRange(0, dataModel.get_X_Width()), randomRange(0, dataModel.get_Y_Height()));
 	}
 
 	@Override
