@@ -96,7 +96,7 @@ public class RecursiveBacktracker implements Algorithm {
 		pointArray.clear();
 		
 		// Set a new starting point
-		this.setPos(randomRange(0, dataModel.get_X_Width()), randomRange(0, dataModel.get_Y_Height()));
+		this.setPos(randomRange(0, dataModel.get_X_Width() - 1), randomRange(0, dataModel.get_Y_Height() - 1));
 		pointArray.add(pointCurrent);
 	}
 
