@@ -35,7 +35,9 @@ public class RecursiveBacktracker implements Algorithm {
 		ArrayList<Model.CardinalDirections> validDirections = getValidPositions(pointCurrent);
 		
 		if(validDirections.size() > 0)
-		{
+		{			
+			pointArray.add(pointCurrent);
+			
 			int rand = randomRange(0, validDirections.size() - 1);
 			Model.CardinalDirections randDirection = validDirections.get(rand);
 			
@@ -56,20 +58,20 @@ public class RecursiveBacktracker implements Algorithm {
 			nextNode.setVisit(true);
 			
 			// Replace the 'current node' with the 'next node' 
-			pointCurrent = new Point(pointNext.x, pointNext.y);				
-			pointArray.add(pointCurrent);
+			pointCurrent = new Point(pointNext.x, pointNext.y);	
 			
 		} else {	
 			// Find the last point in the array
 			Point pointNext = pointArray.get(pointArray.size() - 1);
+			// Remove the point from the array
+			pointArray.remove(pointArray.size() - 1);
 			
+			// Set background colors
 			dataModel.getNode(pointCurrent.x, pointCurrent.y).setColor(completeColor);
 			dataModel.getNode(pointNext.x, pointNext.y).setColor(currentColor);
 						
 			// Set the current position to the specified point
-			pointCurrent = pointNext;
-			// Remove the point from the array
-			pointArray.remove(pointArray.size() - 1);	
+			pointCurrent = pointNext;	
 		}		
 	}
 
