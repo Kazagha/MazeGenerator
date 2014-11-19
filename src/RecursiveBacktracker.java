@@ -95,7 +95,9 @@ public class RecursiveBacktracker implements Algorithm {
 		dataModel.setAllWalls(true);
 		pointArray.clear();
 		
+		// Set a new starting point
 		this.setPos(randomRange(0, dataModel.get_X_Width()), randomRange(0, dataModel.get_Y_Height()));
+		pointArray.add(pointCurrent);
 	}
 
 	@Override
