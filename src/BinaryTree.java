@@ -46,8 +46,15 @@ public class BinaryTree implements Algorithm {
 		// Carve the walls
 		currentNode.setCardinal(randDirection, false);
 		adjacentNode.setCardinal(randDirection.reverse(), false);
-		
-		// Move to the next position
+
+		if(pointCurrent.x != dataModel.get_X_Width() - 1)
+		{
+			// Move across one position
+			pointCurrent.setLocation(pointCurrent.x + 1, pointCurrent.y);
+		} else {
+			// Move to the beginning of the next row
+			pointCurrent.setLocation(0, pointCurrent.y + 1);
+		}
 	}
 
 	@Override
@@ -56,6 +63,7 @@ public class BinaryTree implements Algorithm {
 		dataModel.setAllVisited(false);
 		dataModel.setAllWalls(true);
 		
+		// Set the position to the top left corner 
 		this.setPos(0, 0);
 	}
 
