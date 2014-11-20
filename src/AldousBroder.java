@@ -17,9 +17,8 @@ public class AldousBroder implements Algorithm {
 		this.dataModel = model;
 		// Every node in the Model
 		this.nodeCount = dataModel.get_X_Width() * dataModel.get_Y_Height();
-		// Selection a random starting position anywhere in the model. 
-		// Minus one as the array starts with zero
-		this.setPos(randomRange(dataModel.get_X_Width() - 1), randomRange(dataModel.get_Y_Height()) - 1);
+		// Reset the walls, visited nodes, color and visit count
+		reset();
 	}
 	
 	@Override
@@ -69,13 +68,15 @@ public class AldousBroder implements Algorithm {
 		dataModel.setAllVisited(false);
 		dataModel.setAllColor(null);
 		visitCount = 0;
+		// Selection a random starting position anywhere in the model. 
+		// Minus one as the array starts with zero
+		this.setPos(randomRange(dataModel.get_X_Width() - 1), randomRange(dataModel.get_Y_Height() - 1));
 	}
 	
 	@Override
 	public boolean isComplete()
 	{
-		System.out.format("%s of %s%n", nodeCount, visitCount);
-		return nodeCount == visitCount;
+		return nodeCount >= visitCount;
 	}
 	
 	public void setModel(Model model)
