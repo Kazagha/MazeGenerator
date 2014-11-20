@@ -8,8 +8,10 @@ public class BinaryTree implements Algorithm {
 
 	Model dataModel;
 	Point pointCurrent = new Point(0, 0);
+	boolean complete;
 	
 	Random rand = new Random();	
+	
 	Color currentColor = new Color(205, 92, 92);
 	Color visitColor = new Color(135, 206, 250); 
 	Color neutralColor = new Color(255, 255, 255);
@@ -31,29 +33,43 @@ public class BinaryTree implements Algorithm {
 
 	@Override
 	public void next() {
+		dataModel.setAllColor(neutralColor);
+		
 		// Find valid directions
 		ArrayList<Model.CardinalDirections> validDirections = getValidPositions(pointCurrent);
 		
-		// Select a random direction
-		int rand = randomRange(0, validDirections.size() - 1);
-		Model.CardinalDirections randDirection = validDirections.get(rand);
-		
-		// Find the current node and adjacent node
-		Model.Node currentNode = dataModel.getNode(pointCurrent.x, pointCurrent.y);
-		Model.Node adjacentNode = dataModel.getNode(pointCurrent.x + randDirection.getX(),
-				pointCurrent.y + randDirection.getY());
-		
-		// Carve the walls
-		currentNode.setCardinal(randDirection, false);
-		adjacentNode.setCardinal(randDirection.reverse(), false);
+		// Check at least one direction is available
+		if(validDirections.size() > 0)
+		{
+			// Select a random direction
+			int rand = randomRange(0, validDirections.size() - 1);
+			Model.CardinalDirections randDirection = validDirections.get(rand);
+			
+			// Find the current node and adjacent node
+			Model.Node currentNode = dataModel.getNode(pointCurrent.x, pointCurrent.y);
+			Model.Node adjacentNode = dataModel.getNode(pointCurrent.x + randDirection.getX(),
+					pointCurrent.y + randDirection.getY());
+			
+			// Carve the walls
+			currentNode.setCardinal(randDirection, false);
+			adjacentNode.setCardinal(randDirection.reverse(), false);
+			
+			// Set background color
+			currentNode.setColor(currentColor);
+			adjacentNode.setColor(visitColor);
+		}
 
+		// Iterate through the nodes
 		if(pointCurrent.x != dataModel.get_X_Width() - 1)
 		{
 			// Move across one position
 			pointCurrent.setLocation(pointCurrent.x + 1, pointCurrent.y);
-		} else {
+		} else if (pointCurrent.y != dataModel.get_Y_Height() - 1) {
 			// Move to the beginning of the next row
 			pointCurrent.setLocation(0, pointCurrent.y + 1);
+		} else { 
+			// The current position is the bottom right, the maze has been completed. 
+			complete = true;
 		}
 	}
 
@@ -65,6 +81,8 @@ public class BinaryTree implements Algorithm {
 		
 		// Set the position to the top left corner 
 		this.setPos(0, 0);
+		// Set the 'complete' flag to false
+		complete = false;
 	}
 
 	@Override
