@@ -19,6 +19,7 @@ public class RecursiveDivision implements Algorithm {
 	// Set Color
 	Color currentColor = new Color(205, 92, 92);
 	Color visitColor = new Color(135, 206, 250); 
+	Color neutralColor = new Color(255, 255, 255);
 	
 	public RecursiveDivision(Model model) {
 		this.setModel(model);
@@ -38,7 +39,7 @@ public class RecursiveDivision implements Algorithm {
 		Rect tempRect = rectArray.get(rectArray.size() - 1);
 		
 		// Reset any existing node colors
-		dataModel.setAllColor(null);
+		dataModel.setAllColor(neutralColor);
 				
 		// Randomly split into two shapes
 		Rect[] splitRect = tempRect.split();
@@ -69,7 +70,7 @@ public class RecursiveDivision implements Algorithm {
 
 	@Override
 	public void reset() {
-		dataModel.setAllColor(null);
+		dataModel.setAllColor(neutralColor);
 		dataModel.setAllVisited(false);
 		dataModel.setAllWalls(false);
 		rectArray.clear();
