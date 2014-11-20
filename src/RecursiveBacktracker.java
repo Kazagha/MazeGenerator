@@ -12,7 +12,8 @@ public class RecursiveBacktracker implements Algorithm {
 	Random rand = new Random();	
 	Color currentColor = new Color(205, 92, 92);
 	Color visitColor = new Color(135, 206, 250); 
-	Color completeColor = new Color(255, 255, 255);
+	Color neutralColor = new Color(255, 255, 255);
+	Color greyColor = new Color(205, 201, 201);
 	
 	public RecursiveBacktracker(Model model) {
 		this.setModel(model);
@@ -67,7 +68,7 @@ public class RecursiveBacktracker implements Algorithm {
 			pointArray.remove(pointArray.size() - 1);
 			
 			// Set background colors
-			dataModel.getNode(pointCurrent.x, pointCurrent.y).setColor(completeColor);
+			dataModel.getNode(pointCurrent.x, pointCurrent.y).setColor(neutralColor);
 			dataModel.getNode(pointNext.x, pointNext.y).setColor(currentColor);
 						
 			// Set the current position to the specified point
@@ -92,7 +93,7 @@ public class RecursiveBacktracker implements Algorithm {
 
 	@Override
 	public void reset() {
-		dataModel.setAllColor(null);	
+		dataModel.setAllColor(greyColor);	
 		dataModel.setAllVisited(false);
 		dataModel.setAllWalls(true);
 		pointArray.clear();
