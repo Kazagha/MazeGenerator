@@ -31,6 +31,23 @@ public class BinaryTree implements Algorithm {
 
 	@Override
 	public void next() {
+		// Find valid directions
+		ArrayList<Model.CardinalDirections> validDirections = getValidPositions(pointCurrent);
+		
+		// Select a random direction
+		int rand = randomRange(0, validDirections.size() - 1);
+		Model.CardinalDirections randDirection = validDirections.get(rand);
+		
+		// Find the current node and adjacent node
+		Model.Node currentNode = dataModel.getNode(pointCurrent.x, pointCurrent.y);
+		Model.Node adjacentNode = dataModel.getNode(pointCurrent.x + randDirection.getX(),
+				pointCurrent.y + randDirection.getY());
+		
+		// Carve the walls
+		currentNode.setCardinal(randDirection, false);
+		adjacentNode.setCardinal(randDirection.reverse(), false);
+		
+		// Move to the next position
 	}
 
 	@Override
