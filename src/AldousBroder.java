@@ -6,7 +6,7 @@ import java.util.Random;
 public class AldousBroder implements Algorithm {
 
 	Model dataModel;
-	Point currentPos = new Point(0, 0);
+	Point pointCurrent = new Point(0, 0);
 	int nodeCount;
 	int visitCount = 0;
 	Random rand = new Random();
@@ -23,13 +23,13 @@ public class AldousBroder implements Algorithm {
 	
 	@Override
 	public void setPos(int x, int y) {
-		currentPos.setLocation(x, y);
+		pointCurrent.setLocation(x, y);
 	}
 
 	@Override
 	public void next() {
 		// Find the current Node
-		Model.Node currentNode = dataModel.getNode(currentPos.x, currentPos.y);
+		Model.Node currentNode = dataModel.getNode(pointCurrent.x, pointCurrent.y);
 		
 		// Find all valid directions
 		ArrayList<Model.CardinalDirections> validDirections = getValidPositions();		
@@ -39,8 +39,8 @@ public class AldousBroder implements Algorithm {
 		Model.CardinalDirections randDirection = validDirections.get(rand);
 		
 		// Find the next position using the random direction
-		Point nextPos = new Point(currentPos.x + randDirection.getX(),
-				currentPos.y + randDirection.getY());
+		Point nextPos = new Point(pointCurrent.x + randDirection.getX(),
+				pointCurrent.y + randDirection.getY());
 		// Find the next node 
 		Model.Node nextNode = dataModel.getNode(nextPos.x, nextPos.y);
 		
@@ -92,7 +92,7 @@ public class AldousBroder implements Algorithm {
 		// Check the Cardinal directions for valid positions
 		for(Model.CardinalDirections cd : Model.CardinalDirections.values())
 		{
-			Point tempPoint = new Point(currentPos.x + cd.getX(), (currentPos.y + cd.getY()));
+			Point tempPoint = new Point(pointCurrent.x + cd.getX(), (pointCurrent.y + cd.getY()));
 			// Check if this is a valid position
 			if(validPos(tempPoint.x, tempPoint.y))
 			{
