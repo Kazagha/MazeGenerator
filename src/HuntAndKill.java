@@ -32,7 +32,47 @@ public class HuntAndKill implements Algorithm {
 
 	@Override
 	public void next() {
+		// Fetch all valid directions
+		ArrayList<Model.CardinalDirections> validDirections = getValidPositions(pointCurrent);
 		
+		if(validDirections.size() > 0)
+		{
+				
+			// Select a random direction
+			int rand = randomRange(0, validDirections.size() - 1);
+			Model.CardinalDirections randDirection = validDirections.get(rand);
+			
+			// Find the next point using the random direction
+			Point pointNext = new Point(pointCurrent.x + randDirection.getX(), 
+					pointCurrent.y + randDirection.getY());			
+			
+			// Fetch the 'current' and 'next' nodes
+			Model.Node currentNode = dataModel.getNode(pointCurrent.x, pointCurrent.y);
+			Model.Node nextNode = dataModel.getNode(pointNext.x, pointNext.y);
+			
+			// Carve walls
+			currentNode.setCardinal(randDirection, false);
+			nextNode.setCardinal(randDirection.reverse(), false);
+			
+			// Set background colors
+			dataModel.getNode(pointCurrent.x, pointCurrent.y).setColor(visitColor);
+			dataModel.getNode(pointNext.x, pointNext.y).setColor(currentColor);
+			
+			// Set the next node as visited
+			nextNode.setVisit(true);
+			
+			// Replace the 'current node' with the 'next node' 
+			pointCurrent = new Point(pointNext.x, pointNext.y);
+			
+		} else {
+			// Select the first row
+			
+			// Iterate through nodes in the row
+			
+			// Check for valid starting position - adjacent to visited node 
+			
+			// Carve walls between new starting position and adjacent node
+		}
 	}
 
 	@Override
@@ -47,6 +87,16 @@ public class HuntAndKill implements Algorithm {
 
 	@Override
 	public boolean validPos(int x, int y) {
+		
+		// Check the position is within the bounds of the Model
+		if (x >= 0 && x < dataModel.get_X_Width()
+				&& y >= 0 && y < dataModel.get_Y_Height())
+		{
+			// Check if the position has been visited already
+			return (! (dataModel.getNode(x, y).getVisit()));
+		} 
+		
+		// Failing finding a valid position return false
 		return false;
 	}
 
