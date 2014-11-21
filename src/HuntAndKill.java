@@ -3,11 +3,14 @@ import java.awt.Point;
 import java.util.ArrayList;
 import java.util.Random;
 
+import sun.reflect.ReflectionFactory.GetReflectionFactoryAction;
+
 
 public class HuntAndKill implements Algorithm {
 
 	Model dataModel;
 	Point pointCurrent = new Point(0, 0);
+	int row; 
 	// Create the 'random' class
 	Random rand = new Random();
 	// Set Colors
@@ -33,7 +36,7 @@ public class HuntAndKill implements Algorithm {
 	@Override
 	public void next() {
 		// Fetch all valid directions
-		ArrayList<Model.CardinalDirections> validDirections = getValidPositions(pointCurrent);
+		ArrayList<Model.CardinalDirections> validDirections = getValidDirections(pointCurrent);
 		
 		if(validDirections.size() > 0)
 		{
@@ -65,9 +68,23 @@ public class HuntAndKill implements Algorithm {
 			pointCurrent = new Point(pointNext.x, pointNext.y);
 			
 		} else {
-			// Select the first row
+
+			//ArrayList<Model.CardinalDirections> randDirection;
 			
-			// Iterate through nodes in the row
+			Point tempPoint = scanRow(row);
+			
+			if(tempPoint != null)
+			{				
+				pointCurrent = tempPoint;
+				dataModel.getNode(pointCurrent.x, pointCurrent.y).setVisit(true);
+				System.out.format("Match on %s at %s %s%n", row, pointCurrent.x, pointCurrent.y);
+				row = 0;
+			} else {
+				System.out.format("No match on row %s%n", row);
+				row++;
+			}
+			
+
 			
 			// Check for valid starting position - adjacent to visited node 
 			
@@ -83,6 +100,7 @@ public class HuntAndKill implements Algorithm {
 		
 		this.setPos(randomRange(0, dataModel.get_X_Width() - 1), randomRange(0, dataModel.get_Y_Height() - 1));
 		dataModel.getNode(pointCurrent.x, pointCurrent.y).setVisit(true);
+		row = 0;
 	}
 
 	@Override
@@ -99,6 +117,20 @@ public class HuntAndKill implements Algorithm {
 		// Failing finding a valid position return false
 		return false;
 	}
+	
+	public boolean visitedPos(int x, int y) {
+		
+		// Check the position is within the bounds of the Model
+		if (x >= 0 && x < dataModel.get_X_Width()
+				&& y >= 0 && y < dataModel.get_Y_Height())
+		{
+			// Check if the position has been visited already
+			return ((dataModel.getNode(x, y).getVisit()));
+		} 
+		
+		// Failing finding a valid position return false
+		return false;
+	}
 
 	@Override
 	public void setModel(Model model) {
@@ -106,7 +138,7 @@ public class HuntAndKill implements Algorithm {
 		this.reset();
 	}
 	
-	public ArrayList<Model.CardinalDirections> getValidPositions(Point currentPoint)
+	public ArrayList<Model.CardinalDirections> getValidDirections(Point currentPoint)
 	{
 		ArrayList<Model.CardinalDirections> tempList = new ArrayList<Model.CardinalDirections>();
 		
@@ -122,6 +154,39 @@ public class HuntAndKill implements Algorithm {
 		}	
 		
 		return tempList;
+	}
+	
+	public ArrayList<Model.CardinalDirections> getVisitedDirections(Point currentPoint)
+	{
+		ArrayList<Model.CardinalDirections> tempList = new ArrayList<Model.CardinalDirections>();
+		
+		// Check the Cardinal directions for valid positions
+		for(Model.CardinalDirections cd : Model.CardinalDirections.values())
+		{
+			Point tempPoint = new Point(currentPoint.x + cd.getX(), (currentPoint.y + cd.getY()));
+			// Check if this is a valid position
+			if(visitedPos(tempPoint.x, tempPoint.y))
+			{
+				tempList.add(cd);
+			}
+		}	
+		
+		return tempList;
+	}
+	
+	public Point scanRow(int searchRow)
+	{
+		for(int i = 0; i < dataModel.get_X_Width() - 1; i++)
+		{
+			Point tempPoint = new Point(i, searchRow);
+			
+			if(getVisitedDirections(tempPoint).size() > 0)
+			{
+				return tempPoint;
+			}
+		}
+		
+		return null;
 	}
 	
 	/**
