@@ -67,16 +67,17 @@ public class AldousBroder implements Algorithm {
 		dataModel.setAllWalls(true);
 		dataModel.setAllVisited(false);
 		dataModel.setAllColor(null);
-		visitCount = 0;
 		// Selection a random starting position anywhere in the model. 
 		// Minus one as the array starts with zero
 		this.setPos(randomRange(dataModel.get_X_Width() - 1), randomRange(dataModel.get_Y_Height() - 1));
+		dataModel.getNode(pointCurrent.x, pointCurrent.y).setVisit(true);
+		visitCount = 1;
 	}
 	
 	@Override
 	public boolean isComplete()
 	{
-		return nodeCount >= visitCount;
+		return nodeCount == visitCount;
 	}
 	
 	public void setModel(Model model)
