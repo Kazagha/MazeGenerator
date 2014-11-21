@@ -28,6 +28,8 @@ public class Controller {
 		v.setMazeOptions(new String[] 
 			{	" ",
 				"Aldous and Broder",
+				"Binary Tree",
+				"Hunt and Kill",
 				"Recursive Backtracker",
 				"Recursive Division"				
 			});
@@ -69,6 +71,14 @@ public class Controller {
 					algorithm = new AldousBroder(model);
 					algorithm.reset();
 					break;
+				case "Binary Tree":
+					algorithm = new BinaryTree(model);
+					algorithm.next();
+					break;
+				case "Hunt and Kill":
+					algorithm = new HuntAndKill(model);
+					algorithm.reset();
+					break;
 				case "Recursive Division":
 					algorithm = new RecursiveDivision(model);
 					algorithm.reset();
@@ -108,7 +118,7 @@ public class Controller {
 									while(! algorithm.isComplete())
 									{
 										algorithm.next();
-										Thread.sleep(100);
+										Thread.sleep(75);
 									}
 								} catch (InterruptedException e) {
 									// Thread has been interrupted
