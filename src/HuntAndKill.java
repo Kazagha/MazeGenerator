@@ -77,7 +77,9 @@ public class HuntAndKill implements Algorithm {
 			{				
 				pointCurrent = tempPoint;
 				dataModel.getNode(pointCurrent.x, pointCurrent.y).setVisit(true);
+				dataModel.getNode(pointCurrent.x, pointCurrent.y).setColor(currentColor);
 				System.out.format("Match on %s at %s %s%n", row, pointCurrent.x, pointCurrent.y);
+				
 				row = 0;
 			} else {
 				System.out.format("No match on row %s%n", row);
