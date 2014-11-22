@@ -42,7 +42,7 @@ public class HuntAndKill implements Algorithm {
 		if(validDirections.size() > 0)
 		{			
 			// Reset color on visited / unvisited nodes
-			colorVisited();
+			resetColors();
 				
 			// Select a random direction
 			int rand = randomRange(0, validDirections.size() - 1);
@@ -73,7 +73,7 @@ public class HuntAndKill implements Algorithm {
 		} else {
 
 			// Reset Colors
-			colorVisited();
+			resetColors();
 			// Highlight the specified row
 			colorRow(row);
 			// Search for a new starting point in the specified row
@@ -115,15 +115,19 @@ public class HuntAndKill implements Algorithm {
 
 	@Override
 	public void reset() {
+		// Reset the maze
 		dataModel.setAllColor(neutralColor);
 		dataModel.setAllVisited(false);
 		dataModel.setAllWalls(true);
 		
+		// Select a random position and set it to visit
 		this.setPos(randomRange(0, dataModel.get_X_Width() - 1), randomRange(0, dataModel.get_Y_Height() - 1));
 		dataModel.getNode(pointCurrent.x, pointCurrent.y).setVisit(true);
 		
 		// Reset the 'hunt' back to the first row
 		row = 0;
+		// Reset the 'complete' flag to false
+		complete = false;
 	}
 
 	@Override
@@ -161,6 +165,11 @@ public class HuntAndKill implements Algorithm {
 		this.reset();
 	}
 	
+	/**
+	 * Find valid positions around the specified <code>position</code>
+	 * @param currentPoint - The current position
+	 * @return - ArrayList of valid positions
+	 */
 	public ArrayList<Model.CardinalDirections> getValidDirections(Point currentPoint)
 	{
 		ArrayList<Model.CardinalDirections> tempList = new ArrayList<Model.CardinalDirections>();
@@ -179,6 +188,11 @@ public class HuntAndKill implements Algorithm {
 		return tempList;
 	}
 	
+	/**
+	 * Find visited positions around the specified <code>position</code>
+	 * @param currentPoint - The current positions
+	 * @return - ArrayList of visited positions
+	 */
 	public ArrayList<Model.CardinalDirections> getVisitedDirections(Point currentPoint)
 	{
 		ArrayList<Model.CardinalDirections> tempList = new ArrayList<Model.CardinalDirections>();
@@ -197,6 +211,12 @@ public class HuntAndKill implements Algorithm {
 		return tempList;
 	}
 	
+	/**
+	 * Scan the specified row for a valid starting position <br> 
+	 * Valid starting positions must be unvisited with adjacent visited nodes
+	 * @param searchRow
+	 * @return - ArrayList of valid starting positions
+	 */
 	public Point scanRow(int searchRow)
 	{
 		for(int i = 0; i < dataModel.get_X_Width(); i++)
@@ -215,6 +235,10 @@ public class HuntAndKill implements Algorithm {
 		return null;
 	}
 	
+	/**
+	 * Color the specified <code>searchRow</code> 
+	 * @param searchRow - The specified row 
+	 */
 	public void colorRow(int searchRow)
 	{
 		for(int i = 0; i < dataModel.get_X_Width(); i++)
@@ -225,7 +249,10 @@ public class HuntAndKill implements Algorithm {
 		}
 	}
 	
-	public void colorVisited()
+	/**
+	 * Reset the colors of visited/unvisited cells 
+	 */
+	public void resetColors()
 	{
 		for(int x = 0; x < dataModel.get_X_Width(); x++)
 		{
