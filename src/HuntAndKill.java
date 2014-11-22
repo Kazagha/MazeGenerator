@@ -40,7 +40,9 @@ public class HuntAndKill implements Algorithm {
 		ArrayList<Model.CardinalDirections> validDirections = getValidDirections(pointCurrent);
 		
 		if(validDirections.size() > 0)
-		{
+		{			
+			// Reset color on visited / unvisited nodes
+			colorVisited();
 				
 			// Select a random direction
 			int rand = randomRange(0, validDirections.size() - 1);
@@ -70,14 +72,15 @@ public class HuntAndKill implements Algorithm {
 			
 		} else {
 
-			// Reset the color and highlight the specified row
-			dataModel.setAllColor(neutralColor);
+			// Reset Colors
+			colorVisited();
+			// Highlight the specified row
 			colorRow(row);
 			// Search for a new starting point in the specified row
 			Point tempPoint = scanRow(row);			
 			
 			if(tempPoint != null)
-			{		
+			{				
 				// Match found
 				pointCurrent = tempPoint;
 				dataModel.getNode(pointCurrent.x, pointCurrent.y).setVisit(true);
@@ -219,6 +222,24 @@ public class HuntAndKill implements Algorithm {
 			Point tempPoint = new Point(i, searchRow);	
 		
 			dataModel.getNode(tempPoint.x, tempPoint.y).setColor(Color.GREEN);
+		}
+	}
+	
+	public void colorVisited()
+	{
+		for(int x = 0; x < dataModel.get_X_Width(); x++)
+		{
+			for(int y = 0; y < dataModel.get_Y_Height(); y++)
+			{
+				Model.Node tempNode = dataModel.getNode(x, y);
+				
+				if(tempNode.getVisit())
+				{
+					tempNode.setColor(visitColor);
+				} else {
+					tempNode.setColor(neutralColor);
+				}
+			}
 		}
 	}
 	
