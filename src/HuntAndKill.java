@@ -11,6 +11,7 @@ public class HuntAndKill implements Algorithm {
 	Model dataModel;
 	Point pointCurrent = new Point(0, 0);
 	int row; 
+	boolean complete = false; 
 	// Create the 'random' class
 	Random rand = new Random();
 	// Set Colors
@@ -30,7 +31,7 @@ public class HuntAndKill implements Algorithm {
 
 	@Override
 	public boolean isComplete() {
-		return false;
+		return complete;
 	}
 
 	@Override
@@ -69,9 +70,11 @@ public class HuntAndKill implements Algorithm {
 			
 		} else {
 
-			//ArrayList<Model.CardinalDirections> randDirection;
-			
-			Point tempPoint = scanRow(row);
+			// Reset the color and highlight the specified row
+			dataModel.setAllColor(neutralColor);
+			colorRow(row);
+			// Search for a new starting point in the specified row
+			Point tempPoint = scanRow(row);			
 			
 			if(tempPoint != null)
 			{		
@@ -98,6 +101,11 @@ public class HuntAndKill implements Algorithm {
 			} else {
 				// No match, begin the 'hunt' on the next row
 				row++;
+				
+				if(row == dataModel.get_Y_Height())
+				{
+					complete = true;
+				}
 			}			
 		}
 	}
@@ -188,7 +196,7 @@ public class HuntAndKill implements Algorithm {
 	
 	public Point scanRow(int searchRow)
 	{
-		for(int i = 0; i < dataModel.get_X_Width() - 1; i++)
+		for(int i = 0; i < dataModel.get_X_Width(); i++)
 		{
 			Point tempPoint = new Point(i, searchRow);
 			
@@ -202,6 +210,16 @@ public class HuntAndKill implements Algorithm {
 		}
 		
 		return null;
+	}
+	
+	public void colorRow(int searchRow)
+	{
+		for(int i = 0; i < dataModel.get_X_Width(); i++)
+		{
+			Point tempPoint = new Point(i, searchRow);	
+		
+			dataModel.getNode(tempPoint.x, tempPoint.y).setColor(Color.GREEN);
+		}
 	}
 	
 	/**
