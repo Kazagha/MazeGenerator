@@ -74,23 +74,31 @@ public class HuntAndKill implements Algorithm {
 			Point tempPoint = scanRow(row);
 			
 			if(tempPoint != null)
-			{				
+			{		
+				// Match found
 				pointCurrent = tempPoint;
 				dataModel.getNode(pointCurrent.x, pointCurrent.y).setVisit(true);
 				dataModel.getNode(pointCurrent.x, pointCurrent.y).setColor(currentColor);
-				System.out.format("Match on %s at %s %s%n", row, pointCurrent.x, pointCurrent.y);
 				
+				// Select a random visited node
+				ArrayList<Model.CardinalDirections> visitedDirections = getVisitedDirections(pointCurrent);
+				int rand = randomRange(0, visitedDirections.size() - 1);				
+				Model.CardinalDirections randDirection = visitedDirections.get(rand);
+						
+				// Find the 'current' and 'adjacent' nodes
+				Model.Node currentNode = dataModel.getNode(pointCurrent.x, pointCurrent.y);
+				Model.Node adjacentNode = dataModel.getNode(pointCurrent.x + randDirection.getX(), pointCurrent.y + randDirection.getY());
+				
+				// Carve walls between new starting position and adjacent node
+				currentNode.setCardinal(randDirection, false);
+				adjacentNode.setCardinal(randDirection.reverse(), false);
+				
+				// Reset the 'hunt' back to the first row
 				row = 0;
 			} else {
-				System.out.format("No match on row %s%n", row);
+				// No match, begin the 'hunt' on the next row
 				row++;
-			}
-			
-
-			
-			// Check for valid starting position - adjacent to visited node 
-			
-			// Carve walls between new starting position and adjacent node
+			}			
 		}
 	}
 
@@ -102,6 +110,8 @@ public class HuntAndKill implements Algorithm {
 		
 		this.setPos(randomRange(0, dataModel.get_X_Width() - 1), randomRange(0, dataModel.get_Y_Height() - 1));
 		dataModel.getNode(pointCurrent.x, pointCurrent.y).setVisit(true);
+		
+		// Reset the 'hunt' back to the first row
 		row = 0;
 	}
 
