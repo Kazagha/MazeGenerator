@@ -53,13 +53,13 @@ public class HuntAndKill implements Algorithm {
 			Model.Node currentNode = dataModel.getNode(pointCurrent.x, pointCurrent.y);
 			Model.Node nextNode = dataModel.getNode(pointNext.x, pointNext.y);
 			
-			// Carve walls
-			currentNode.setCardinal(randDirection, false);
-			nextNode.setCardinal(randDirection.reverse(), false);
-			
 			// Set background colors
 			dataModel.getNode(pointCurrent.x, pointCurrent.y).setColor(visitColor);
 			dataModel.getNode(pointNext.x, pointNext.y).setColor(currentColor);
+			
+			// Carve walls
+			currentNode.setCardinal(randDirection, false);
+			nextNode.setCardinal(randDirection.reverse(), false);
 			
 			// Set the next node as visited
 			nextNode.setVisit(true);
@@ -180,9 +180,12 @@ public class HuntAndKill implements Algorithm {
 		{
 			Point tempPoint = new Point(i, searchRow);
 			
-			if(getVisitedDirections(tempPoint).size() > 0)
-			{
-				return tempPoint;
+			if(! dataModel.getNode(tempPoint.x, tempPoint.y).getVisit())
+			{				
+				if(getVisitedDirections(tempPoint).size() > 0)
+				{
+					return tempPoint;
+				}
 			}
 		}
 		
