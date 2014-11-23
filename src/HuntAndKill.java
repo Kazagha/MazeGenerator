@@ -72,15 +72,19 @@ public class HuntAndKill implements Algorithm {
 			
 		} else {
 
-			// Reset Colors
-			resetColors();
+			// Reset Colors in the previous row
+			if(row > 0) 
+			{
+				resetRow(row - 1);
+			}
 			// Highlight the specified row
 			colorRow(row);
+			
 			// Search for a new starting point in the specified row
 			Point tempPoint = scanRow(row);			
 			
 			if(tempPoint != null)
-			{				
+			{						
 				// Match found
 				pointCurrent = tempPoint;
 				dataModel.getNode(pointCurrent.x, pointCurrent.y).setVisit(true);
@@ -266,6 +270,27 @@ public class HuntAndKill implements Algorithm {
 				} else {
 					tempNode.setColor(neutralColor);
 				}
+			}
+		}
+	}
+	
+	/**
+	 * Reset the colors of visited/unvisited cells in the specified <code>searchRow</code>
+	 * @param searchRow - The row to reset
+	 */
+	public void resetRow(int searchRow)
+	{
+		for(int i = 0; i < dataModel.get_X_Width(); i++)
+		{
+			Point tempPoint = new Point(i, searchRow);	
+		
+			Model.Node tempNode = dataModel.getNode(tempPoint.x, tempPoint.y);
+			
+			if(tempNode.getVisit())
+			{
+				tempNode.setColor(visitColor);
+			} else {
+				tempNode.setColor(neutralColor);
 			}
 		}
 	}
