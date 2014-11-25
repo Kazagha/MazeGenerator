@@ -36,14 +36,24 @@ public class Prim implements Algorithm {
 	public void next() {
 		
 		// Select a random 'frontier' node
+		int rand = randomRange(0, frontierPointList.size() - 1);
+		Point frontierPoint = frontierPointList.get(rand);
 		
 		// Find 'adjacent' nodes that have been visited
+		ArrayList<Model.CardinalDirections> visitedDirections = getVisitedDirections(frontierPoint);
+		rand = randomRange(0, visitedDirections.size() - 1);
+		Model.CardinalDirections adjacentDirection = visitedDirections.get(rand);
 		
-		// Select a 'adjacent' node
+		// Select 'frontier' and 'adjacent' nodes
+		Model.Node frontierNode = dataModel.getNode(frontierPoint.x, frontierPoint.y);
+		Model.Node adjacentNode = dataModel.getNode(frontierPoint.x + adjacentDirection.getX(),  frontierPoint.y + adjacentDirection.getY());
 		
 		// Carve walls between the 'frontier' node and the 'adjacent' node
+		frontierNode.setCardinal(adjacentDirection, false);
+		adjacentNode.setCardinal(adjacentDirection.reverse(), false);
 		
-		// Add the newly created 'frontier' nodes 		
+		// Add the newly created 'frontier' nodes
+		frontierPointList.addAll(getValidPoints(frontierPoint));
 	}
 
 	@Override
