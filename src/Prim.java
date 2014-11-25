@@ -33,6 +33,15 @@ public class Prim implements Algorithm {
 	@Override
 	public void next() {
 		
+		// Select a random 'frontier' node
+		
+		// Find 'adjacent' nodes that have been visited
+		
+		// Select a 'adjacent' node
+		
+		// Carve walls between the 'frontier' node and the 'adjacent' node
+		
+		// Add the newly created 'frontier' nodes 		
 	}
 
 	@Override
@@ -47,6 +56,12 @@ public class Prim implements Algorithm {
 		dataModel.setAllColor(greyColor);	
 		dataModel.setAllVisited(false);
 		dataModel.setAllWalls(true);
+		
+		// Set a random starting point
+		this.setPos(randomRange(0, dataModel.get_X_Width() - 1),
+				randomRange(0, dataModel.get_Y_Height() - 1));
+		
+		dataModel.getNode(pointCurrent.x, pointCurrent.y).setVisit(true);
 	}
 
 	@Override
