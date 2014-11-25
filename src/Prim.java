@@ -85,6 +85,8 @@ public class Prim implements Algorithm {
 		this.setPos(randomRange(0, dataModel.get_X_Width() - 1),
 				randomRange(0, dataModel.get_Y_Height() - 1));
 		
+		// Remove any existing 'frontier' nodes
+		frontierPointList.clear();
 		// Set the starting node visited
 		dataModel.getNode(pointCurrent.x, pointCurrent.y).setVisit(true);
 		// Add newly created 'frontier' nodes
