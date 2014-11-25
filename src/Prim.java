@@ -8,7 +8,7 @@ public class Prim implements Algorithm {
 	
 	Model dataModel;
 	Point pointCurrent = new Point(0, 0);
-	ArrayList<Model.Node> frontierNodeList = new ArrayList<Model.Node>();
+	ArrayList<Point> frontierPointList = new ArrayList<Point>();
 	
 	Random rand = new Random();	
 	Color currentColor = new Color(205, 92, 92);
@@ -85,9 +85,10 @@ public class Prim implements Algorithm {
 		this.setPos(randomRange(0, dataModel.get_X_Width() - 1),
 				randomRange(0, dataModel.get_Y_Height() - 1));
 		
+		// Set the starting node visited
 		dataModel.getNode(pointCurrent.x, pointCurrent.y).setVisit(true);
-		
-		
+		// Add newly created 'frontier' nodes
+		frontierPointList.addAll(getValidPoints(pointCurrent));
 	}
 
 	@Override
@@ -112,18 +113,19 @@ public class Prim implements Algorithm {
 	 * @param currentPoint - The current position
 	 * @return - ArrayList of valid positions
 	 */
-	public ArrayList<Model.CardinalDirections> getValidDirections(Point currentPoint)
+	public ArrayList<Point> getValidPoints(Point point)
 	{
-		ArrayList<Model.CardinalDirections> tempList = new ArrayList<Model.CardinalDirections>();
+		ArrayList<Point> tempList = new ArrayList<Point>();
 		
 		// Check the Cardinal directions for valid positions
 		for(Model.CardinalDirections cd : Model.CardinalDirections.values())
 		{
-			Point tempPoint = new Point(currentPoint.x + cd.getX(), (currentPoint.y + cd.getY()));
+			Point tempPoint = new Point(point.x + cd.getX(), (point.y + cd.getY()));
 			// Check if this is a valid position
 			if(validPos(tempPoint.x, tempPoint.y))
 			{
-				tempList.add(cd);
+				tempList.add(
+					new Point(point.x + cd.getX(), point.y + cd.getY()));
 			}
 		}	
 		
