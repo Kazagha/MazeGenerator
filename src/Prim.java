@@ -59,7 +59,16 @@ public class Prim implements Algorithm {
 		frontierNode.setVisit(true);
 		
 		// Add the newly created 'frontier' nodes
-		frontierPointList.addAll(getValidPoints(frontierPoint));
+		ArrayList<Point> newPoints = getValidPoints(frontierPoint);
+		frontierPointList.addAll(newPoints);
+		
+		// Set background colors
+		frontierNode.setColor(visitColor);
+		//adjacentNode.setColor(visitColor);
+		for(Point p : newPoints)
+		{
+			dataModel.getNode(p.x, p.y).setColor(currentColor);
+		}
 	}
 
 	@Override
@@ -70,7 +79,11 @@ public class Prim implements Algorithm {
 				&& y >= 0 && y < dataModel.get_Y_Height())
 		{
 			// Check if the position has been visited already
-			return (! (dataModel.getNode(x, y).getVisit()));
+			if (! (dataModel.getNode(x, y).getVisit()))
+			{
+				// Check if the point is already in the list
+				return (! frontierContains(x, y));
+			}
 		} 
 		
 		// Failing finding a valid position return false
@@ -106,7 +119,15 @@ public class Prim implements Algorithm {
 		// Set the starting node visited
 		dataModel.getNode(pointCurrent.x, pointCurrent.y).setVisit(true);
 		// Add newly created 'frontier' nodes
-		frontierPointList.addAll(getValidPoints(pointCurrent));
+		ArrayList<Point> newPoints = getValidPoints(pointCurrent);
+		frontierPointList.addAll(newPoints);
+		
+		// Set background colors
+		dataModel.getNode(pointCurrent.x, pointCurrent.y).setColor(visitColor);		
+		for(Point p : newPoints)
+		{
+			dataModel.getNode(p.x, p.y).setColor(currentColor);
+		}
 	}
 
 	@Override
@@ -172,4 +193,25 @@ public class Prim implements Algorithm {
 		
 		return tempList;
 	}
+	
+	/**
+	 * Check if the specified position exists in the <code>frontierPointList</code>
+	 * @param x - The 'X' value of the specified point
+	 * @param y - The 'Y' value of the specified point
+	 * @return - True if the position exists
+	 */
+	public boolean frontierContains(int x, int y)
+	{
+		for(Point p : frontierPointList)
+		{
+			// Check if the point exists
+			if(p.x == x && p.y == y)
+			{
+				return true;
+			}
+		}
+		// The point does not exist, return false 
+		return false;
+	}
+
 }
