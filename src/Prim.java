@@ -106,7 +106,7 @@ public class Prim implements Algorithm {
 
 	@Override
 	public void reset() {		
-		dataModel.setAllColor(greyColor);	
+		dataModel.setAllColor(neutralColor);	
 		dataModel.setAllVisited(false);
 		dataModel.setAllWalls(true);
 		
