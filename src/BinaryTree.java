@@ -55,8 +55,8 @@ public class BinaryTree implements Algorithm {
 			adjacentNode.setCardinal(randDirection.reverse(), false);
 			
 			// Set background color
-			currentNode.setColor(currentColor);
-			adjacentNode.setColor(visitColor);
+			currentNode.setColor(visitColor);
+			adjacentNode.setColor(currentColor);
 		}
 
 		// Iterate through the nodes
