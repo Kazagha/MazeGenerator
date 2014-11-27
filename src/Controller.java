@@ -30,8 +30,10 @@ public class Controller {
 				"Aldous and Broder",
 				"Binary Tree",
 				"Hunt and Kill",
+				"Prim's Algorithm",
 				"Recursive Backtracker",
-				"Recursive Division"				
+				"Recursive Division",
+				"Wilson's Algorithm"
 			});
 	}
 	
@@ -79,12 +81,20 @@ public class Controller {
 					algorithm = new HuntAndKill(model);
 					algorithm.reset();
 					break;
+				case "Prim's Algorithm":
+					algorithm = new Prim(model);
+					algorithm.reset();
+					break;
 				case "Recursive Division":
 					algorithm = new RecursiveDivision(model);
 					algorithm.reset();
 					break;
 				case "Recursive Backtracker":
 					algorithm = new RecursiveBacktracker(model);
+					algorithm.reset();
+					break;
+				case "Wilson's Algorithm":
+					algorithm = new Wilson(model);
 					algorithm.reset();
 					break;
 				}
