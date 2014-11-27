@@ -10,6 +10,7 @@ public class AldousBroder implements Algorithm {
 	int nodeCount;
 	int visitCount = 0;
 	Random rand = new Random();
+	Color neutralColor = new Color(255, 255, 255);
 	Color currentColor = new Color(205, 92, 92);
 	Color visitColor = new Color(135, 206, 250);  	
 	
@@ -66,7 +67,7 @@ public class AldousBroder implements Algorithm {
 	public void reset() {
 		dataModel.setAllWalls(true);
 		dataModel.setAllVisited(false);
-		dataModel.setAllColor(null);
+		dataModel.setAllColor(neutralColor);
 		// Selection a random starting position anywhere in the model. 
 		// Minus one as the array starts with zero
 		this.setPos(randomRange(dataModel.get_X_Width() - 1), randomRange(dataModel.get_Y_Height() - 1));
