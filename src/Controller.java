@@ -75,7 +75,7 @@ public class Controller {
 					break;
 				case "Binary Tree":
 					algorithm = new BinaryTree(model);
-					algorithm.next();
+					algorithm.reset();
 					break;
 				case "Hunt and Kill":
 					algorithm = new HuntAndKill(model);
