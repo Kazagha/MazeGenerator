@@ -8,6 +8,7 @@ public class Wilson implements Algorithm {
 	Model dataModel;
 	Model.CardinalDirections[][] directionModel; 
 	Point pointCurrent = new Point(0, 0);
+	Point pointStart = new Point(0, 0);
 	Mode mode;
 	
 	enum Mode { SEARCH, CARVE };
@@ -35,17 +36,32 @@ public class Wilson implements Algorithm {
 
 	@Override
 	public void next() {
-		// Search the grid for a visited node (part of the established maze) 		
-		
+		// Search the grid for a visited node (part of the established maze) 
+		if(mode == Mode.SEARCH)
+		{		
 			// Fetch all valid directions
+			ArrayList<Model.CardinalDirections> validDirections = getValidDirections(pointCurrent);
+			
+			// Set the background color of the 'current' node
+			dataModel.getNode(pointCurrent.x, pointCurrent.y).setColor(currentColor);
 		
 			// Select a random direction
+			int rand = randomRange(0, validDirections.size() - 1);
+			Model.CardinalDirections randDirection = validDirections.get(rand);
 		
 			// Record the direction traveled
+			directionModel[pointCurrent.x][pointCurrent.y] = randDirection;
 		
 			// Move the current position
+			pointCurrent.setLocation(pointCurrent.x + randDirection.getX(), pointCurrent.y + randDirection.getY());
 		
 			// If the current position has been visited, begin carving
+			if(dataModel.getNode(pointCurrent.x, pointCurrent.y).getVisit())
+			{
+				mode = Mode.CARVE;
+			}
+			
+		} else if (mode == Mode.CARVE) {
 		
 		// Carve path according to directionModel
 		
@@ -58,6 +74,8 @@ public class Wilson implements Algorithm {
 			// Replace the 'current node' with the 'next node'
 		
 			// If the next node has been visited, carving has finished
+			
+		}
 	}
 
 	@Override
@@ -67,8 +85,17 @@ public class Wilson implements Algorithm {
 		dataModel.setAllVisited(false);
 		dataModel.setAllWalls(true);
 		
+		// Create one visited node to begin the maze
+		Model.Node visitedNode = dataModel.getNode(randomRange(0, dataModel.get_X_Width() - 1), randomRange(0, dataModel.get_Y_Height() - 1));
+		visitedNode.setColor(visitColor);
+		visitedNode.setVisit(true);
+		
+		// Reset the starting position
 		setPos(randomRange(0, dataModel.get_X_Width() - 1), randomRange(0, dataModel.get_Y_Height() - 1));
-		directionModel = new Model.CardinalDirections[dataModel.get_X_Width() - 1][dataModel.get_Y_Height() - 1];
+		pointStart = new Point(pointCurrent);
+		// Reset the direction model 
+		directionModel = new Model.CardinalDirections[dataModel.get_X_Width()][dataModel.get_Y_Height()];
+		// Reset the mode back to searching 
 		mode = Mode.SEARCH;
 	}
 
