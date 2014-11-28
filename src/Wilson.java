@@ -43,7 +43,7 @@ public class Wilson implements Algorithm {
 			ArrayList<Model.CardinalDirections> validDirections = getValidDirections(pointCurrent);
 			
 			// Set the background color of the 'current' node
-			dataModel.getNode(pointCurrent.x, pointCurrent.y).setColor(currentColor);
+			dataModel.getNode(pointCurrent.x, pointCurrent.y).setColor(neutralColor);
 		
 			// Select a random direction
 			int rand = randomRange(0, validDirections.size() - 1);
@@ -54,11 +54,14 @@ public class Wilson implements Algorithm {
 		
 			// Move the current position
 			pointCurrent.setLocation(pointCurrent.x + randDirection.getX(), pointCurrent.y + randDirection.getY());
+			
+			dataModel.getNode(pointCurrent.x, pointCurrent.y).setColor(currentColor);
 		
 			// If the current position has been visited, begin carving
 			if(dataModel.getNode(pointCurrent.x, pointCurrent.y).getVisit())
 			{
 				mode = Mode.CARVE;
+				pointCurrent = pointStart;
 			}
 			
 		} else if (mode == Mode.CARVE) {
@@ -66,15 +69,27 @@ public class Wilson implements Algorithm {
 		// Carve path according to directionModel
 		
 			// Using the currentPoint, find the direction from the 'directionModel'
+			Model.Node currentNode = dataModel.getNode(pointCurrent.x, pointCurrent.y);
+			Model.CardinalDirections direction = directionModel[pointCurrent.x][pointCurrent.y];
 		
-			// Fetch the 'current' and 'next' nodes
+			// Fetch the 'next' nodes
+			Point pointNext = new Point(pointCurrent.x + direction.getX(), pointCurrent.y + direction.getY());
+			Model.Node nextNode = dataModel.getNode(pointNext.x, pointNext.y);
 		
 			// Carve the passage
+			currentNode.setCardinal(direction, false);
+			nextNode.setCardinal(direction.reverse(), false);
+			nextNode.setVisit(true);
 		
-			// Replace the 'current node' with the 'next node'
+			// Replace the 'current point' with the 'next point'
+			pointCurrent.setLocation(pointNext.x, pointNext.y);
 		
 			// If the next node has been visited, carving has finished
-			
+			if(nextNode.getVisit())
+			{
+				mode = Mode.SEARCH;
+				
+			}
 		}
 	}
 
