@@ -8,6 +8,9 @@ public class Wilson implements Algorithm {
 	Model dataModel;
 	Model.CardinalDirections[][] directionModel; 
 	Point pointCurrent = new Point(0, 0);
+	Mode mode;
+	
+	enum Mode { SEARCH, CARVE };
 	
 	Random rand = new Random();	
 	Color currentColor = new Color(205, 92, 92);
@@ -31,7 +34,30 @@ public class Wilson implements Algorithm {
 	}
 
 	@Override
-	public void next() {		
+	public void next() {
+		// Search the grid for a visited node (part of the established maze) 		
+		
+			// Fetch all valid directions
+		
+			// Select a random direction
+		
+			// Record the direction traveled
+		
+			// Move the current position
+		
+			// If the current position has been visited, begin carving
+		
+		// Carve path according to directionModel
+		
+			// Using the currentPoint, find the direction from the 'directionModel'
+		
+			// Fetch the 'current' and 'next' nodes
+		
+			// Carve the passage
+		
+			// Replace the 'current node' with the 'next node'
+		
+			// If the next node has been visited, carving has finished
 	}
 
 	@Override
@@ -43,6 +69,7 @@ public class Wilson implements Algorithm {
 		
 		setPos(randomRange(0, dataModel.get_X_Width() - 1), randomRange(0, dataModel.get_Y_Height() - 1));
 		directionModel = new Model.CardinalDirections[dataModel.get_X_Width() - 1][dataModel.get_Y_Height() - 1];
+		mode = Mode.SEARCH;
 	}
 
 	@Override
