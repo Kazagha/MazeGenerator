@@ -79,17 +79,21 @@ public class Wilson implements Algorithm {
 			// Carve the passage
 			currentNode.setCardinal(direction, false);
 			nextNode.setCardinal(direction.reverse(), false);
-			nextNode.setVisit(true);
 		
 			// Replace the 'current point' with the 'next point'
 			pointCurrent.setLocation(pointNext.x, pointNext.y);
 		
-			// If the next node has been visited, carving has finished
+			// If the next node has already been visited, carving has finished
 			if(nextNode.getVisit())
 			{
-				mode = Mode.SEARCH;
-				
-			}
+				mode = Mode.SEARCH;	
+				pointStart.setLocation(randomRange(0, dataModel.get_X_Width() - 1), randomRange(0, dataModel.get_Y_Height() - 1));;
+				pointCurrent = new Point(pointStart);
+			}			
+
+			// Set the background color, and visited status of the node
+			nextNode.setColor(visitColor);
+			nextNode.setVisit(true);
 		}
 	}
 
