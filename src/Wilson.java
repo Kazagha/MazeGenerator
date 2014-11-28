@@ -62,6 +62,9 @@ public class Wilson implements Algorithm {
 			{
 				mode = Mode.CARVE;
 				pointCurrent = pointStart;
+				// Set the background color on the starting point
+				dataModel.getNode(pointCurrent.x, pointCurrent.y).setColor(visitColor);
+				dataModel.getNode(pointCurrent.x, pointCurrent.y).setVisit(true);
 			}
 			
 		} else if (mode == Mode.CARVE) {
