@@ -43,7 +43,7 @@ public class Wilson implements Algorithm {
 			ArrayList<Model.CardinalDirections> validDirections = getValidDirections(pointCurrent);
 			
 			// Set the background color of the 'current' node
-			dataModel.getNode(pointCurrent.x, pointCurrent.y).setColor(neutralColor);
+			dataModel.getNode(pointCurrent.x, pointCurrent.y).setColor(visitColor);
 		
 			// Select a random direction
 			int rand = randomRange(0, validDirections.size() - 1);
@@ -63,7 +63,7 @@ public class Wilson implements Algorithm {
 				mode = Mode.CARVE;
 				pointCurrent = pointStart;
 				// Set the background color on the starting point
-				dataModel.getNode(pointCurrent.x, pointCurrent.y).setColor(visitColor);
+				dataModel.getNode(pointCurrent.x, pointCurrent.y).setColor(neutralColor);
 				dataModel.getNode(pointCurrent.x, pointCurrent.y).setVisit(true);
 			}
 			
@@ -89,13 +89,13 @@ public class Wilson implements Algorithm {
 			// If the next node has already been visited, carving has finished
 			if(nextNode.getVisit())
 			{
-				mode = Mode.SEARCH;	
-				pointStart.setLocation(randomRange(0, dataModel.get_X_Width() - 1), randomRange(0, dataModel.get_Y_Height() - 1));;
+				mode = Mode.SEARCH;
+				pointStart = getRandomStartingPoint();
 				pointCurrent = new Point(pointStart);
 			}			
 
 			// Set the background color, and visited status of the node
-			nextNode.setColor(visitColor);
+			nextNode.setColor(neutralColor);
 			nextNode.setVisit(true);
 		}
 	}
@@ -103,13 +103,13 @@ public class Wilson implements Algorithm {
 	@Override
 	public void reset() {
 		// Reset the maze
-		dataModel.setAllColor(neutralColor);
+		dataModel.setAllColor(greyColor);
 		dataModel.setAllVisited(false);
 		dataModel.setAllWalls(true);
 		
 		// Create one visited node to begin the maze
 		Model.Node visitedNode = dataModel.getNode(randomRange(0, dataModel.get_X_Width() - 1), randomRange(0, dataModel.get_Y_Height() - 1));
-		visitedNode.setColor(visitColor);
+		visitedNode.setColor(neutralColor);
 		visitedNode.setVisit(true);
 		
 		// Reset the starting position
@@ -132,6 +132,25 @@ public class Wilson implements Algorithm {
 	public void setModel(Model model) {
 		dataModel = model;
 		reset();		
+	}
+	
+	public Point getRandomStartingPoint()
+	{
+		Point tempPoint = new Point();
+		
+		while(true)
+		{
+			tempPoint.setLocation(
+					randomRange(0, dataModel.get_X_Width() - 1),
+					randomRange(0, dataModel.get_Y_Height() - 1));
+			
+			if(! dataModel.getNode(tempPoint.x, tempPoint.y).getVisit())
+			{
+				break;
+			}
+		}
+
+		return tempPoint;
 	}
 	
 	/**
