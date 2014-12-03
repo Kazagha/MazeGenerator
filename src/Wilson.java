@@ -10,6 +10,7 @@ public class Wilson implements Algorithm {
 	Point pointCurrent = new Point(0, 0);
 	Point pointStart = new Point(0, 0);
 	Mode mode;
+	boolean complete;
 	
 	enum Mode { SEARCH, CARVE };
 	
@@ -31,7 +32,7 @@ public class Wilson implements Algorithm {
 
 	@Override
 	public boolean isComplete() {
-		return false;
+		return complete;
 	}
 
 	@Override
@@ -119,6 +120,7 @@ public class Wilson implements Algorithm {
 		directionModel = new Model.CardinalDirections[dataModel.get_X_Width()][dataModel.get_Y_Height()];
 		// Reset the mode back to searching 
 		mode = Mode.SEARCH;
+		complete = false;
 	}
 
 	@Override
@@ -152,21 +154,9 @@ public class Wilson implements Algorithm {
 			}
 		}
 		
-		/*
-		while(true)
-		{
-			tempPoint.setLocation(
-					randomRange(0, dataModel.get_X_Width() - 1),
-					randomRange(0, dataModel.get_Y_Height() - 1));
-			
-			if(! dataModel.getNode(tempPoint.x, tempPoint.y).getVisit())
-			{
-				break;
-			}
-		}
-		*/
-		
-		return null;
+		// No valid starting point, the maze has been complete
+		complete = true;
+		return new Point(0, 0);
 	}
 	
 	/**
