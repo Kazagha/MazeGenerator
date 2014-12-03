@@ -138,11 +138,12 @@ public class Wilson implements Algorithm {
 	{
 		Point tempPoint = new Point();
 		
-		for(int y = dataModel.get_Y_Height() - 1; y > 0; y--)
+		for(int y = dataModel.get_Y_Height() - 1; y > -1; y--)
 		{		
-			for(int x = dataModel.get_X_Width() - 1; x > 0; x--)
+			for(int x = dataModel.get_X_Width() - 1; x > -1; x--)
 			{
 				tempPoint.setLocation(x, y);
+				System.out.println(x + " " + y);
 				
 				if(! dataModel.getNode(tempPoint.x, tempPoint.y).getVisit())
 				{
