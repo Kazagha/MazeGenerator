@@ -12,6 +12,8 @@ public class Wilson implements Algorithm {
 	Mode mode;
 	boolean complete;
 	
+	int maxHeight;
+	
 	enum Mode { SEARCH, CARVE };
 	
 	Random rand = new Random();	
@@ -121,6 +123,7 @@ public class Wilson implements Algorithm {
 		// Reset the mode back to searching 
 		mode = Mode.SEARCH;
 		complete = false;
+		maxHeight = dataModel.get_Y_Height() - 1;
 	}
 
 	@Override
@@ -140,7 +143,7 @@ public class Wilson implements Algorithm {
 	{
 		Point tempPoint = new Point();
 		
-		for(int y = dataModel.get_Y_Height() - 1; y > -1; y--)
+		for(int y = maxHeight; y > -1; y--)
 		{		
 			for(int x = dataModel.get_X_Width() - 1; x > -1; x--)
 			{
@@ -148,6 +151,7 @@ public class Wilson implements Algorithm {
 				
 				if(! dataModel.getNode(tempPoint.x, tempPoint.y).getVisit())
 				{
+					maxHeight = y;
 					return tempPoint;
 				}
 			}
