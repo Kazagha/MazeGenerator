@@ -6,7 +6,8 @@ import java.util.Random;
 public class Wilson implements Algorithm {
 
 	Model dataModel;
-	Model.CardinalDirections[][] directionModel; 
+	Model.CardinalDirections[][] directionModel;
+	ArrayList<Point> directionList = new ArrayList<Point>();
 	Point pointCurrent = new Point(0, 0);
 	Point pointStart = new Point(0, 0);
 	Mode mode;
@@ -54,6 +55,7 @@ public class Wilson implements Algorithm {
 		
 			// Record the direction traveled
 			directionModel[pointCurrent.x][pointCurrent.y] = randDirection;
+			directionList.add(new Point(pointCurrent));
 		
 			// Move the current position
 			pointCurrent.setLocation(pointCurrent.x + randDirection.getX(), pointCurrent.y + randDirection.getY());
@@ -68,12 +70,15 @@ public class Wilson implements Algorithm {
 				// Set the background color on the starting point
 				dataModel.getNode(pointCurrent.x, pointCurrent.y).setColor(neutralColor);
 				dataModel.getNode(pointCurrent.x, pointCurrent.y).setVisit(true);
+				
+				// Remove the 'visited' color 
+				clearVisitedColor();
 			}
 			
 		} else if (mode == Mode.CARVE) {
 		
 		// Carve path according to directionModel
-		
+			
 			// Using the currentPoint, find the direction from the 'directionModel'
 			Model.Node currentNode = dataModel.getNode(pointCurrent.x, pointCurrent.y);
 			Model.CardinalDirections direction = directionModel[pointCurrent.x][pointCurrent.y];
@@ -160,6 +165,24 @@ public class Wilson implements Algorithm {
 		// No valid starting point, the maze has been complete
 		complete = true;
 		return new Point(0, 0);
+	}
+	
+	public void clearVisitedColor()
+	{
+		if(directionList.size() > 0)
+		{
+			for(Point p : directionList)
+			{
+				Model.Node tempNode = dataModel.getNode(p.x, p.y);
+				
+				if(tempNode.getColor() == visitColor)
+				{
+					tempNode.setColor(greyColor);
+				}
+			}
+		}
+		
+		directionList.clear();
 	}
 	
 	/**
