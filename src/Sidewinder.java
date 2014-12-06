@@ -36,28 +36,32 @@ public class Sidewinder implements Algorithm {
 		
 		// Find valid directions
 		ArrayList<Model.CardinalDirections> validDirections = getValidPositions(pointCurrent);
-		
-		// Carve NORTH or EAST
-		int rand = randomRange(0, validDirections.size());
-		Model.CardinalDirections randDirection = validDirections.get(rand);
-		
-		// Carve EAST from the current cell
-		if(randDirection == Model.CardinalDirections.EAST)
+				
+		// Check there is at least one valid direction
+		if(validDirections.size() > 0)
 		{
-			// Fetch the 'current' and 'adjacent' nodes
-			Model.Node currentNode = dataModel.getNode(pointCurrent.x, pointCurrent.y);
-			Model.Node adjacentNode = dataModel.getNode(pointCurrent.x + 1, pointCurrent.y);
+
+			// Carve NORTH or EAST
+			int rand = randomRange(0, validDirections.size() - 1);
+			Model.CardinalDirections randDirection = validDirections.get(rand);
 			
-			// Carve the nodes
-			currentNode.setCardinal(randDirection, false);
-			adjacentNode.setCardinal(randDirection.reverse(), false);
-			
-		} else {
-	
-			// Else Carve NORTH from a random cell in the 'runSet'
+			// Carve EAST from the current cell
+			if(randDirection == Model.CardinalDirections.EAST)
+			{
+				// Fetch the 'current' and 'adjacent' nodes
+				Model.Node currentNode = dataModel.getNode(pointCurrent.x, pointCurrent.y);
+				Model.Node adjacentNode = dataModel.getNode(pointCurrent.x + 1, pointCurrent.y);
+				
+				// Carve the nodes
+				currentNode.setCardinal(randDirection, false);
+				adjacentNode.setCardinal(randDirection.reverse(), false);
+				
+			} else {
 		
-			// Remove existing cells from the run set
+				// Else Carve NORTH from a random cell in the 'runSet'
 			
+				// Remove existing cells from the run set			
+			}
 		}
 		
 		// Iterate through the nodes
