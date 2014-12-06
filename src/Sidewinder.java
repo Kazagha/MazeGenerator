@@ -58,6 +58,9 @@ public class Sidewinder implements Algorithm {
 				currentNode.setCardinal(randDirection, false);
 				adjacentNode.setCardinal(randDirection.reverse(), false);
 				
+				// Color adjacent node to show that it's part of the set
+				adjacentNode.setColor(currentColor);
+				
 				// Add one to the set
 				runCount++;
 				
@@ -74,6 +77,12 @@ public class Sidewinder implements Algorithm {
 				// Carve the nodes
 				currentNode.setCardinal(randDirection, false);
 				adjacentNode.setCardinal(randDirection.reverse(), false);
+				
+				// Remove color from the current set
+				for(int i = pointCurrent.x; i >= (pointCurrent.x - runCount); i--)
+				{
+					dataModel.getNode(i, pointCurrent.y).setColor(neutralColor);
+				}
 			
 				// Remove existing cells from the run set	
 				runCount = 0;
@@ -90,6 +99,7 @@ public class Sidewinder implements Algorithm {
 			pointCurrent.setLocation(0, pointCurrent.y + 1);
 			// Set the run counter to zero for the new row
 			runCount = 0;
+			
 		} else {		
 			// All nodes have been visited, flag the maze as complete
 			complete = true;
