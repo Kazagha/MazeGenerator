@@ -4,6 +4,12 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class Sidewinder implements Algorithm {
+	
+	public Sidewinder(Model model)
+	{
+		this.dataModel = model;
+		reset();
+	}
 
 	Model dataModel;
 	Point pointCurrent = new Point(0, 0);
