@@ -29,22 +29,43 @@ public class Sidewinder implements Algorithm {
 	public void next() {
 		
 		// Find valid directions
+		ArrayList<Model.CardinalDirections> validDirections = getValidPositions(pointCurrent);
 		
 		// Carve NORTH or EAST
+		int rand = randomRange(0, validDirections.size());
+		Model.CardinalDirections randDirection = validDirections.get(rand);
 		
-			// Carve EAST from the current cell
-		
+		// Carve EAST from the current cell
+		if(randDirection == Model.CardinalDirections.EAST)
+		{
+			// Fetch the 'current' and 'adjacent' nodes
+			Model.Node currentNode = dataModel.getNode(pointCurrent.x, pointCurrent.y);
+			Model.Node adjacentNode = dataModel.getNode(pointCurrent.x + 1, pointCurrent.y);
+			
+			// Carve the nodes
+			currentNode.setCardinal(randDirection, false);
+			adjacentNode.setCardinal(randDirection.reverse(), false);
+			
+		} else {
+	
 			// Else Carve NORTH from a random cell in the 'runSet'
 		
 			// Remove existing cells from the run set
+			
+		}
 		
 		// Iterate through the nodes
-		
+		if(pointCurrent.x < dataModel.get_X_Width())
+		{
 			// Move EAST one position
-		
-			// Else move SOUTH and start at the beginning of the row
-		
-			// No further moves, flag the maze as complete
+			pointCurrent.setLocation(pointCurrent.x + 1, pointCurrent.y);
+		} else if(pointCurrent.y < dataModel.get_Y_Height()) {
+			// Else move SOUTH and start at the beginning of the row	
+			pointCurrent.setLocation(0, pointCurrent.y + 1);
+		} else {		
+			// All nodes have been visited, flag the maze as complete
+			complete = true;
+		}
 	}
 
 	@Override
