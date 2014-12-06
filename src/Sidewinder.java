@@ -14,7 +14,7 @@ public class Sidewinder implements Algorithm {
 	Model dataModel;
 	Point pointCurrent = new Point(0, 0);
 	boolean complete = false;
-	ArrayList<Integer> runSet = new ArrayList<Integer>();
+	int runCount = 0;
 	
 	Random rand = new Random();	
 	Color currentColor = new Color(205, 92, 92);
@@ -33,6 +33,8 @@ public class Sidewinder implements Algorithm {
 
 	@Override
 	public void next() {
+				
+		dataModel.getNode(pointCurrent.x, pointCurrent.y).setColor(currentColor);
 		
 		// Find valid directions
 		ArrayList<Model.CardinalDirections> validDirections = getValidPositions(pointCurrent);
@@ -56,20 +58,25 @@ public class Sidewinder implements Algorithm {
 				currentNode.setCardinal(randDirection, false);
 				adjacentNode.setCardinal(randDirection.reverse(), false);
 				
+				// Add one to the set
+				runCount++;
+				
 			} else {
 		
 				// Else Carve NORTH from a random cell in the 'runSet'
+				//rand = randomRange(pointCurrent.x - runCount, pointCurrent.x);
 			
-				// Remove existing cells from the run set			
+				// Remove existing cells from the run set	
+				runCount = 0;
 			}
 		}
 		
 		// Iterate through the nodes
-		if(pointCurrent.x < dataModel.get_X_Width())
+		if(pointCurrent.x < dataModel.get_X_Width() - 1)
 		{
 			// Move EAST one position
 			pointCurrent.setLocation(pointCurrent.x + 1, pointCurrent.y);
-		} else if(pointCurrent.y < dataModel.get_Y_Height()) {
+		} else if(pointCurrent.y < dataModel.get_Y_Height() - 1) {
 			// Else move SOUTH and start at the beginning of the row	
 			pointCurrent.setLocation(0, pointCurrent.y + 1);
 		} else {		
@@ -89,6 +96,8 @@ public class Sidewinder implements Algorithm {
 		pointCurrent.setLocation(0, 0);
 		// Set the 'complete' flag to false
 		complete = false;
+		// Reset the run count
+		runCount = 0;
 	}
 
 	@Override
