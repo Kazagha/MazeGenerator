@@ -100,6 +100,15 @@ public class Sidewinder implements Algorithm {
 			// Set the run counter to zero for the new row
 			runCount = 0;
 			
+			// Manually clean up the background color of the first row
+			if(pointCurrent.y == 1)
+			{
+				for(int i = 0; i < dataModel.get_X_Width() - 1; i++)
+				{
+					dataModel.getNode(i, 0).setColor(neutralColor);
+				}
+			}
+			
 		} else {		
 			// All nodes have been visited, flag the maze as complete
 			complete = true;
