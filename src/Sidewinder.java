@@ -1,5 +1,6 @@
 import java.awt.Color;
 import java.awt.Point;
+import java.util.ArrayList;
 import java.util.Random;
 
 public class Sidewinder implements Algorithm {
@@ -7,6 +8,7 @@ public class Sidewinder implements Algorithm {
 	Model dataModel;
 	Point pointCurrent = new Point(0, 0);
 	boolean complete = false;
+	ArrayList<Integer> runSet = new ArrayList<Integer>();
 	
 	Random rand = new Random();	
 	Color currentColor = new Color(205, 92, 92);
@@ -26,6 +28,23 @@ public class Sidewinder implements Algorithm {
 	@Override
 	public void next() {
 		
+		// Find valid directions
+		
+		// Carve NORTH or EAST
+		
+			// Carve EAST from the current cell
+		
+			// Else Carve NORTH from a random cell in the 'runSet'
+		
+			// Remove existing cells from the run set
+		
+		// Iterate through the nodes
+		
+			// Move EAST one position
+		
+			// Else move SOUTH and start at the beginning of the row
+		
+			// No further moves, flag the maze as complete
 	}
 
 	@Override
@@ -53,5 +72,38 @@ public class Sidewinder implements Algorithm {
 		dataModel = model;
 		reset();
 	}
-
+	
+	public ArrayList<Model.CardinalDirections> getValidPositions(Point currentPoint)
+	{
+		ArrayList<Model.CardinalDirections> tempList = new ArrayList<Model.CardinalDirections>();
+		
+		// Use only two possible directions
+		Model.CardinalDirections[] directions =
+			{  Model.CardinalDirections.NORTH, Model.CardinalDirections.EAST }; 
+		
+		// Check the Cardinal directions for valid positions
+		for(Model.CardinalDirections cd : directions)
+		{
+			Point tempPoint = new Point(currentPoint.x + cd.getX(), (currentPoint.y + cd.getY()));
+			// Check if this is a valid position
+			if(validPos(tempPoint.x, tempPoint.y))
+			{
+				tempList.add(cd);
+			}
+		}	
+		
+		return tempList;
+	}
+	
+	/**
+	 * Randomize a number between the specified <code>min</code> and <code>max</code> 
+	 * @param min
+	 * @param max
+	 * @return
+	 */
+	public int randomRange(int min, int max)
+	{
+		// Plus one required to include the max in the range
+		return rand.nextInt((max - min) + 1) + min;
+	}
 }
