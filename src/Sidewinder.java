@@ -3,6 +3,8 @@ import java.awt.Point;
 import java.util.ArrayList;
 import java.util.Random;
 
+import javax.jws.WebParam.Mode;
+
 public class Sidewinder implements Algorithm {
 	
 	public Sidewinder(Model model)
@@ -34,12 +36,29 @@ public class Sidewinder implements Algorithm {
 	@Override
 	public void next() {
 		
-		// Find valid directions
-		ArrayList<Model.CardinalDirections> validDirections = getValidPositions(pointCurrent);
+		Model.CardinalDirections randDirection = null;
 		
-		// Carve NORTH or EAST
-		int rand = randomRange(0, validDirections.size());
-		Model.CardinalDirections randDirection = validDirections.get(rand);
+		// Find valid directions
+		if(pointCurrent.y == 0)
+		{
+			// The top row of the maze must carve east
+			randDirection = Model.CardinalDirections.EAST;
+			
+		} else if(pointCurrent.x == dataModel.get_X_Width() - 1) {
+			// The last row in the maze must carve north
+			randDirection = Model.CardinalDirections.NORTH;
+			
+		} else {			
+			// Carve either NORTH or EAST
+			int rand = randomRange(1, 2);
+			
+			if(rand == 1)
+			{
+				randDirection = Model.CardinalDirections.NORTH;
+			} else {
+				randDirection = Model.CardinalDirections.EAST;
+			}
+		}
 		
 		// Carve EAST from the current cell
 		if(randDirection == Model.CardinalDirections.EAST)
@@ -100,7 +119,7 @@ public class Sidewinder implements Algorithm {
 		reset();
 	}
 	
-	public ArrayList<Model.CardinalDirections> getValidPositions(Point currentPoint)
+	public ArrayList<Model.CardinalDirections> getValidDirections(Point currentPoint)
 	{
 		ArrayList<Model.CardinalDirections> tempList = new ArrayList<Model.CardinalDirections>();
 		
