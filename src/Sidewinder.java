@@ -113,6 +113,8 @@ public class Sidewinder implements Algorithm {
 			// All nodes have been visited, flag the maze as complete
 			complete = true;
 		}
+		
+		dataModel.getNode(pointCurrent.x, pointCurrent.y).setColor(currentColor);
 	}
 
 	@Override
