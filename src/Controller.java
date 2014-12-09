@@ -33,6 +33,7 @@ public class Controller {
 				"Prim's Algorithm",
 				"Recursive Backtracker",
 				"Recursive Division",
+				"Sidewinder",
 				"Wilson's Algorithm"
 			});
 	}
@@ -91,6 +92,10 @@ public class Controller {
 					break;
 				case "Recursive Backtracker":
 					algorithm = new RecursiveBacktracker(model);
+					algorithm.reset();
+					break;
+				case "Sidewinder":
+					algorithm = new Sidewinder(model);
 					algorithm.reset();
 					break;
 				case "Wilson's Algorithm":
