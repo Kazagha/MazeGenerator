@@ -33,7 +33,7 @@ public class RecursiveBacktracker implements Algorithm {
 	@Override
 	public void next() {
 		
-		ArrayList<Model.CardinalDirections> validDirections = getValidPositions(pointCurrent);
+		ArrayList<Model.CardinalDirections> validDirections = getValidDirections(pointCurrent);
 		
 		if(validDirections.size() > 0)
 		{			
@@ -110,7 +110,7 @@ public class RecursiveBacktracker implements Algorithm {
 		return pointArray.size() == 0;
 	}
 	
-	public ArrayList<Model.CardinalDirections> getValidPositions(Point currentPoint)
+	public ArrayList<Model.CardinalDirections> getValidDirections(Point currentPoint)
 	{
 		ArrayList<Model.CardinalDirections> tempList = new ArrayList<Model.CardinalDirections>();
 		
