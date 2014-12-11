@@ -192,7 +192,7 @@ public class RecursiveDivision implements Algorithm {
 		{
 			Rect[] tempRect = new Rect[2];
 			
-			// A 'Rect' must be smaller than 2 cannot be split
+			// A 'Rect' smaller than 2 in any dimension cannot be split
 			if(this.getWidth() < 2 || this.getHeight() < 2)
 			{
 				return null;
@@ -207,7 +207,7 @@ public class RecursiveDivision implements Algorithm {
 				// Split Horizontally
 				division = Split.HORIZONTAL;
 			} else {
-				// Random Split				
+				// Equal width and height; random split				
 				if(randomRange(1, 2) == 1)
 				{
 					division = Split.HORIZONTAL;
