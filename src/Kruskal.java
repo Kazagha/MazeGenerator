@@ -6,7 +6,7 @@ import java.util.ArrayList;
 public class Kruskal implements Algorithm {
 	
 	Model dataModel;
-	Tree.Node<Point>[][] pointModel;
+	Tree.Node[][] treeNodeModel;
 	ArrayList<Tree> treeList;
 	
 	// Set Colors
@@ -28,13 +28,28 @@ public class Kruskal implements Algorithm {
 	}
 
 	@Override
-	public void next() {}
+	public void next() {
+		
+	}
 
 	@Override
 	public void reset() {
 		dataModel.setAllColor(neutralColor);
 		dataModel.setAllVisited(false);
-		dataModel.setAllWalls(true);		
+		dataModel.setAllWalls(true);
+		
+		// Create a new Tree Node model the same size as the dataModel
+		treeNodeModel = new Tree.Node
+				[dataModel.get_Y_Height()][dataModel.get_X_Width()];
+		
+		// Populate the Tree Node Model with the nodes in the dataModel
+		for(int x = 0; x < dataModel.get_X_Width(); x++)
+		{
+			for(int y = 0; y < dataModel.get_Y_Height(); y++)
+			{
+				treeNodeModel[y][x] = new Tree.Node(dataModel.getNode(x, y));
+			}
+		}		
 	}
 
 	@Override
