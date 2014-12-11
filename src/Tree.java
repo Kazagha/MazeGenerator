@@ -30,6 +30,21 @@ public class Tree<T> {
 			return data.toString();
 		}
 		
+		public T getData()
+		{
+			return data;
+		}
+		
+		public boolean isRelated(Node node)
+		{
+			if(node == null)
+			{
+				return false;
+			}
+			
+			return this.getParentNode() == node.getParentNode();
+		}
+		
 		public int getChildCount()
 		{
 			return children.size();
