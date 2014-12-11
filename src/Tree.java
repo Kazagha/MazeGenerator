@@ -43,7 +43,7 @@ public class Tree<T> {
 				return false;
 			}
 			
-			return this.getParentNode() == node.getParentNode();
+			return this.getRootNode() == node.getRootNode();
 		}
 		
 		public int getChildCount()
