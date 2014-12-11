@@ -6,8 +6,8 @@ public class Tree<T> {
 	public Tree(T rootData)
 	{
 		root = new Node<T>(rootData);
-		root.data = rootData;
-		root.children = new ArrayList<Node<T>>();
+		//root.data = rootData;
+		//root.children = new ArrayList<Node<T>>();
 	}	
 	
 	public Node<T> getModel()
@@ -23,6 +23,7 @@ public class Tree<T> {
 		public Node(T nodeData)
 		{
 			data = nodeData;
+			children = new ArrayList<Node<T>>();
 		}
 		
 		public String toString()
