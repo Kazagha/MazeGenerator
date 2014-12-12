@@ -1,7 +1,7 @@
 import java.awt.Color;
 import java.awt.Point;
 import java.util.ArrayList;
-
+import java.util.Random;
 
 public class Kruskal implements Algorithm {
 	
@@ -9,6 +9,7 @@ public class Kruskal implements Algorithm {
 	Tree.Node[][] treeNodeModel;
 	ArrayList<Edge> edgeList;
 	
+	Random rand = new Random();
 	// Set Colors
 	Color currentColor = new Color(205, 92, 92);
 	Color visitColor = new Color(135, 206, 250);  	
@@ -106,6 +107,18 @@ public class Kruskal implements Algorithm {
 			this.node = node;
 			this.direction = direction;
 		}
+	}
+	
+	/**
+	 * Randomize a number between the specified <code>min</code> and <code>max</code> 
+	 * @param min
+	 * @param max
+	 * @return
+	 */
+	public int randomRange(int min, int max)
+	{
+		// Plus one required to include the max in the range
+		return rand.nextInt((max - min) + 1) + min;
 	}
 	
 	public ArrayList<Model.CardinalDirections> getValidDirections(Point currentPoint)
