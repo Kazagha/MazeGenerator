@@ -42,7 +42,7 @@ public class Kruskal implements Algorithm {
 				[tempEdge.point.x + tempEdge.direction.getX()];
 		
 		// Check if removing the edge joins two disjoint trees
-		if(currentNode.isRelated(adjacentNode))
+		if(! currentNode.isRelated(adjacentNode))
 		{		
 			// Carve walls between nodes
 			((Model.Node) currentNode.getData()).setCardinal(tempEdge.direction, false);
