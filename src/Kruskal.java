@@ -33,19 +33,21 @@ public class Kruskal implements Algorithm {
 		
 		// Randomly select an edge
 		int rand = randomRange(0, edgeList.size() - 1);
-		Edge tempEdge = edgeList.get(rand);
+		Edge tempEdge = edgeList.get(rand);	
 		
-		// Find the current and adjacent nodes
+		// Find the 'current' and 'adjacent' nodes		
+		Tree.Node currentNode = treeNodeModel[tempEdge.point.x][tempEdge.point.y];
+		Tree.Node adjacentNode = treeNodeModel
+				[tempEdge.point.x + tempEdge.direction.getX()]
+				[tempEdge.point.y + tempEdge.direction.getY()];
 		
 		// Check if removing the edge joins two disjoint trees
-						
+		if(currentNode.isRelated(adjacentNode))
+		{		
 			// Carve walls between nodes
 		
-			// On the current node, add the adjacent node as a child
-		
-		// ELSE
-			
-			// Do nothing		
+			// On the current node, add the adjacent node as a child			
+		}		
 		
 		// Remove the edge from the ArrayList
 	}
