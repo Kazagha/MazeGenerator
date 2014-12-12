@@ -11,6 +11,8 @@ public class Kruskal implements Algorithm {
 	
 	Random rand = new Random();
 	// Set Colors
+	ArrayList<Color> colorList = new ArrayList<Color>();
+	int colorIndex = 0;
 	Color currentColor = new Color(205, 92, 92);
 	Color visitColor = new Color(135, 206, 250);  	
 	Color neutralColor = new Color(255, 255, 255);
@@ -18,6 +20,7 @@ public class Kruskal implements Algorithm {
 	public Kruskal(Model model)
 	{
 		this.setModel(model); 
+		addColorList();
 	}
 	
 	@Override
@@ -48,6 +51,11 @@ public class Kruskal implements Algorithm {
 			((Model.Node) currentNode.getData()).setCardinal(tempEdge.direction, false);
 			((Model.Node) adjacentNode.getData()).setCardinal(tempEdge.direction.reverse(), false);
 		
+			// Set background color
+			Color tempColor = nextColor();
+			((Model.Node) currentNode.getData()).setColor(tempColor);
+			((Model.Node) adjacentNode.getData()).setColor(tempColor);
+			
 			// On the current node, add the adjacent node as a child
 			currentNode.addChild(adjacentNode.getRootNode());
 		}		
@@ -116,6 +124,31 @@ public class Kruskal implements Algorithm {
 			this.point = point;
 			this.direction = direction;
 		}
+	}
+	
+	public Color nextColor()
+	{
+		if(colorIndex < colorList.size() - 1)
+		{
+			colorIndex++;
+		} else {
+			colorIndex = 0;
+		}
+		
+		return colorList.get(colorIndex);
+	}
+	
+	public void addColorList()
+	{
+		colorList.add(new Color(220, 20, 20));
+		colorList.add(new Color(220, 120, 20));
+		colorList.add(new Color(220, 220, 20));
+		colorList.add(new Color(120, 220, 20));
+		colorList.add(new Color(20, 220, 20));
+		colorList.add(new Color(20, 220, 120));
+		colorList.add(new Color(20, 220, 220));
+		colorList.add(new Color(20, 120, 220));
+		colorList.add(new Color(20, 20, 220));
 	}
 	
 	/**
