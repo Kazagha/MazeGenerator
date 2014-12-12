@@ -7,7 +7,7 @@ public class Kruskal implements Algorithm {
 	
 	Model dataModel;
 	Tree.Node[][] treeNodeModel;
-	ArrayList<Tree> treeList;
+	ArrayList<Wall> wallList;
 	
 	// Set Colors
 	Color currentColor = new Color(205, 92, 92);
@@ -49,7 +49,11 @@ public class Kruskal implements Algorithm {
 			{
 				treeNodeModel[y][x] = new Tree.Node(dataModel.getNode(x, y));
 			}
-		}		
+		}	
+		
+		wallList = new ArrayList<Wall>();
+		
+		
 	}
 
 	@Override
@@ -62,5 +66,38 @@ public class Kruskal implements Algorithm {
 		dataModel = model;
 		reset();		
 	}
-
+	
+	private class Wall
+	{
+		private Model.Node node;
+		private Model.CardinalDirections direction;
+		
+		public Wall(Model.Node node, Model.CardinalDirections direction)
+		{
+			this.node = node;
+			this.direction = direction;
+		}
+	}
+	
+	public ArrayList<Model.CardinalDirections> getValidDirections(Point currentPoint)
+	{
+		ArrayList<Model.CardinalDirections> tempList = new ArrayList<Model.CardinalDirections>();
+		
+		// Use only two possible directions
+		Model.CardinalDirections[] directions =
+			{  Model.CardinalDirections.NORTH, Model.CardinalDirections.EAST }; 
+		
+		// Check the Cardinal directions for valid positions
+		for(Model.CardinalDirections cd : directions)
+		{
+			Point tempPoint = new Point(currentPoint.x + cd.getX(), (currentPoint.y + cd.getY()));
+			// Check if this is a valid position
+			if(validPos(tempPoint.x, tempPoint.y))
+			{
+				tempList.add(cd);
+			}
+		}	
+		
+		return tempList;
+	}
 }
