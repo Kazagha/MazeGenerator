@@ -50,14 +50,12 @@ public class Kruskal implements Algorithm {
 			// Carve walls between nodes
 			((Model.Node) currentNode.getData()).setCardinal(tempEdge.direction, false);
 			((Model.Node) adjacentNode.getData()).setCardinal(tempEdge.direction.reverse(), false);
-		
-			// Set background color
-			Color tempColor = nextColor();
-			((Model.Node) currentNode.getData()).setColor(tempColor);
-			((Model.Node) adjacentNode.getData()).setColor(tempColor);
 			
 			// On the current node, add the adjacent node as a child
 			currentNode.addChild(adjacentNode.getRootNode());
+						
+			// Set background color
+			//colorTree(currentNode, nextColor());	
 		}		
 		
 		// Remove the edge from the ArrayList
@@ -149,6 +147,31 @@ public class Kruskal implements Algorithm {
 		colorList.add(new Color(20, 220, 220));
 		colorList.add(new Color(20, 120, 220));
 		colorList.add(new Color(20, 20, 220));
+	}
+	
+	/**
+	 * Color the specified <code>treeNode</code> and all children in the specified color <code>c</code>
+	 * @param treeNode - The specified node
+	 * @param c - The specified color
+	 */
+	public void colorTree(Tree.Node treeNode, Color c)
+	{
+		// Color the root node
+		Model.Node currentNode = ((Model.Node) treeNode.getData());
+		currentNode.setColor(c);
+				
+		// Count the children of the current node 
+		int childCount = treeNode.getChildCount();
+		
+		// If there are children, iterate through them
+		for(int i = 0; i < childCount; i++)
+		{
+			// Find the child node in this position
+			Tree.Node childNode = treeNode.getChildAt(i);
+			
+			// Color the specified node and child nodes
+			colorTree(childNode, c);
+		}
 	}
 	
 	/**
