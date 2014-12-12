@@ -56,7 +56,7 @@ public class Kruskal implements Algorithm {
 				ArrayList<Model.CardinalDirections> directions = getValidDirections(new Point(x, y));
 				for(Model.CardinalDirections cd : directions)
 				{
-					
+					edgeList.add(new Edge(tempNode, cd));
 				}
 			}
 		}
@@ -64,7 +64,10 @@ public class Kruskal implements Algorithm {
 
 	@Override
 	public boolean validPos(int x, int y) {
-		return false;
+		// Check the position is within the bounds of the Model
+		// (only checking SOUTH and EAST)
+		return (x < dataModel.get_X_Width()
+				&& y < dataModel.get_Y_Height());
 	}
 
 	@Override
