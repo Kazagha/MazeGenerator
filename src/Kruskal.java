@@ -46,7 +46,7 @@ public class Kruskal implements Algorithm {
 		
 		// Check if removing the edge joins two disjoint trees
 		if(! currentNode.isRelated(adjacentNode))
-		{		
+		{				
 			// Carve walls between nodes
 			((Model.Node) currentNode.getData()).setCardinal(tempEdge.direction, false);
 			((Model.Node) adjacentNode.getData()).setCardinal(tempEdge.direction.reverse(), false);
@@ -55,7 +55,15 @@ public class Kruskal implements Algorithm {
 			currentNode.addChild(adjacentNode.getRootNode());
 						
 			// Set background color
-			//colorTree(currentNode, nextColor());	
+			// If no color exists
+			if(((Model.Node) currentNode.getData()).getColor() == neutralColor)
+			{
+				// Use a new color
+				colorTree(currentNode, nextColor());
+			} else {
+				// Use the existing color
+				colorTree(currentNode, ((Model.Node) currentNode.getData()).getColor());
+			}
 		}		
 		
 		// Remove the edge from the ArrayList
