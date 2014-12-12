@@ -30,10 +30,26 @@ public class Kruskal implements Algorithm {
 	@Override
 	public void next() {
 		
+		// Randomly select an edge
+		
+		// Check if removing the edge joins two disjoint trees
+				
+			// Find the current and adjacent nodes
+		
+			// Carve walls between nodes
+		
+			// On the current node, add the adjacent node as a child
+		
+		// ELSE
+			
+			// Do nothing		
+		
+		// Remove the edge from the ArrayList
 	}
 
 	@Override
 	public void reset() {
+		// Reset the maze
 		dataModel.setAllColor(neutralColor);
 		dataModel.setAllVisited(false);
 		dataModel.setAllWalls(true);
@@ -50,9 +66,13 @@ public class Kruskal implements Algorithm {
 		{
 			for(int y = 0; y < dataModel.get_Y_Height(); y++)
 			{
+				// Fetch the node at the current position
 				Model.Node tempNode = dataModel.getNode(x, y);
+				
+				// Create a 'Tree Node' from the current position
 				treeNodeModel[y][x] = new Tree.Node(tempNode);
 				
+				// Add valid edges in the ArrayList
 				ArrayList<Model.CardinalDirections> directions = getValidDirections(new Point(x, y));
 				for(Model.CardinalDirections cd : directions)
 				{
