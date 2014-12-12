@@ -30,6 +30,7 @@ public class Controller {
 				"Aldous and Broder",
 				"Binary Tree",
 				"Hunt and Kill",
+				"Kruskal's Algorithm",
 				"Prim's Algorithm",
 				"Recursive Backtracker",
 				"Recursive Division",
@@ -80,6 +81,10 @@ public class Controller {
 					break;
 				case "Hunt and Kill":
 					algorithm = new HuntAndKill(model);
+					algorithm.reset();
+					break;
+				case "Kruskal's Algorithm":
+					algorithm = new Kruskal(model);
 					algorithm.reset();
 					break;
 				case "Prim's Algorithm":
