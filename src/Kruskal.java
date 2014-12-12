@@ -45,11 +45,15 @@ public class Kruskal implements Algorithm {
 		if(currentNode.isRelated(adjacentNode))
 		{		
 			// Carve walls between nodes
+			((Model.Node) currentNode.getData()).setCardinal(tempEdge.direction, false);
+			((Model.Node) adjacentNode.getData()).setCardinal(tempEdge.direction.reverse(), false);
 		
-			// On the current node, add the adjacent node as a child			
+			// On the current node, add the adjacent node as a child
+			currentNode.addChild(adjacentNode.getRootNode());
 		}		
 		
 		// Remove the edge from the ArrayList
+		edgeList.remove(rand);
 	}
 
 	@Override
