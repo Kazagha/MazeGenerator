@@ -32,11 +32,13 @@ public class Kruskal implements Algorithm {
 	public void next() {
 		
 		// Randomly select an edge
+		int rand = randomRange(0, edgeList.size() - 1);
+		Edge tempEdge = edgeList.get(rand);
+		
+		// Find the current and adjacent nodes
 		
 		// Check if removing the edge joins two disjoint trees
-				
-			// Find the current and adjacent nodes
-		
+						
 			// Carve walls between nodes
 		
 			// On the current node, add the adjacent node as a child
@@ -74,10 +76,11 @@ public class Kruskal implements Algorithm {
 				treeNodeModel[y][x] = new Tree.Node(tempNode);
 				
 				// Add valid edges in the ArrayList
-				ArrayList<Model.CardinalDirections> directions = getValidDirections(new Point(x, y));
+				Point tempPoint = new Point(x, y);
+				ArrayList<Model.CardinalDirections> directions = getValidDirections(tempPoint);
 				for(Model.CardinalDirections cd : directions)
 				{
-					edgeList.add(new Edge(tempNode, cd));
+					edgeList.add(new Edge(tempPoint, cd));
 				}
 			}
 		}
@@ -99,12 +102,12 @@ public class Kruskal implements Algorithm {
 	
 	private class Edge
 	{
-		private Model.Node node;
+		private Point point;
 		private Model.CardinalDirections direction;
 		
-		public Edge(Model.Node node, Model.CardinalDirections direction)
+		public Edge(Point point, Model.CardinalDirections direction)
 		{
-			this.node = node;
+			this.point = point;
 			this.direction = direction;
 		}
 	}
