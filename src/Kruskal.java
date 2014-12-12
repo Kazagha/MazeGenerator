@@ -7,7 +7,7 @@ public class Kruskal implements Algorithm {
 	
 	Model dataModel;
 	Tree.Node[][] treeNodeModel;
-	ArrayList<Wall> wallList;
+	ArrayList<Edge> edgeList;
 	
 	// Set Colors
 	Color currentColor = new Color(205, 92, 92);
@@ -42,18 +42,24 @@ public class Kruskal implements Algorithm {
 		treeNodeModel = new Tree.Node
 				[dataModel.get_Y_Height()][dataModel.get_X_Width()];
 		
+		// Create an List of all edges
+		edgeList = new ArrayList<Edge>();	
+		
 		// Populate the Tree Node Model with the nodes in the dataModel
 		for(int x = 0; x < dataModel.get_X_Width(); x++)
 		{
 			for(int y = 0; y < dataModel.get_Y_Height(); y++)
 			{
-				treeNodeModel[y][x] = new Tree.Node(dataModel.getNode(x, y));
+				Model.Node tempNode = dataModel.getNode(x, y);
+				treeNodeModel[y][x] = new Tree.Node(tempNode);
+				
+				ArrayList<Model.CardinalDirections> directions = getValidDirections(new Point(x, y));
+				for(Model.CardinalDirections cd : directions)
+				{
+					
+				}
 			}
-		}	
-		
-		wallList = new ArrayList<Wall>();
-		
-		
+		}
 	}
 
 	@Override
@@ -67,12 +73,12 @@ public class Kruskal implements Algorithm {
 		reset();		
 	}
 	
-	private class Wall
+	private class Edge
 	{
 		private Model.Node node;
 		private Model.CardinalDirections direction;
 		
-		public Wall(Model.Node node, Model.CardinalDirections direction)
+		public Edge(Model.Node node, Model.CardinalDirections direction)
 		{
 			this.node = node;
 			this.direction = direction;
@@ -85,7 +91,7 @@ public class Kruskal implements Algorithm {
 		
 		// Use only two possible directions
 		Model.CardinalDirections[] directions =
-			{  Model.CardinalDirections.NORTH, Model.CardinalDirections.EAST }; 
+			{  Model.CardinalDirections.SOUTH, Model.CardinalDirections.EAST }; 
 		
 		// Check the Cardinal directions for valid positions
 		for(Model.CardinalDirections cd : directions)
