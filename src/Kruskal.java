@@ -55,15 +55,18 @@ public class Kruskal implements Algorithm {
 			currentNode.addChild(adjacentNode.getRootNode());
 						
 			// Set background color
-			// If no color exists
-			if(((Model.Node) currentNode.getData()).getColor() == neutralColor)
+			// Check if the adjacent node already has a background color
+			if(((Model.Node) adjacentNode.getData()).getColor() != neutralColor)
 			{
-				// Use a new color
-				colorTree(currentNode, nextColor());
+				// Use the existing background color of the adjacent node
+				colorTree(currentNode, ((Model.Node) adjacentNode.getData()).getColor());
+			} else if(((Model.Node) currentNode.getData()).getColor() != neutralColor) {
+				// Use the existing background color of the current node
+				colorTree(currentNode, ((Model.Node) currentNode.getData()).getColor());				
 			} else {
-				// Use the existing color
-				colorTree(currentNode, ((Model.Node) currentNode.getData()).getColor());
-			}
+				// No background color exists, select a new color
+				colorTree(currentNode, nextColor());
+			} 
 		}		
 		
 		// Remove the edge from the ArrayList
