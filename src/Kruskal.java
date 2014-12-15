@@ -30,7 +30,7 @@ public class Kruskal implements Algorithm {
 
 	@Override
 	public boolean isComplete() {
-		return false;
+		return edgeList.size() == 0;
 	}
 
 	@Override
@@ -73,7 +73,7 @@ public class Kruskal implements Algorithm {
 				// Use the existing background color of the current node
 				colorTree(currentNode.getRootNode(), nextColor());
 			}
-		}		
+		}
 		
 		// Remove the edge from the ArrayList
 		edgeList.remove(rand);
