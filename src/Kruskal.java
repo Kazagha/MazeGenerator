@@ -3,6 +3,8 @@ import java.awt.Point;
 import java.util.ArrayList;
 import java.util.Random;
 
+import com.sun.org.apache.xpath.internal.operations.Mod;
+
 public class Kruskal implements Algorithm {
 	
 	Model dataModel;
@@ -51,22 +53,26 @@ public class Kruskal implements Algorithm {
 			((Model.Node) currentNode.getData()).setCardinal(tempEdge.direction, false);
 			((Model.Node) adjacentNode.getData()).setCardinal(tempEdge.direction.reverse(), false);
 			
-			// On the current node, add the adjacent node as a child
-			currentNode.addChild(adjacentNode.getRootNode());
-						
-			// Set background color
-			// Check if the adjacent node already has a background color
-			if(((Model.Node) adjacentNode.getData()).getColor() != neutralColor)
+			System.out.format("%d - %d%n", adjacentNode.getRootNode().getNodeCount(), currentNode.getRootNode().getNodeCount());
+			
+			// Check which tree is larger
+			if(currentNode.getRootNode().getNodeCount() > adjacentNode.getRootNode().getNodeCount())
 			{
-				// Use the existing background color of the adjacent node
-				colorTree(currentNode, ((Model.Node) adjacentNode.getData()).getColor());
-			} else if(((Model.Node) currentNode.getData()).getColor() != neutralColor) {
+				// On the current node, add the adjacent node as a child
+				currentNode.addChild(adjacentNode.getRootNode());
 				// Use the existing background color of the current node
-				colorTree(currentNode, ((Model.Node) currentNode.getData()).getColor());				
+				colorTree(currentNode.getRootNode(), ((Model.Node) currentNode.getData()).getColor());	
+			} else if(currentNode.getRootNode().getNodeCount() < adjacentNode.getRootNode().getNodeCount()){
+				// On the adjacent node, add the current node as a child
+				adjacentNode.addChild(currentNode.getRootNode());
+				// Use the existing background color of the adjacent node
+				colorTree(adjacentNode.getRootNode(), ((Model.Node) adjacentNode.getData()).getColor());
 			} else {
-				// No background color exists, select a new color
-				colorTree(currentNode, nextColor());
-			} 
+				// On the current node, add the adjacent node as a child
+				currentNode.addChild(adjacentNode.getRootNode());
+				// Use the existing background color of the current node
+				colorTree(currentNode.getRootNode(), nextColor());
+			}
 		}		
 		
 		// Remove the edge from the ArrayList
