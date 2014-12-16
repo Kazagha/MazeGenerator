@@ -6,8 +6,6 @@ public class Tree<T> {
 	public Tree(T rootData)
 	{
 		root = new Node<T>(rootData);
-		//root.data = rootData;
-		//root.children = new ArrayList<Node<T>>();
 	}	
 	
 	public Node<T> getModel()
@@ -19,11 +17,13 @@ public class Tree<T> {
 		private T data;
 		private Node<T> parent;
 		private ArrayList<Node<T>> children;
+		private int nodeCount;
 		
 		public Node(T nodeData)
 		{
 			data = nodeData;
 			children = new ArrayList<Node<T>>();
+			nodeCount = 1;
 		}
 		
 		public String toString()
@@ -34,6 +34,11 @@ public class Tree<T> {
 		public T getData()
 		{
 			return data;
+		}
+		
+		public int getNodeCount()
+		{
+			return nodeCount;
 		}
 		
 		public boolean isRelated(Node node)
@@ -79,6 +84,7 @@ public class Tree<T> {
 		{
 			children.add(child);
 			child.parent = this;
+			this.getRootNode().nodeCount += child.nodeCount;
 		}
 	}
 }
