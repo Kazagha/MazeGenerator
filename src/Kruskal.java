@@ -12,17 +12,16 @@ public class Kruskal implements Algorithm {
 	ArrayList<Edge> edgeList;
 	
 	Random rand = new Random();
+	
 	// Set Colors
 	ArrayList<Color> colorList = new ArrayList<Color>();
-	int colorIndex = 0;
-	Color currentColor = new Color(205, 92, 92);
-	Color visitColor = new Color(135, 206, 250);  	
+	Color currentColor = new Color(220, 20, 20);
 	Color neutralColor = new Color(255, 255, 255);
+	int colorShift = 40;
 
 	public Kruskal(Model model)
 	{
 		this.setModel(model); 
-		addColorList();
 	}
 	
 	@Override
@@ -52,9 +51,7 @@ public class Kruskal implements Algorithm {
 			// Carve walls between nodes
 			((Model.Node) currentNode.getData()).setCardinal(tempEdge.direction, false);
 			((Model.Node) adjacentNode.getData()).setCardinal(tempEdge.direction.reverse(), false);
-			
-			System.out.format("%d - %d%n", adjacentNode.getRootNode().getNodeCount(), currentNode.getRootNode().getNodeCount());
-			
+				
 			// Check which tree is larger
 			if(currentNode.getRootNode().getNodeCount() > adjacentNode.getRootNode().getNodeCount())
 			{
@@ -143,27 +140,32 @@ public class Kruskal implements Algorithm {
 	
 	public Color nextColor()
 	{
-		if(colorIndex < colorList.size() - 1)
+		Color color = null; 
+				
+		if(currentColor.getRed() == 220 && currentColor.getBlue() > 20)
 		{
-			colorIndex++;
-		} else {
-			colorIndex = 0;
+			color = new Color(currentColor.getRed(), currentColor.getGreen(), currentColor.getBlue() - colorShift);
+		} else if (currentColor.getRed() == 220 && currentColor.getGreen() < 220) {
+			color = new Color(currentColor.getRed(), currentColor.getGreen() + colorShift, currentColor.getBlue());
+		} 
+		
+		if(currentColor.getGreen() == 220 && currentColor.getRed() > 20)
+		{
+			color = new Color(currentColor.getRed() - colorShift, currentColor.getGreen(), currentColor.getBlue());
+		} else if (currentColor.getGreen() == 220 && currentColor.getBlue() < 220) {
+			color = new Color(currentColor.getRed(), currentColor.getGreen(), currentColor.getBlue() + colorShift);
 		}
 		
-		return colorList.get(colorIndex);
-	}
-	
-	public void addColorList()
-	{
-		colorList.add(new Color(220, 20, 20));
-		colorList.add(new Color(220, 120, 20));
-		colorList.add(new Color(220, 220, 20));
-		colorList.add(new Color(120, 220, 20));
-		colorList.add(new Color(20, 220, 20));
-		colorList.add(new Color(20, 220, 120));
-		colorList.add(new Color(20, 220, 220));
-		colorList.add(new Color(20, 120, 220));
-		colorList.add(new Color(20, 20, 220));
+		if(currentColor.getBlue() == 220 && currentColor.getGreen() > 20)
+		{
+			color = new Color(currentColor.getRed(), currentColor.getGreen() - colorShift, currentColor.getBlue());
+		} else if (currentColor.getBlue() == 220 && currentColor.getRed() < 220) {
+			color = new Color(currentColor.getRed() + colorShift, currentColor.getGreen(), currentColor.getBlue());
+		} 
+		
+		currentColor = color; 
+		
+		return color; 
 	}
 	
 	/**
