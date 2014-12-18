@@ -67,8 +67,9 @@ public class Kruskal implements Algorithm {
 			} else {
 				// On the current node, add the adjacent node as a child
 				currentNode.addChild(adjacentNode.getRootNode());
-				// Use the existing background color of the current node
-				colorTree(currentNode.getRootNode(), nextColor());
+				// Select a new color as the background color 
+				currentColor = nextColor();
+				colorTree(currentNode.getRootNode(), currentColor);
 			}
 		}
 		
@@ -138,24 +139,31 @@ public class Kruskal implements Algorithm {
 		}
 	}
 	
+	/**
+	 * Find the next color in sequence 
+	 * @return - The next color 
+	 */
 	public Color nextColor()
 	{
 		Color color = null; 
 				
+		// Red is dominate; decrease blue and increase green 
 		if(currentColor.getRed() == 220 && currentColor.getBlue() > 20)
 		{
 			color = new Color(currentColor.getRed(), currentColor.getGreen(), currentColor.getBlue() - colorShift);
 		} else if (currentColor.getRed() == 220 && currentColor.getGreen() < 220) {
 			color = new Color(currentColor.getRed(), currentColor.getGreen() + colorShift, currentColor.getBlue());
-		} 
+		}  
 		
+		// Green is dominate; decrease red and increase blue
 		if(currentColor.getGreen() == 220 && currentColor.getRed() > 20)
 		{
 			color = new Color(currentColor.getRed() - colorShift, currentColor.getGreen(), currentColor.getBlue());
 		} else if (currentColor.getGreen() == 220 && currentColor.getBlue() < 220) {
 			color = new Color(currentColor.getRed(), currentColor.getGreen(), currentColor.getBlue() + colorShift);
-		}
+		} 
 		
+		// Blue is dominate; decrease green increase red
 		if(currentColor.getBlue() == 220 && currentColor.getGreen() > 20)
 		{
 			color = new Color(currentColor.getRed(), currentColor.getGreen() - colorShift, currentColor.getBlue());
@@ -163,6 +171,7 @@ public class Kruskal implements Algorithm {
 			color = new Color(currentColor.getRed() + colorShift, currentColor.getGreen(), currentColor.getBlue());
 		} 
 		
+		// Set the 'current color' 		
 		currentColor = color; 
 		
 		return color; 
