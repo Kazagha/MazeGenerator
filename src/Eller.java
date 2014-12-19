@@ -1,11 +1,11 @@
 import java.awt.Color;
 import java.util.Random;
 
-
 public class Eller implements Algorithm {
 	
 	Model dataModel;
 	int[] setArray;
+	int setNumber;
 
 	Random rand = new Random();
 	
@@ -27,7 +27,38 @@ public class Eller implements Algorithm {
 	}
 
 	@Override
-	public void next() {}
+	public void next() {
+		
+		//Initialize the current row
+		
+			// Check that all nodes in the current row have a valid 'set number'
+		
+			// Iterate through the current row
+		
+				// Check if the 'current' and 'adjacent' node are in different sets
+		
+					// Randomly decide if the nodes will be joined
+		
+					// Fetch 'current' and 'adjacent' nodes
+		
+					// Carve nodes
+		
+					// Add 'adjacent' node to the current set
+		
+		// From the current row carve into the next row
+		
+		// Create new setArray for the next row
+		
+			// Iterate through the sets
+		
+				// For each set randomly select one or more nodes to carve into the next row
+		
+				// Fetch 'current' and 'adjacent' nodes
+		
+				// Carve nodes
+		
+				// Add the 'adjacent' node's 'set number' into the next row		
+	}
 
 	@Override
 	public void reset() {
