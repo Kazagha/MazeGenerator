@@ -4,7 +4,7 @@ import java.util.Random;
 public class Eller implements Algorithm {
 	
 	Model dataModel;
-	int[] setArray;
+	Integer[] setArray;
 	int setNumber;
 
 	Random rand = new Random();
@@ -32,6 +32,13 @@ public class Eller implements Algorithm {
 		//Initialize the current row
 		
 			// Check that all nodes in the current row have a valid 'set number'
+			for(int i = 0; i < setArray.length; i++)
+			{
+				if(setArray[i] == null)
+				{
+					setArray[i] = setNumber++;
+				}
+			}
 		
 			// Iterate through the current row
 		
@@ -68,7 +75,7 @@ public class Eller implements Algorithm {
 		dataModel.setAllWalls(true);
 		
 		// Reset the 'sets' array	
-		setArray = new int[dataModel.get_X_Width()];
+		setArray = new Integer[dataModel.get_X_Width()];
 	}
 
 	@Override
