@@ -32,11 +32,11 @@ public class Eller implements Algorithm {
 		//Initialize the current row
 		
 			// Check that all nodes in the current row have a valid 'set number'
-			for(Integer integer : setArray)
+			for(int i = 0; i < setArray.length; i++)
 			{
-				if(integer == null)
+				if(setArray[i] == null)
 				{
-					integer = setNumber++;
+					setArray[i] = setNumber++;
 				}
 			}
 		
@@ -44,8 +44,8 @@ public class Eller implements Algorithm {
 			for(int i = 0; i < setArray.length - 1; i++)
 			{		
 				// Check if the 'current' and 'adjacent' node are in different sets
-				if(! (setArray[i].equals(setArray[i + 1])))
-				{						
+				//if(! (setArray[i].equals(setArray[i + 1])))
+				//{						
 					// Randomly decide if the nodes will be joined
 					int rand = randomRange(0, 1);
 		
@@ -54,7 +54,7 @@ public class Eller implements Algorithm {
 					// Carve nodes
 		
 					// Add 'adjacent' node to the current set
-				}
+				//}
 			}
 		
 		// From the current row carve into the next row
