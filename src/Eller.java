@@ -6,6 +6,7 @@ public class Eller implements Algorithm {
 	Model dataModel;
 	Integer[] setArray;
 	int setNumber;
+	int rowCount;
 
 	Random rand = new Random();
 	
@@ -44,17 +45,24 @@ public class Eller implements Algorithm {
 			for(int i = 0; i < setArray.length - 1; i++)
 			{		
 				// Check if the 'current' and 'adjacent' node are in different sets
-				//if(! (setArray[i].equals(setArray[i + 1])))
-				//{						
+				if(! (setArray[i].equals(setArray[i + 1])))
+				{						
 					// Randomly decide if the nodes will be joined
-					int rand = randomRange(0, 1);
-		
-					// Fetch 'current' and 'adjacent' nodes
-		
-					// Carve nodes
-		
-					// Add 'adjacent' node to the current set
-				//}
+					int rand = randomRange(0, 1);					
+					if(rand == 1)
+					{		
+						// Fetch 'current' and 'adjacent' nodes
+						Model.Node currentNode = dataModel.getNode(i, rowCount);
+						Model.Node adjacentNode = dataModel.getNode(i + 1, rowCount);
+			
+						// Carve nodes
+						currentNode.setEast(false);
+						adjacentNode.setWest(false);
+			
+						// Add 'adjacent' node to the current set
+						setArray[i + 1] = setArray[i];
+					}
+				}
 			}
 		
 		// From the current row carve into the next row
@@ -81,6 +89,7 @@ public class Eller implements Algorithm {
 		
 		// Reset the 'sets' array	
 		setArray = new Integer[dataModel.get_X_Width()];
+		rowCount = 0;
 	}
 
 	@Override
