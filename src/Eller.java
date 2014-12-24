@@ -30,7 +30,7 @@ public class Eller implements Algorithm {
 	@Override
 	public void next() {
 		
-		//Initialize the current row
+		//Initialize the current row	
 		
 			// Check that all nodes in the current row have a valid 'set number'
 			for(int i = 0; i < setArray.length; i++)
@@ -49,7 +49,7 @@ public class Eller implements Algorithm {
 				{						
 					// Randomly decide if the nodes will be joined
 					int rand = randomRange(0, 1);					
-					if(rand == 1)
+					if(rand == 1 || dataModel.get_Y_Height() - 1 == rowCount)
 					{		
 						// Fetch 'current' and 'adjacent' nodes
 						Model.Node currentNode = dataModel.getNode(i, rowCount);
@@ -63,7 +63,8 @@ public class Eller implements Algorithm {
 						setArray[i + 1] = setArray[i];
 					}
 				}
-			}
+			}			
+
 		
 		// From the current row carve into the next row
 		
@@ -78,6 +79,9 @@ public class Eller implements Algorithm {
 				// Carve nodes
 		
 				// Add the 'adjacent' node's 'set number' into the next row		
+
+		setArray = new Integer[dataModel.get_X_Width()];
+		rowCount++;
 	}
 
 	@Override
