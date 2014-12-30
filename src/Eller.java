@@ -41,8 +41,6 @@ public class Eller implements Algorithm {
 				{
 					currentSet[i] = new Node(setNumber++);
 				}	
-				
-				System.out.println(currentSet[i].getSetNum());
 			}
 		
 		
@@ -92,28 +90,38 @@ public class Eller implements Algorithm {
 				}
 				
 				if(nodesInSet.size() == 1)
-				{
+				{					
+					// Find the 'index' on the node
+					int nodeIndex = nodesInSet.get(0).getIndex();
+					
 					// Fetch 'current' and 'adjacent' nodes
+					Model.Node currentNode = dataModel.getNode(nodeIndex, rowCount);
+					Model.Node adjacentNode = dataModel.getNode(nodeIndex, rowCount + 1);					
 			
 					// Carve nodes
+					currentNode.setEast(false);
+					adjacentNode.setWest(false);
 			
 					// Add the 'adjacent' node's 'set number' into the next row
+					System.out.println(nodesInSet.get(0).getSetNum());
+					nextSet[nodeIndex] = new Node(nodesInSet.get(0).getSetNum());
 					
+					// Remove the node from the current set
 				} else {		
 					
-				int rand = randomRange(0, nodesInSet.size());
-				int nodeIndex = nodesInSet.get(rand).getIndex();
-				
-				// Fetch 'current' and 'adjacent' nodes
-				Model.Node currentNode = dataModel.getNode(nodeIndex, rowCount);
-				Model.Node adjacentNode = dataModel.getNode(nodeIndex, rowCount + 1);
-				
-				// Carve nodes
-				currentNode.setSouth(false);
-				adjacentNode.setNorth(false);
-				
-				// Add the 'adjacent' node's 'set number' into the next row
-				nextSet[nodeIndex].setSetNum(nodesInSet.get(rand).getSetNum());
+					int rand = randomRange(0, nodesInSet.size());
+					int nodeIndex = nodesInSet.get(rand).getIndex();
+					
+					// Fetch 'current' and 'adjacent' nodes
+					Model.Node currentNode = dataModel.getNode(nodeIndex, rowCount);
+					Model.Node adjacentNode = dataModel.getNode(nodeIndex, rowCount + 1);
+					
+					// Carve nodes
+					currentNode.setSouth(false);
+					adjacentNode.setNorth(false);
+					
+					// Add the 'adjacent' node's 'set number' into the next row
+					nextSet[nodeIndex].setSetNum(nodesInSet.get(rand).getSetNum());
 				}
 			}
 
