@@ -82,19 +82,39 @@ public class Eller implements Algorithm {
 				// For each set randomly select one or more nodes to carve into the next row
 				ArrayList<Node> nodesInSet = new ArrayList<Node>();
 				
+				// Collect all nodes that are in the same set as the first node
 				for(Node n : currentSet)
 				{
 					if(currentSet[0].getSetNum() == n.getSetNum())
 					{
 						nodesInSet.add(n);
 					}
-				}				
-		
+				}
+				
+				if(nodesInSet.size() == 1)
+				{
+					// Fetch 'current' and 'adjacent' nodes
+			
+					// Carve nodes
+			
+					// Add the 'adjacent' node's 'set number' into the next row
+					
+				} else {		
+					
+				int rand = randomRange(0, nodesInSet.size());
+				int nodeIndex = nodesInSet.get(rand).getIndex();
+				
 				// Fetch 'current' and 'adjacent' nodes
-		
+				Model.Node currentNode = dataModel.getNode(nodeIndex, rowCount);
+				Model.Node adjacentNode = dataModel.getNode(nodeIndex, rowCount + 1);
+				
 				// Carve nodes
-		
+				currentNode.setSouth(false);
+				adjacentNode.setNorth(false);
+				
 				// Add the 'adjacent' node's 'set number' into the next row
+				nextSet[nodeIndex].setSetNum(nodesInSet.get(rand).getSetNum());
+				}
 			}
 
 		currentSet = nextSet;
