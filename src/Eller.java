@@ -4,7 +4,7 @@ import java.util.Random;
 public class Eller implements Algorithm {
 	
 	Model dataModel;
-	Integer[] setArray;
+	Integer[] currentSet;
 	int setNumber;
 	int rowCount;
 
@@ -33,19 +33,19 @@ public class Eller implements Algorithm {
 		//Initialize the current row	
 		
 			// Check that all nodes in the current row have a valid 'set number'
-			for(int i = 0; i < setArray.length; i++)
+			for(int i = 0; i < currentSet.length; i++)
 			{
-				if(setArray[i] == null)
+				if(currentSet[i] == null)
 				{
-					setArray[i] = setNumber++;
-				}
+					currentSet[i] = setNumber++;
+				}				
 			}
 		
 			// Iterate through the current row (minus the last node)
-			for(int i = 0; i < setArray.length - 1; i++)
+			for(int i = 0; i < currentSet.length - 1; i++)
 			{		
 				// Check if the 'current' and 'adjacent' node are in different sets
-				if(! (setArray[i].equals(setArray[i + 1])))
+				if(! (currentSet[i].equals(currentSet[i + 1])))
 				{						
 					// Randomly decide if the nodes will be joined
 					int rand = randomRange(0, 1);					
@@ -60,7 +60,7 @@ public class Eller implements Algorithm {
 						adjacentNode.setWest(false);
 			
 						// Add 'adjacent' node to the current set
-						setArray[i + 1] = setArray[i];
+						currentSet[i + 1] = currentSet[i];
 					}
 				}
 			}			
@@ -69,6 +69,7 @@ public class Eller implements Algorithm {
 		// From the current row carve into the next row
 		
 		// Create new setArray for the next row
+		Integer[] nextSet = new Integer[dataModel.get_X_Width()];
 		
 			// Iterate through the sets
 		
@@ -80,7 +81,7 @@ public class Eller implements Algorithm {
 		
 				// Add the 'adjacent' node's 'set number' into the next row		
 
-		setArray = new Integer[dataModel.get_X_Width()];
+		currentSet = nextSet;
 		rowCount++;
 	}
 
@@ -92,7 +93,7 @@ public class Eller implements Algorithm {
 		dataModel.setAllWalls(true);
 		
 		// Reset the 'sets' array	
-		setArray = new Integer[dataModel.get_X_Width()];
+		currentSet = new Integer[dataModel.get_X_Width()];
 		rowCount = 0;
 	}
 
