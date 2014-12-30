@@ -119,4 +119,32 @@ public class Eller implements Algorithm {
 		// Plus one required to include the max in the range
 		return rand.nextInt((max - min) + 1) + min;
 	}
+	
+	private static class Node
+	{
+		private static int numberOfNodes = 0;
+		private int index;
+		Integer setNum; 
+		
+		public Node(int setNum)
+		{
+			index = ++numberOfNodes;
+			this.setNum = setNum;
+		}
+		
+		public int getIndex()
+		{
+			return index;
+		}
+		
+		public int getSetNum()
+		{
+			return setNum;
+		}
+		
+		public void setSetNum(int setNum)
+		{
+			this.setNum = setNum;
+		}
+	}
 }
