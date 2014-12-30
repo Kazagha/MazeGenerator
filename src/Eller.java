@@ -34,9 +34,9 @@ public class Eller implements Algorithm {
 		//Initialize the current row	
 		
 			// Check that all nodes in the current row have a valid 'set number'		
-			for(int i = 0; i < currentSet.size(); i++)
+			for(int i = 0; i < dataModel.get_X_Width(); i++)
 			{
-				if(currentSet == null)
+				if(currentSet.get(i) == null)
 				{
 					currentSet.set(i, new Node(setNumber++));
 				}	
@@ -71,6 +71,10 @@ public class Eller implements Algorithm {
 		// Create new setArray for the next row
 		ArrayList<Node> nextSet = new ArrayList<Node>();
 		Node.resetIndex();		
+		for(int i = 0; i < dataModel.get_X_Width(); i++)
+		{
+			nextSet.add(null);
+		}
 
 		// For each set randomly select one or more nodes to carve into the next row
 		ArrayList<Node> nodesInSet = new ArrayList<Node>();
@@ -84,11 +88,10 @@ public class Eller implements Algorithm {
 			}
 		}
 		
-		/*
+		int rand = randomRange(0, nodesInSet.size());		
 		
 		// Find the 'index' on the node
-		//int nodeIndex = nodesInSet.get(0).getIndex();
-		int nodeIndex = 0;
+		int nodeIndex = nodesInSet.get(0).getIndex();
 		
 		// Fetch 'current' and 'adjacent' nodes
 		Model.Node currentNode = dataModel.getNode(nodeIndex, rowCount);
@@ -99,10 +102,12 @@ public class Eller implements Algorithm {
 		adjacentNode.setWest(false);
 
 		// Add the 'adjacent' node's 'set number' into the next row
-		System.out.println(nodesInSet.get(0).getSetNum());
-		//nextSet[nodeIndex] = new Node(nodesInSet.get(0).getSetNum());
+		nextSet.set(rand, new Node(currentSet.get(rand).getSetNum()));		
 		
 		// Remove the node from the current set
+		currentSet.remove(rand);
+		
+		/*
 		
 		// Randomly carve the remaining nodes
 		
@@ -136,6 +141,10 @@ public class Eller implements Algorithm {
 		
 		// Reset the 'sets' array	
 		currentSet = new ArrayList<Node>();
+		for(int i = 0; i < dataModel.get_X_Width(); i ++)
+		{
+			currentSet.add(null);
+		}
 		rowCount = 0;
 	}
 
