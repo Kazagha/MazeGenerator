@@ -74,6 +74,7 @@ public class Eller implements Algorithm {
 		
 		// Create new setArray for the next row
 		Node[] nextSet = new Node[dataModel.get_X_Width()];
+		Node.resetIndex();
 		
 			// Iterate through the sets
 		
@@ -149,6 +150,11 @@ public class Eller implements Algorithm {
 		public void setSetNum(int setNum)
 		{
 			this.setNum = setNum;
+		}
+		
+		public static void resetIndex()
+		{
+			numberOfNodes = 0;
 		}
 	}
 }
