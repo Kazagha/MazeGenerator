@@ -1,4 +1,5 @@
 import java.awt.Color;
+import java.util.ArrayList;
 import java.util.Random;
 
 public class Eller implements Algorithm {
@@ -68,7 +69,6 @@ public class Eller implements Algorithm {
 					}
 				}
 			}			
-
 		
 		// From the current row carve into the next row
 		
@@ -77,14 +77,25 @@ public class Eller implements Algorithm {
 		Node.resetIndex();
 		
 			// Iterate through the sets
-		
+			while(currentSet.length > 0)
+			{		
 				// For each set randomly select one or more nodes to carve into the next row
+				ArrayList<Node> nodesInSet = new ArrayList<Node>();
+				
+				for(Node n : currentSet)
+				{
+					if(currentSet[0].getSetNum() == n.getSetNum())
+					{
+						nodesInSet.add(n);
+					}
+				}				
 		
 				// Fetch 'current' and 'adjacent' nodes
 		
 				// Carve nodes
 		
-				// Add the 'adjacent' node's 'set number' into the next row		
+				// Add the 'adjacent' node's 'set number' into the next row
+			}
 
 		currentSet = nextSet;
 		rowCount++;
