@@ -4,7 +4,7 @@ import java.util.Random;
 public class Eller implements Algorithm {
 	
 	Model dataModel;
-	Integer[] currentSet;
+	Node[] currentSet;
 	int setNumber;
 	int rowCount;
 
@@ -33,13 +33,17 @@ public class Eller implements Algorithm {
 		//Initialize the current row	
 		
 			// Check that all nodes in the current row have a valid 'set number'
+		
 			for(int i = 0; i < currentSet.length; i++)
 			{
 				if(currentSet[i] == null)
 				{
-					currentSet[i] = setNumber++;
-				}				
+					currentSet[i] = new Node(setNumber++);
+				}	
+				
+				System.out.println(currentSet[i].getSetNum());
 			}
+		
 		
 			// Iterate through the current row (minus the last node)
 			for(int i = 0; i < currentSet.length - 1; i++)
@@ -69,7 +73,7 @@ public class Eller implements Algorithm {
 		// From the current row carve into the next row
 		
 		// Create new setArray for the next row
-		Integer[] nextSet = new Integer[dataModel.get_X_Width()];
+		Node[] nextSet = new Node[dataModel.get_X_Width()];
 		
 			// Iterate through the sets
 		
@@ -93,7 +97,7 @@ public class Eller implements Algorithm {
 		dataModel.setAllWalls(true);
 		
 		// Reset the 'sets' array	
-		currentSet = new Integer[dataModel.get_X_Width()];
+		currentSet = new Node[dataModel.get_X_Width()];
 		rowCount = 0;
 	}
 
