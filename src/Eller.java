@@ -66,71 +66,70 @@ public class Eller implements Algorithm {
 				}
 			}			
 		
-		// From the current row carve into the next row
+		// Carve one node from the current set
 		
-		// Create new setArray for the next row
-		ArrayList<Node> nextSet = new ArrayList<Node>();
-		Node.resetIndex();		
-		for(int i = 0; i < dataModel.get_X_Width(); i++)
-		{
-			nextSet.add(null);
-		}
-
-		// For each set randomly select one node to carve into the next row	
-		
-		
-		ArrayList<Node> nodesInSet = new ArrayList<Node>();
-		
-		// Collect all nodes that are in the same set as the first node
-		for(Node n : currentSet)
-		{
-			if(currentSet.get(0).getSetNum() == n.getSetNum())
+			// Create new setArray for the next row
+			ArrayList<Node> nextSet = new ArrayList<Node>();
+			Node.resetIndex();		
+			for(int i = 0; i < dataModel.get_X_Width(); i++)
 			{
-				nodesInSet.add(n);
+				nextSet.add(null);
 			}
+	
+			// Collect all nodes that are in the same set as the first node
+			ArrayList<Node> nodesInSet = new ArrayList<Node>();
+			
+			for(Node n : currentSet)
+			{
+				if(currentSet.get(0).getSetNum() == n.getSetNum())
+				{
+					nodesInSet.add(n);
+				}
+			}
+			
+			// Select random number from possible nodes in this set
+			int rand = randomRange(0, nodesInSet.size() - 1);		
+			
+			// Find the 'index' of the randomly selected node
+			int nodeIndex = nodesInSet.get(rand).getIndex();
+			
+			// Fetch 'current' and 'adjacent' nodes
+			Model.Node currentNode = dataModel.getNode(nodeIndex, rowCount);
+			Model.Node adjacentNode = dataModel.getNode(nodeIndex, rowCount + 1);					
+	
+			// Carve nodes
+			currentNode.setNorth(false);
+			adjacentNode.setSouth(false);
+	
+			// Add the 'adjacent' node's 'set number' into the next row
+			nextSet.set(rand, new Node(currentSet.get(rand).getSetNum()));
+		
+		// Carve the remaining nodes at random
+			
+			for(Node n : currentSet)
+			{
+				// Randomly chose to carve 
+				if(randomRange(0, 1) == 1)
+				{
+					// Find the index of the Node
+					nodeIndex = n.getIndex();
+					
+					// Fetch 'current' and 'adjacent' nodes
+					currentNode = dataModel.getNode(nodeIndex, rowCount);
+					adjacentNode = dataModel.getNode(nodeIndex, rowCount + 1);
+					
+					// Carve nodes
+					currentNode.setNorth(false);
+					adjacentNode.setSouth(false);
+					
+					// Add the 'adjacent' node's 'set number' into the next row
+					nextSet.set(rand, new Node(currentSet.get(rand).getSetNum()));
+				}
 		}
-		
-		// Select random number from possible nodes in this set
-		int rand = randomRange(0, nodesInSet.size() - 1);		
-		
-		// Find the 'index' of the randomly selected node
-		int nodeIndex = nodesInSet.get(rand).getIndex();
-		
-		// Fetch 'current' and 'adjacent' nodes
-		Model.Node currentNode = dataModel.getNode(nodeIndex, rowCount);
-		Model.Node adjacentNode = dataModel.getNode(nodeIndex, rowCount + 1);					
-
-		// Carve nodes
-		currentNode.setNorth(false);
-		adjacentNode.setSouth(false);
-
-		// Add the 'adjacent' node's 'set number' into the next row
-		nextSet.set(rand, new Node(currentSet.get(rand).getSetNum()));		
 		
 		// Remove the node from the current set
-		currentSet.remove(rand);
+		currentSet.remove(nodesInSet);
 		
-		/*
-		
-		// Randomly carve the remaining nodes
-		
-		int rand = randomRange(0, nodesInSet.size());
-		int nodeIndex = nodesInSet.get(rand).getIndex();
-		
-		// Fetch 'current' and 'adjacent' nodes
-		Model.Node currentNode = dataModel.getNode(nodeIndex, rowCount);
-		Model.Node adjacentNode = dataModel.getNode(nodeIndex, rowCount + 1);
-		
-		// Carve nodes
-		currentNode.setSouth(false);
-		adjacentNode.setNorth(false);
-		
-		// Add the 'adjacent' node's 'set number' into the next row
-		nextSet[nodeIndex].setSetNum(nodesInSet.get(rand).getSetNum());		
-		}
-		*/
-	
-
 		currentSet = nextSet;
 		rowCount++;
 	}
