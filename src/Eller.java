@@ -98,8 +98,8 @@ public class Eller implements Algorithm {
 			Model.Node adjacentNode = dataModel.getNode(nodeIndex, rowCount + 1);					
 	
 			// Carve nodes
-			currentNode.setNorth(false);
-			adjacentNode.setSouth(false);
+			currentNode.setSouth(false);
+			adjacentNode.setNorth(false);
 	
 			// Add the 'adjacent' node's 'set number' into the next row
 			nextSet.set(rand, new Node(currentSet.get(rand).getSetNum()));
@@ -119,8 +119,8 @@ public class Eller implements Algorithm {
 					adjacentNode = dataModel.getNode(nodeIndex, rowCount + 1);
 					
 					// Carve nodes
-					currentNode.setNorth(false);
-					adjacentNode.setSouth(false);
+					currentNode.setSouth(false);
+					adjacentNode.setNorth(false);
 					
 					// Add the 'adjacent' node's 'set number' into the next row
 					nextSet.set(rand, new Node(currentSet.get(rand).getSetNum()));
@@ -128,6 +128,7 @@ public class Eller implements Algorithm {
 		}
 		
 		// Remove the node from the current set
+			
 		currentSet.remove(nodesInSet);
 		
 		currentSet = nextSet;
@@ -181,7 +182,7 @@ public class Eller implements Algorithm {
 		
 		public Node(int setNum)
 		{
-			index = ++numberOfNodes;
+			index = numberOfNodes++;
 			this.setNum = setNum;
 		}
 		
