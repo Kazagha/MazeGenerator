@@ -106,7 +106,7 @@ public class Eller implements Algorithm {
 		
 		// Carve the remaining nodes at random
 			
-			for(Node n : currentSet)
+			for(Node n : nodesInSet)
 			{
 				// Randomly chose to carve 
 				if(randomRange(0, 1) == 1)
