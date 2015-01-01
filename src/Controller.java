@@ -29,6 +29,7 @@ public class Controller {
 			{	" ",
 				"Aldous and Broder",
 				"Binary Tree",
+				"Eller's Algorithm",
 				"Hunt and Kill",
 				"Kruskal's Algorithm",
 				"Prim's Algorithm",
@@ -77,6 +78,10 @@ public class Controller {
 					break;
 				case "Binary Tree":
 					algorithm = new BinaryTree(model);
+					algorithm.reset();
+					break;
+				case "Eller's Algorithm":
+					algorithm = new Eller(model);
 					algorithm.reset();
 					break;
 				case "Hunt and Kill":
