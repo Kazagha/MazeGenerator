@@ -6,6 +6,7 @@ public class Eller implements Algorithm {
 	
 	Model dataModel;
 	ArrayList<Node> currentSet;
+	ArrayList<Node> nextSet; 
 	int setNumber;
 	int rowCount;
 	Mode mode;
@@ -72,19 +73,20 @@ public class Eller implements Algorithm {
 				}
 			}
 			
+			// Switch to carving mode
 			mode = Mode.CARVE;
 			
-		} else if (mode == Mode.CARVE) {			
-		
-		// Carve one node from the current set
-		
-			// Create new setArray for the next row
-			ArrayList<Node> nextSet = new ArrayList<Node>();
+			// Prepare new setArray for the next row
+			nextSet = new ArrayList<Node>();
 			Node.resetIndex();		
 			for(int i = 0; i < dataModel.get_X_Width(); i++)
 			{
 				nextSet.add(null);
 			}
+			
+		} else if (mode == Mode.CARVE) {			
+		
+		// Carve one node from the current set
 	
 			// Collect all nodes that are in the same set as the first node
 			ArrayList<Node> nodesInSet = new ArrayList<Node>();
@@ -141,10 +143,17 @@ public class Eller implements Algorithm {
 				
 			currentSet.remove(nodesInSet);
 			
-			mode = Mode.INIT;
-			currentSet = nextSet;
-			rowCount++;
-		
+			if(currentSet.isEmpty())
+			{
+				// Prepare the next row
+				
+				// Set the mode to INIT the next row
+				mode = Mode.INIT;				
+				// Pass down the 'set number' in the next row to the current row
+				currentSet = nextSet;
+				// Move to the next row
+				rowCount++;	
+			}
 		}
 	}
 
