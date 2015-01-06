@@ -8,8 +8,11 @@ public class Eller implements Algorithm {
 	ArrayList<Node> currentSet;
 	int setNumber;
 	int rowCount;
+	Mode mode;
 
 	Random rand = new Random();
+	
+	enum Mode { INIT, CARVE };
 	
 	// Set Colors
 	Color currentColor = new Color(220, 20, 20);
@@ -30,6 +33,9 @@ public class Eller implements Algorithm {
 
 	@Override
 	public void next() {
+		
+		if(mode == Mode.INIT)
+		{
 		
 		//Initialize the current row	
 		
@@ -64,7 +70,11 @@ public class Eller implements Algorithm {
 						currentSet.get(i + 1).setSetNum(currentSet.get(i).getSetNum());
 					}
 				}
-			}			
+			}
+			
+			mode = Mode.CARVE;
+			
+		} else if (mode == Mode.CARVE) {			
 		
 		// Carve one node from the current set
 		
@@ -125,14 +135,17 @@ public class Eller implements Algorithm {
 					// Add the 'adjacent' node's 'set number' into the next row
 					nextSet.set(rand, new Node(currentSet.get(rand).getSetNum()));
 				}
-		}
+			}
 		
-		// Remove the node from the current set
+			// Remove the node from the current set
+				
+			currentSet.remove(nodesInSet);
 			
-		currentSet.remove(nodesInSet);
+			mode = Mode.INIT;
+			currentSet = nextSet;
+			rowCount++;
 		
-		currentSet = nextSet;
-		rowCount++;
+		}
 	}
 
 	@Override
@@ -141,6 +154,9 @@ public class Eller implements Algorithm {
 		dataModel.setAllColor(neutralColor);
 		dataModel.setAllVisited(false);
 		dataModel.setAllWalls(true);
+		
+		// Set the default mode
+		mode = Mode.INIT;
 		
 		// Reset the 'sets' array	
 		currentSet = new ArrayList<Node>();
