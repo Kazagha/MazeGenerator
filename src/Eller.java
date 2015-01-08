@@ -90,6 +90,7 @@ public class Eller implements Algorithm {
 	
 			// Collect all nodes that are in the same set as the first node
 			ArrayList<Node> nodesInSet = new ArrayList<Node>();
+			Node.resetIndex();
 			
 			for(Node n : currentSet)
 			{
@@ -139,9 +140,13 @@ public class Eller implements Algorithm {
 				}
 			}
 		
-			// Remove the node from the current set
-				
-			currentSet.remove(nodesInSet);
+			// Remove the node from the current set				
+			//currentSet.remove(nodesInSet);
+			
+			for(Node n : nodesInSet)
+			{
+				currentSet.remove(n);
+			}
 			
 			if(currentSet.isEmpty())
 			{
@@ -166,6 +171,7 @@ public class Eller implements Algorithm {
 		
 		// Set the default mode
 		mode = Mode.INIT;
+		Node.resetIndex();
 		
 		// Reset the 'sets' array	
 		currentSet = new ArrayList<Node>();
@@ -229,6 +235,27 @@ public class Eller implements Algorithm {
 		public static void resetIndex()
 		{
 			numberOfNodes = 0;
+		}
+		
+		public boolean equals(Object obj)
+		{
+			// Test if 'obj' and 'this' are the same object
+			if(this == obj)
+			{
+				return true;
+			}
+			
+			//Test of the object is null, or of a different class to 'this'
+			if((obj == null) || (obj.getClass() != this.getClass()))
+			{
+				return false;
+			}
+			
+			// Therefore it is safe to cast
+			Node other = (Node) obj;
+			
+			// Test if the objects have the same index and set number. 
+			return (this.getIndex() == other.getIndex() && this.getSetNum() == other.getSetNum());
 		}
 	}
 }
