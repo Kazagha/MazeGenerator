@@ -52,8 +52,8 @@ public class Eller implements Algorithm {
 			// Iterate through the current row (minus the last node)
 			for(int i = 0; i < currentSet.size() - 1; i++)
 			{		
-				// Check if the 'current' and 'adjacent' node are in different sets
-				if(! (currentSet.get(i).equals(currentSet.get(i + 1))))
+				// Check if the 'current' and 'adjacent' node are in different sets				
+				if(! (currentSet.get(i).getSetNum() == currentSet.get(i + 1).getSetNum()))
 				{						
 					// Randomly decide if the nodes will be joined
 					int rand = randomRange(0, 1);					
