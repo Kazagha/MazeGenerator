@@ -46,13 +46,19 @@ public class Eller implements Algorithm {
 				if(currentSet.get(i) == null)
 				{
 					currentSet.set(i, new Node(setNumber++));
-				}	
+				}
+				
+				System.out.format("Setup Node: %d%n", currentSet.get(i).getIndex());
 			}
+			
+			System.out.println(currentSet.size());
 		
 			// Iterate through the current row (minus the last node)
 			for(int i = 0; i < currentSet.size() - 1; i++)
 			{		
-				// Check if the 'current' and 'adjacent' node are in different sets				
+				// Check if the 'current' and 'adjacent' node are in different sets
+				//if(! (currentSet.get(i).equals(currentSet.get(i + 1))))
+				//System.out.println(i + "#: " + currentSet.get(i).getSetNum() + " - " + currentSet.get(i + 1).getSetNum());
 				if(! (currentSet.get(i).getSetNum() == currentSet.get(i + 1).getSetNum()))
 				{						
 					// Randomly decide if the nodes will be joined
@@ -94,11 +100,15 @@ public class Eller implements Algorithm {
 			
 			for(Node n : currentSet)
 			{
+				//System.out.format("Index: %d%n", n.getIndex());
 				if(currentSet.get(0).getSetNum() == n.getSetNum())
 				{
 					nodesInSet.add(n);
+					System.out.format("Index: %d Set: %d %n", n.getIndex(), n.getSetNum());
+					//System.out.format("Adding node to set %n");
 				}
 			}
+			System.out.format("-%n");
 			
 			// Select random number from possible nodes in this set
 			int rand = randomRange(0, nodesInSet.size() - 1);		
@@ -113,14 +123,16 @@ public class Eller implements Algorithm {
 			// Carve nodes
 			currentNode.setSouth(false);
 			adjacentNode.setNorth(false);
-	
+			
 			// Add the 'adjacent' node's 'set number' into the next row
 			nextSet.set(rand, new Node(currentSet.get(rand).getSetNum()));
 		
 		// Carve the remaining nodes at random
 			
 			for(Node n : nodesInSet)
-			{
+			{				
+				dataModel.getNode(n.getIndex(), rowCount).setColor(Color.GRAY);
+				
 				// Randomly chose to carve 
 				if(randomRange(0, 1) == 1)
 				{
@@ -136,7 +148,9 @@ public class Eller implements Algorithm {
 					adjacentNode.setNorth(false);
 					
 					// Add the 'adjacent' node's 'set number' into the next row
-					nextSet.set(rand, new Node(currentSet.get(rand).getSetNum()));
+					nextSet.set(nodeIndex, new Node(currentSet.get(nodeIndex).getSetNum()));
+					
+					System.out.format("Random Node: Rand-%d Index-%d Set-%d %n", nodeIndex, nextSet.get(nodeIndex).getIndex(), nextSet.get(nodeIndex).getSetNum());
 				}
 			}
 		
@@ -146,7 +160,9 @@ public class Eller implements Algorithm {
 			for(Node n : nodesInSet)
 			{
 				currentSet.remove(n);
+				System.out.format("Removing Node: %d%n", n.getIndex());
 			}
+			System.out.format("-%n");
 			
 			if(currentSet.isEmpty())
 			{
