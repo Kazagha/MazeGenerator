@@ -47,6 +47,7 @@ public class Eller implements Algorithm {
 				if(! currentSet.get(i).isSet())
 				{
 					currentSet.get(i).setSetNum(setNumber++);
+					System.out.format("Node not set: %d%n", i);
 				}
 			}
 			
@@ -82,10 +83,10 @@ public class Eller implements Algorithm {
 			mode = Mode.CARVE;
 			
 			// Prepare new setArray for the next row
-			//nextSet = new ArrayList<Node>();
+			nextSet = new ArrayList<Node>();
 			for(int i = 0; i < dataModel.get_X_Width(); i++)
 			{
-				nextSet.get(i).nullSet();
+				nextSet.add(new Node());
 			}
 			
 		} else if (mode == Mode.CARVE) {			
@@ -111,10 +112,8 @@ public class Eller implements Algorithm {
 				if(setNo == n.getSetNum())
 				{
 					nodesInSet.add(n);
-					System.out.format("Set: %d %n", n.getSetNum());
 				}				
 			}
-			System.out.format("-%n");
 			
 			// Select random number from possible nodes in this set
 			int rand = randomRange(0, nodesInSet.size() - 1);		
@@ -153,14 +152,10 @@ public class Eller implements Algorithm {
 					// Carve nodes
 					currentNode.setSouth(false);
 					adjacentNode.setNorth(false);
-					
-					//System.out.format("Index: %d:", n.getIndex());
-					
+										
 					// Add the 'adjacent' node's 'set number' into the next row
 					//TODO: Error when fetching the current set by Index, when elements have been removed from this ArrayList
-					nextSet.get(nodeIndex).setSetNum(n.getSetNum());
-					
-					//System.out.format("Random Node: Rand-%d Index-%d Set-%d %n", nodeIndex, nextSet.get(nodeIndex).getIndex(), nextSet.get(nodeIndex).getSetNum());
+					nextSet.get(nodeIndex).setSetNum(n.getSetNum());					
 				}
 			}
 			
@@ -168,7 +163,6 @@ public class Eller implements Algorithm {
 			{
 				currentSet.get(currentSet.indexOf(n)).setVisit(true);
 			}
-			System.out.format("-%n");
 			
 			if(allVisited(currentSet))
 			{				
