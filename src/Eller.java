@@ -43,12 +43,11 @@ public class Eller implements Algorithm {
 			// Check that all nodes in the current row have a valid 'set number'		
 			for(int i = 0; i < dataModel.get_X_Width(); i++)
 			{
-				if(currentSet.get(i) == null)
+				// Check if the set number already exists
+				if(! currentSet.get(i).isSet())
 				{
-					currentSet.set(i, new Node(setNumber++));
+					currentSet.get(i).setSetNum(setNumber++);
 				}
-				
-				System.out.format("Setup Node: %d%n", currentSet.get(i).getIndex());
 			}
 			
 			System.out.println(currentSet.size());
@@ -83,11 +82,10 @@ public class Eller implements Algorithm {
 			mode = Mode.CARVE;
 			
 			// Prepare new setArray for the next row
-			nextSet = new ArrayList<Node>();
-			Node.resetIndex();		
+			//nextSet = new ArrayList<Node>();
 			for(int i = 0; i < dataModel.get_X_Width(); i++)
 			{
-				nextSet.add(null);
+				nextSet.get(i).nullSet();
 			}
 			
 		} else if (mode == Mode.CARVE) {			
@@ -96,17 +94,25 @@ public class Eller implements Algorithm {
 	
 			// Collect all nodes that are in the same set as the first node
 			ArrayList<Node> nodesInSet = new ArrayList<Node>();
-			Node.resetIndex();
+			
+			// Find the set number of the first unvisited node
+			int setNo = -1;
+			for(Node n : currentSet)
+			{
+				if(n.getVisited() == false)
+				{
+					setNo = n.getSetNum();
+					break;
+				}
+			}			
 			
 			for(Node n : currentSet)
 			{
-				//System.out.format("Index: %d%n", n.getIndex());
-				if(currentSet.get(0).getSetNum() == n.getSetNum())
+				if(setNo == n.getSetNum())
 				{
 					nodesInSet.add(n);
-					System.out.format("Index: %d Set: %d %n", n.getIndex(), n.getSetNum());
-					//System.out.format("Adding node to set %n");
-				}
+					System.out.format("Set: %d %n", n.getSetNum());
+				}				
 			}
 			System.out.format("-%n");
 			
@@ -114,7 +120,7 @@ public class Eller implements Algorithm {
 			int rand = randomRange(0, nodesInSet.size() - 1);		
 			
 			// Find the 'index' of the randomly selected node
-			int nodeIndex = nodesInSet.get(rand).getIndex();
+			int nodeIndex = currentSet.indexOf(nodesInSet.get(rand));
 			
 			// Fetch 'current' and 'adjacent' nodes
 			Model.Node currentNode = dataModel.getNode(nodeIndex, rowCount);
@@ -125,19 +131,20 @@ public class Eller implements Algorithm {
 			adjacentNode.setNorth(false);
 			
 			// Add the 'adjacent' node's 'set number' into the next row
-			nextSet.set(rand, new Node(currentSet.get(rand).getSetNum()));
+			//nextSet.set(currentSet.get(rand).getIndex(), new Node(currentSet.get(rand).getSetNum()));
+			nextSet.get(nodeIndex).setSetNum(currentSet.get(nodeIndex).getSetNum());
 		
 		// Carve the remaining nodes at random
 			
 			for(Node n : nodesInSet)
 			{				
-				dataModel.getNode(n.getIndex(), rowCount).setColor(Color.GRAY);
+				dataModel.getNode(currentSet.indexOf(n), rowCount).setColor(Color.GRAY);
 				
 				// Randomly chose to carve 
 				if(randomRange(0, 1) == 1)
 				{
 					// Find the index of the Node
-					nodeIndex = n.getIndex();
+					nodeIndex = currentSet.indexOf(n);
 					
 					// Fetch 'current' and 'adjacent' nodes
 					currentNode = dataModel.getNode(nodeIndex, rowCount);
@@ -147,27 +154,24 @@ public class Eller implements Algorithm {
 					currentNode.setSouth(false);
 					adjacentNode.setNorth(false);
 					
-					// Add the 'adjacent' node's 'set number' into the next row
-					nextSet.set(nodeIndex, new Node(currentSet.get(nodeIndex).getSetNum()));
+					//System.out.format("Index: %d:", n.getIndex());
 					
-					System.out.format("Random Node: Rand-%d Index-%d Set-%d %n", nodeIndex, nextSet.get(nodeIndex).getIndex(), nextSet.get(nodeIndex).getSetNum());
+					// Add the 'adjacent' node's 'set number' into the next row
+					//TODO: Error when fetching the current set by Index, when elements have been removed from this ArrayList
+					nextSet.get(nodeIndex).setSetNum(n.getSetNum());
+					
+					//System.out.format("Random Node: Rand-%d Index-%d Set-%d %n", nodeIndex, nextSet.get(nodeIndex).getIndex(), nextSet.get(nodeIndex).getSetNum());
 				}
 			}
-		
-			// Remove the node from the current set				
-			//currentSet.remove(nodesInSet);
 			
 			for(Node n : nodesInSet)
 			{
-				currentSet.remove(n);
-				System.out.format("Removing Node: %d%n", n.getIndex());
+				currentSet.get(currentSet.indexOf(n)).setVisit(true);
 			}
 			System.out.format("-%n");
 			
-			if(currentSet.isEmpty())
-			{
-				// Prepare the next row
-				
+			if(allVisited(currentSet))
+			{				
 				// Set the mode to INIT the next row
 				mode = Mode.INIT;				
 				// Pass down the 'set number' in the next row to the current row
@@ -187,13 +191,15 @@ public class Eller implements Algorithm {
 		
 		// Set the default mode
 		mode = Mode.INIT;
-		Node.resetIndex();
 		
 		// Reset the 'sets' array	
 		currentSet = new ArrayList<Node>();
+		nextSet = new ArrayList<Node>();
+		
 		for(int i = 0; i < dataModel.get_X_Width(); i ++)
 		{
-			currentSet.add(null);
+			currentSet.add(new Node());
+			nextSet.add(new Node());
 		}
 		rowCount = 0;
 	}
@@ -221,26 +227,53 @@ public class Eller implements Algorithm {
 		return rand.nextInt((max - min) + 1) + min;
 	}
 	
+	public boolean allVisited(ArrayList<Node> list)
+	{
+		for(Node n : list)
+		{
+			if(! n.getVisited())
+			{
+				return false;
+			}
+		}
+		
+		return true;
+	}
+	
 	private static class Node
 	{
-		private static int numberOfNodes = 0;
-		private int index;
-		Integer setNum; 
+		Integer setNum;
+		boolean visited;
+		int index;
+		static int NumberOfNodes = 0;
 		
 		public Node(int setNum)
 		{
-			index = numberOfNodes++;
 			this.setNum = setNum;
+			index = NumberOfNodes++;
+			visited = false;			
 		}
 		
-		public int getIndex()
+		public Node()
 		{
-			return index;
+			this.setNum = null;
+			visited = false;
+			index = NumberOfNodes++;
 		}
 		
 		public int getSetNum()
 		{
-			return setNum;
+				return setNum;
+		}
+		
+		public boolean getVisited()
+		{
+			return visited;
+		}
+		
+		public boolean isSet()
+		{
+			return ! (setNum == null);
 		}
 		
 		public void setSetNum(int setNum)
@@ -248,9 +281,14 @@ public class Eller implements Algorithm {
 			this.setNum = setNum;
 		}
 		
-		public static void resetIndex()
+		public void nullSet()
 		{
-			numberOfNodes = 0;
+			this.setNum = null;
+		}
+		
+		public void setVisit(boolean isVisited)
+		{
+			visited = isVisited;
 		}
 		
 		public boolean equals(Object obj)
@@ -271,7 +309,7 @@ public class Eller implements Algorithm {
 			Node other = (Node) obj;
 			
 			// Test if the objects have the same index and set number. 
-			return (this.getIndex() == other.getIndex() && this.getSetNum() == other.getSetNum());
+			return (this.index == other.index && this.getSetNum() == other.getSetNum());
 		}
 	}
 }
